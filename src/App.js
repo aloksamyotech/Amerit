@@ -1,25 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
+import {Route, Routes} from 'react-router-dom'
+import TableEx from './Table/table'
+import Home from './Home/Home'
+import AddTable from './AddTable/addTable'
+import TopNavbar from './Nav/navbar'
+import EditTable from './AddTable/editTable'
+import Signup from './signUp/signup'
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <>
+  <TopNavbar />
+  {/* <BrowserRouter> */}
+      <div style={{minHeight : "600px"}}>
+    <Routes>
+        <Route path='' element={<Home />} />
+        <Route path='table' element={<TableEx />} />
+        <Route path='addTable' element={<AddTable />} />
+        <Route path='signup' element={<Signup />} />
+        <Route path='editTable/:_id' element={<EditTable />} />
+    </Routes>
+      </div>
+  {/* </BrowserRouter> */}
+ </>
+  )
 }
 
-export default App;
+export default App

@@ -1,0 +1,22 @@
+{
+    "student":[
+        {
+            "id":1,
+            "name":"Ajay",
+            "class":"5th",
+            "subject":"PCM"
+        },
+        {
+            "id":2,
+            "name":"Prashant",
+            "class":"12th",
+            "subject":"PCM"
+        },
+        {
+            "id":1,
+            "name":"Ajay",
+            "class":"2th",
+            "subject":"engilish"
+        }
+    ]
+}
