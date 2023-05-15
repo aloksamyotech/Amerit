@@ -1,0 +1,31 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "baseUrl": ".",
+    "rootDir": ".",
+    "paths": {
+      "@public/*": ["public/*"],
+      "@components/*": ["src/Component/*"],
+      "@hooks/*": ["src/hooks/*"],
+      "@pages/*": ["src/pages/*"],
+      "@styles/*": ["src/styles/*"],
+      "@core/*": ["src/core/*"]
+    },
+    "types": ["cypress", "@testing-library/cypress"],
+    "incremental": true
+  },
+  "include": ["next-env.d.ts", "./jest-setup.ts", "**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules", "./cypress.config.ts", "cypress"]
+}

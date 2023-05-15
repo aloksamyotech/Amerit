@@ -1,0 +1,1 @@
+export type SearchStatus  = 'active' | 'pending' | 'archive';

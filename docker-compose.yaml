@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+    app:
+        image: docker-amerit-dev
+        build: .
+        ports:
+            - 3000:3000
+        volumes:
+            - ./src:/app/src
+            # - ./src/pages:/app/src/pages
+            # - ./src/Component:/app/src/Component
+            # - ./src/public:/app/src/public
+            # - ./src/styles:/app/src/styles
+            # - ./src/types:/app/src/types
