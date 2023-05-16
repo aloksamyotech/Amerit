@@ -12,7 +12,7 @@ import {
 import { FileUploadOutlined, Close } from '@mui/icons-material';
 import Image from 'next/image';
 import LinearProgressWithLabel from './LinearProgressWithLabel';
-import { titleList } from 'src/mocks/admin-profile';
+import { TitleList } from 'src/mocks/admin-profile';
 import { useProfile } from '../context/ProfileContext';
 
 const Documents = () => {
@@ -90,7 +90,7 @@ const Documents = () => {
               </Box>
             </Grid>
           </Grid>
-          {titleList.map((title) => (
+          {TitleList.map((title) => (
             <>
               <Grid container spacing={2}>
                 <Grid item xs={12}>
