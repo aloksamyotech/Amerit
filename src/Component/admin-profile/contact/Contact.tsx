@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import {
   Box,
@@ -47,8 +47,9 @@ const AdminContact = () => {
     console.log({ data });
   };
 
-  const getContactTypes = () => {
-    const data = GetContactTypes();
+  const getContactTypes = async () => {
+    const data = await GetContactTypes();
+    setContactTypes(data);
   };
 
   useEffect(() => {
@@ -124,7 +125,7 @@ const AdminContact = () => {
               </Grid>
               <Grid container item spacing={2}>
                 <Grid item xs={12}>
-                  <Typography>Primary Contact</Typography>
+                  <Typography>{contactTypes[0]?.name}</Typography>
                 </Grid>
                 <Grid item xs={6}>
                   <Box width={'100%'}>
@@ -213,7 +214,7 @@ const AdminContact = () => {
               </Grid>
               <Grid container item spacing={2}>
                 <Grid item xs={12}>
-                  <Typography>Account Receivables Contact</Typography>
+                  <Typography>{contactTypes[1]?.name}</Typography>
                 </Grid>
                 <Grid item xs={6}>
                   <Box width={'100%'}>
@@ -302,7 +303,7 @@ const AdminContact = () => {
               </Grid>
               <Grid container item spacing={2}>
                 <Grid item xs={12}>
-                  <Typography>Your Company Insurance Contact</Typography>
+                  <Typography>{contactTypes[2]?.name}</Typography>
                 </Grid>
                 <Grid item xs={6}>
                   <Box width={'100%'}>
