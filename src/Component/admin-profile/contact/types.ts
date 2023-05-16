@@ -1,4 +1,4 @@
-export default interface IContact {
+export default interface Contact {
   principleName: string;
   principleTitle: string;
   primaryName: string;

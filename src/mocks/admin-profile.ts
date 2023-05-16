@@ -1,4 +1,5 @@
-export const termsList = [
+import { StateList } from 'src/constants';
+export const TermsList = [
   {
     title: 'Payment Terms (select this on your Company Profile)',
     listItem: [
@@ -20,7 +21,7 @@ export const termsList = [
   }
 ];
 
-export const checkboxList = {
+export const CheckboxList = {
   general: [
     'Welding',
     'Mobile Welding',
@@ -66,7 +67,7 @@ export const checkboxList = {
   ]
 };
 
-export const titleList = [
+export const TitleList = [
   {
     title: 'ACH Form',
     document: 'Uploading...',
@@ -94,7 +95,7 @@ export const titleList = [
   }
 ];
 
-export const inputList = [
+export const InputList = [
   {
     id: 1,
     label: 'Shop Name',
@@ -157,7 +158,7 @@ export const inputList = [
   }
 ];
 
-export const hoursOfOperation = {
+export const CheckList = {
   dayOfWeek: [
     'Monday',
     'Tuesday',
@@ -168,7 +169,7 @@ export const hoursOfOperation = {
     'Sunday'
   ]
 };
-export const rates = {
+export const Rates = {
   services: [
     'Emergency Road Services',
     'Mobile Services',
@@ -178,7 +179,7 @@ export const rates = {
   ]
 };
 
-export const contact = [
+export const Contact = [
   {
     id: 1,
     name: 'principleName',

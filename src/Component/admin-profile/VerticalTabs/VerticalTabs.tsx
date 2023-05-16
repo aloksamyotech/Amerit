@@ -5,9 +5,9 @@ import {
   faCheckCircle,
   faCircleChevronRight
 } from '@fortawesome/free-solid-svg-icons';
-import Profile from '../profile';
+import AdminProfile from '../profile';
 import TabPanel from '../TabPanel';
-import Contacts from '../contact';
+import AdminContacts from '../contact';
 import Documents from '../documents';
 import Shop from '../shop';
 import Terms from '../terms';
@@ -102,10 +102,10 @@ const VerticalTabs = () => {
       </Card>
 
       <TabPanel value={Number(values?.currentTab)} index={0}>
-        <Profile />
+        <AdminProfile />
       </TabPanel>
       <TabPanel value={Number(values?.currentTab)} index={1}>
-        <Contacts />
+        <AdminContacts />
       </TabPanel>
       <TabPanel value={Number(values?.currentTab)} index={2}>
         <Documents />

@@ -1,4 +1,4 @@
-export interface ProfileForm {
+export interface Profile {
   companyName: string;
   address1: string;
   address2: string;

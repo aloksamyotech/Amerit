@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Box,
   FormControl,
@@ -17,31 +17,48 @@ import {
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import AddCheckbox from './AdditionalServices';
+import { StateList } from 'src/constants';
+import AddShopSchema from '.';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { ShopForm } from './shopForm';
+import { Shop } from './shopForm';
 import { Controller, useForm } from 'react-hook-form';
 import { useProfile } from '../context/ProfileContext';
-import { hoursOfOperation, inputList, rates } from 'src/mocks/admin-profile';
+import { CheckList, InputList, Rates } from 'src/mocks/admin-profile';
 import { style } from '../style';
 import { theme } from '@core/theme/ThemeProvider';
-import { AddShopSchema } from './schema';
-
+const defaultValues: Shop = {
+  state: ''
+};
 const AddShop = () => {
-  const { addNewShop } = useProfile();
+  const { addNewShop, updateTab } = useProfile();
+  const [isDisabled, setIsDisabled] = useState({
+    Monday: false,
+    Tuesday: false
+  });
+  const [isChecked, setIschecked] = useState();
+  const [index, setIndex] = useState(undefined);
+  const handleCheckboxChange = (item: any) => {
+    setIsDisabled((prev) => ({
+      ...prev,
+      [item]: true
+    }));
+  };
 
   const {
     control,
     watch,
     handleSubmit,
     formState: { errors }
-  } = useForm<ShopForm>({
+  } = useForm<Shop>({
+    defaultValues,
     resolver: yupResolver(AddShopSchema as any)
   });
-  const onSubmit = (data: ShopForm) => {
-    addNewShop(false);
-    console.log(data);
+  const onSubmit = (data: Shop) => {
+    updateTab(0);
+    console.log({ data });
   };
-
+  console.log('errors', errors);
+  console.log('watch', watch());
   return (
     <Container sx={{ bgcolor: 'white' }}>
       <Box className='Box-wrp' sx={{ marginBottom: '25px' }}>
@@ -70,8 +87,8 @@ const AddShop = () => {
           <form onSubmit={handleSubmit(onSubmit)}>
             <FormControl fullWidth sx={{ mt: 2 }}>
               <Grid container spacing={2}>
-                {inputList.map((item) => (
-                  <Grid key={item.id} item xs={item.grid}>
+                {InputList.map((item) => (
+                  <Grid item xs={item.grid}>
                     <FormControl fullWidth>
                       <Controller
                         name={item.name}
@@ -84,6 +101,7 @@ const AddShop = () => {
                               variant='outlined'
                               value={value === '' ? 'State' : value}
                               onChange={onChange}
+                              displayEmpty
                               SelectDisplayProps={{
                                 style: {
                                   border: `1px solid ${theme.palette.grey[100]}`
@@ -119,7 +137,6 @@ const AddShop = () => {
                     </FormControl>
                   </Grid>
                 ))}
-
                 <Grid item xs={12}>
                   <Box className='back-blck'>
                     <Typography
@@ -132,22 +149,14 @@ const AddShop = () => {
                     </Typography>
                   </Box>
                 </Grid>
-                {hoursOfOperation.dayOfWeek.map((item, index) => (
-                  <Grid
-                    key={index}
-                    item
-                    xs={12}
-                    container
-                    spacing={2}
-                    alignItems='center'
-                  >
+                {CheckList.dayOfWeek.map((item, index) => (
+                  <Grid item xs={12} container spacing={2} alignItems='center'>
                     <Grid item xs={2}>
                       <Controller
                         name={`hoursOfOperation.${index}.${item}`}
                         control={control}
                         render={({ field: { value, onChange } }: any) => (
                           <FormControlLabel
-                            sx={{ pb: '15px' }}
                             control={
                               <Checkbox checked={value} onChange={onChange} />
                             }
@@ -162,7 +171,6 @@ const AddShop = () => {
                         control={control}
                         render={({ field: { value, onChange } }: any) => (
                           <FormControlLabel
-                            sx={{ pb: '15px' }}
                             control={
                               <Checkbox checked={value} onChange={onChange} />
                             }
@@ -173,14 +181,26 @@ const AddShop = () => {
                     </Grid>
                     <Grid item xs={4}>
                       <Controller
-                        name={`hoursOfOperation.${index}.starttime`}
+                        name={`hoursOfOperation.${index}.twentyFourHours`}
                         control={control}
                         render={({ field: { value, onChange } }: any) => (
                           <TimePicker
-                            label='Start Time'
-                            disabled={!!watch('24hours')}
-                            value={value}
-                            onChange={onChange}
+                            slotProps={{
+                              textField: {
+                                sx: {
+                                  '& .MuiOutlinedInput-notchedOutline': {
+                                    border: `2px solid ${theme.palette.common.black}`
+                                  },
+                                  width: '100%'
+                                }
+                              }
+                            }}
+                            disabled={
+                              !!watch(
+                                `hoursOfOperation.${index}.twentyFourHours`
+                              )
+                            }
+                            onChange={(newValue) => onChange(newValue)}
                           />
                         )}
                       />
@@ -191,10 +211,23 @@ const AddShop = () => {
                         control={control}
                         render={({ field: { value, onChange } }: any) => (
                           <TimePicker
-                            label='End Time'
-                            disabled={!!watch('24hours')}
+                            slotProps={{
+                              textField: {
+                                sx: {
+                                  '& .MuiOutlinedInput-notchedOutline': {
+                                    border: `2px solid ${theme.palette.common.black}`
+                                  },
+                                  width: '100%'
+                                }
+                              }
+                            }}
+                            disabled={
+                              !!watch(
+                                `hoursOfOperation.${index}.twentyFourHours`
+                              )
+                            }
                             value={value}
-                            onChange={onChange}
+                            onChange={(newValue) => onChange(newValue)}
                           />
                         )}
                       />
@@ -208,8 +241,8 @@ const AddShop = () => {
               >
                 Service and Rates
               </Typography>
-              <Grid container spacing={2} sx={{ mt: 3 }}>
-                {rates.services.map((service) => (
+              <Grid container sx={{ mt: 3 }}>
+                {Rates.services.map((service) => (
                   <>
                     <Grid
                       item
@@ -226,23 +259,22 @@ const AddShop = () => {
                           control={control}
                           render={({ field: { value, onChange } }: any) => (
                             <FormControlLabel
-                              control={
-                                <Checkbox onChange={onChange} checked={value} />
-                              }
+                              control={<Checkbox onChange={onChange} />}
                               label={service}
+                              value={value}
                             />
                           )}
                         />
                       </FormGroup>
                       <Controller
-                        name='rate'
+                        name='Rate per Hour'
                         control={control}
                         render={({ field: { value, onChange } }: any) => (
                           <TextField
-                            sx={style}
+                            type='text'
                             value={value}
                             onChange={onChange}
-                            label='Rate Per Hour'
+                            placeholder='Rate Per Hour'
                             error={Boolean(errors.StartTime)}
                           />
                         )}
@@ -252,13 +284,12 @@ const AddShop = () => {
                 ))}
               </Grid>
               <AddCheckbox />
-              <Grid item xs={12} spacing={2} sx={{ mt: 2 }}>
+              <Grid item xs={12} sx={{ mt: 2 }}>
                 <Button
                   color='secondary'
                   variant='contained'
                   size='large'
-                  type='submit'
-                  sx={{ mr: '15px' }}
+                  sx={{ mr: 1 }}
                 >
                   Save Changes
                 </Button>

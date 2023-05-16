@@ -11,10 +11,10 @@ import {
   Typography
 } from '@mui/material';
 import { style } from '@components/admin-profile/style';
-import IContact from './types';
+import Contact from './types';
 import { useProfile } from '../context/ProfileContext';
 
-const defaultValues: IContact = {
+const defaultValues: Contact = {
   principleName: '',
   principleTitle: '',
   primaryName: '',
@@ -28,18 +28,18 @@ const defaultValues: IContact = {
   companyEmail: ''
 };
 
-const Contact = () => {
+const AdminContact = () => {
   const { updateTab, handleProgress } = useProfile();
 
   const {
     control,
     handleSubmit,
     formState: { errors }
-  } = useForm<IContact>({
+  } = useForm<Contact>({
     defaultValues
   });
 
-  const onSubmit = (data: IContact) => {
+  const onSubmit = (data: Contact) => {
     updateTab(1);
     handleProgress('contact');
     console.log({ data });
@@ -401,4 +401,4 @@ const Contact = () => {
   );
 };
 
-export default Contact;
+export default AdminContact;
