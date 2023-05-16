@@ -33,7 +33,7 @@ const defaultValues: Contact = {
 
 const AdminContact = () => {
   const { updateTab, handleProgress } = useProfile();
-  const [contactTypes, setContactTypes] = useState();
+  const [contactTypes, setContactTypes] = useState({});
 
   const {
     control,
