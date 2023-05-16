@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import {
   Box,
@@ -13,6 +13,7 @@ import {
 import { style } from '@components/admin-profile/style';
 import { Contact as ContactProps } from './types';
 import { useProfile } from '../context/ProfileContext';
+import { GetContactTypes } from 'src/services/admin';
 
 const defaultValues: ContactProps = {
   principleName: '',
@@ -30,6 +31,7 @@ const defaultValues: ContactProps = {
 
 const Contact = () => {
   const { updateTab, handleProgress } = useProfile();
+  const [contactTypes, setContactTypes] = useState();
 
   const {
     control,
@@ -44,6 +46,14 @@ const Contact = () => {
     handleProgress('contact');
     console.log({ data });
   };
+
+  const getContactTypes = () => {
+    const data = GetContactTypes();
+  };
+
+  useEffect(() => {
+    getContactTypes();
+  }, []);
 
   return (
     <Box width={'100%'} sx={{ marginLeft: '1.0rem', marginRight: '1.0rem' }}>
