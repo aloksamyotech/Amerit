@@ -31,18 +31,6 @@ const defaultValues: Shop = {
 };
 const AddShop = () => {
   const { addNewShop, updateTab } = useProfile();
-  const [isDisabled, setIsDisabled] = useState({
-    Monday: false,
-    Tuesday: false
-  });
-  const [isChecked, setIschecked] = useState();
-  const [index, setIndex] = useState(undefined);
-  const handleCheckboxChange = (item: any) => {
-    setIsDisabled((prev) => ({
-      ...prev,
-      [item]: true
-    }));
-  };
 
   const {
     control,
@@ -57,8 +45,6 @@ const AddShop = () => {
     updateTab(0);
     console.log({ data });
   };
-  console.log('errors', errors);
-  console.log('watch', watch());
   return (
     <Container sx={{ bgcolor: 'white' }}>
       <Box className='Box-wrp' sx={{ marginBottom: '25px' }}>
