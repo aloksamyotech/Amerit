@@ -1,4 +1,4 @@
-export interface Contact {
+export default interface Contact {
   principleName: string;
   principleTitle: string;
   primaryName: string;

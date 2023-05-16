@@ -97,10 +97,10 @@ const AddShop = () => {
                               {item.type.map((vendor: any) => (
                                 <MenuItem
                                   key={vendor.id}
-                                  value={vendor.name}
+                                  value={vendor.value}
                                   disabled={vendor.disabled}
                                 >
-                                  {vendor.name}
+                                  {vendor.label}
                                 </MenuItem>
                               ))}
                             </Select>
