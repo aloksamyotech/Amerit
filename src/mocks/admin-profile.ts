@@ -1,30 +1,5 @@
-import { SelectOptionsProps } from '@components/admin-profile/profile/types/SelectOptionsProps';
 import { StateList } from 'src/constants';
-
-interface shopInputType {
-  id: number;
-  label: string;
-  name: string;
-  grid: number;
-  type?: Array<SelectOptionsProps>;
-}
-
-interface hoursOfOperationType {
-  dayOfWeek: Array<string>;
-}
-
-interface ratesType {
-  services: Array<string>;
-}
-
-interface contactType {
-  id: number;
-  name: string;
-  placeholder: string;
-  grid: number;
-}
-
-export const TERMS_MOCK = [
+export const TermsList = [
   {
     title: 'Payment Terms (select this on your Company Profile)',
     listItem: [
@@ -46,7 +21,7 @@ export const TERMS_MOCK = [
   }
 ];
 
-export const checkboxList = {
+export const CheckboxList = {
   general: [
     'Welding',
     'Mobile Welding',
@@ -92,7 +67,7 @@ export const checkboxList = {
   ]
 };
 
-export const titleList = [
+export const TitleList = [
   {
     title: 'ACH Form',
     document: 'Uploading...',
@@ -120,7 +95,7 @@ export const titleList = [
   }
 ];
 
-export const SHOP_INPUT:Array<shopInputType> = [
+export const InputList = [
   {
     id: 1,
     label: 'Shop Name',
@@ -153,7 +128,24 @@ export const SHOP_INPUT:Array<shopInputType> = [
   },
   {
     id: 6,
-    type: StateList,
+    type: [
+      { id: 0, name: 'State', value: 'State', disabled: true },
+      {
+        id: 1,
+        name: 'STATE1',
+        disabled: false
+      },
+      {
+        id: 2,
+        name: 'STATE2',
+        disabled: false
+      },
+      {
+        id: 3,
+        name: 'STATE3',
+        disabled: false
+      }
+    ],
     grid: 4,
     name: 'state',
     label: 'state'
@@ -166,7 +158,7 @@ export const SHOP_INPUT:Array<shopInputType> = [
   }
 ];
 
-export const HOURS_OF_OPERATION:hoursOfOperationType = {
+export const CheckList = {
   dayOfWeek: [
     'Monday',
     'Tuesday',
@@ -177,8 +169,7 @@ export const HOURS_OF_OPERATION:hoursOfOperationType = {
     'Sunday'
   ]
 };
-
-export const RATES:ratesType = {
+export const Rates = {
   services: [
     'Emergency Road Services',
     'Mobile Services',
@@ -188,7 +179,7 @@ export const RATES:ratesType = {
   ]
 };
 
-export const CONTACT: Array<contactType> = [
+export const Contact = [
   {
     id: 1,
     name: 'principleName',

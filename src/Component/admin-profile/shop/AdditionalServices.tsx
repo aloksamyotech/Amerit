@@ -6,7 +6,7 @@ import {
   Typography
 } from '@mui/material';
 import React from 'react';
-import { checkboxList } from 'src/mocks/admin-profile';
+import { CheckboxList } from 'src/mocks/admin-profile';
 
 const AdditionalServices = () => {
   return (
@@ -37,7 +37,7 @@ const AdditionalServices = () => {
       </Grid>
       <Grid item xs={12}>
         <FormGroup sx={{ display: 'inline-block' }}>
-          {checkboxList.general.map((generalItem: string) => (
+          {CheckboxList.general.map((generalItem: string) => (
             <FormControlLabel
               key={generalItem}
               control={<Checkbox />}
@@ -68,7 +68,7 @@ const AdditionalServices = () => {
       </Grid>
       <Grid item xs={12}>
         <FormGroup sx={{ display: 'inline-block' }}>
-          {checkboxList.tire.map((generalItem: string) => (
+          {CheckboxList.tire.map((generalItem: string) => (
             <FormControlLabel
               key={generalItem}
               control={<Checkbox />}
@@ -98,7 +98,7 @@ const AdditionalServices = () => {
       </Grid>
       <Grid item xs={12}>
         <FormGroup sx={{ display: 'inline-block' }}>
-          {checkboxList.towing.map((generalItem: string) => (
+          {CheckboxList.towing.map((generalItem: string) => (
             <FormControlLabel
               key={generalItem}
               control={<Checkbox />}
@@ -128,7 +128,7 @@ const AdditionalServices = () => {
       </Grid>
       <Grid item xs={12}>
         <FormGroup sx={{ display: 'inline-block' }}>
-          {checkboxList.parts.map((generalItem: string) => (
+          {CheckboxList.parts.map((generalItem: string) => (
             <FormControlLabel
               key={generalItem}
               control={<Checkbox />}
