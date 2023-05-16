@@ -11,11 +11,11 @@ import {
   Typography
 } from '@mui/material';
 import { style } from '@components/admin-profile/style';
-import { Contact as ContactProps } from './types';
+import Contact from './types';
 import { useProfile } from '../context/ProfileContext';
 import { GetContactTypes } from 'src/services/admin';
 
-const defaultValues: ContactProps = {
+const defaultValues: Contact = {
   principleName: '',
   principleTitle: '',
   primaryName: '',
@@ -29,7 +29,7 @@ const defaultValues: ContactProps = {
   companyEmail: ''
 };
 
-const Contact = () => {
+const AdminContact = () => {
   const { updateTab, handleProgress } = useProfile();
   const [contactTypes, setContactTypes] = useState();
 
@@ -37,11 +37,11 @@ const Contact = () => {
     control,
     handleSubmit,
     formState: { errors }
-  } = useForm<ContactProps>({
+  } = useForm<Contact>({
     defaultValues
   });
 
-  const onSubmit = (data: ContactProps) => {
+  const onSubmit = (data: Contact) => {
     updateTab(1);
     handleProgress('contact');
     console.log({ data });
@@ -129,7 +129,7 @@ const Contact = () => {
                 <Grid item xs={6}>
                   <Box width={'100%'}>
                     <Controller
-                      name='primaryName'
+                      name='otherContacts[0]'
                       control={control}
                       render={({ field: { value, onChange } }: any) => (
                         <Box>
@@ -411,4 +411,4 @@ const Contact = () => {
   );
 };
 
-export default Contact;
+export default AdminContact;
