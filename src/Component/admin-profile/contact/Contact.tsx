@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
@@ -15,6 +15,7 @@ import { style } from '@components/admin-profile/style';
 import Contact from './types';
 import ContactFormSchema from './schema';
 import { useProfile } from '../context/ProfileContext';
+import { GetContactTypes } from 'src/services/admin';
 
 const defaultValues: Contact = {
   principleName: '',
@@ -32,6 +33,7 @@ const defaultValues: Contact = {
 
 const AdminContact = () => {
   const { updateTab, handleProgress } = useProfile();
+  const [contactTypes, setContactTypes] = useState();
 
   const {
     control,
@@ -47,6 +49,15 @@ const AdminContact = () => {
     handleProgress('contact');
     console.log({ data });
   };
+
+  const getContactTypes = async () => {
+    const data = await GetContactTypes();
+    setContactTypes(data);
+  };
+
+  useEffect(() => {
+    getContactTypes();
+  }, []);
 
   return (
     <Box width={'100%'} sx={{ marginLeft: '1.0rem', marginRight: '1.0rem' }}>
@@ -117,7 +128,7 @@ const AdminContact = () => {
               </Grid>
               <Grid container item spacing={2}>
                 <Grid item xs={12}>
-                  <Typography>Primary Contact</Typography>
+                  <Typography>{contactTypes[0]?.name}</Typography>
                 </Grid>
                 <Grid item xs={6}>
                   <Box width={'100%'}>
@@ -206,7 +217,7 @@ const AdminContact = () => {
               </Grid>
               <Grid container item spacing={2}>
                 <Grid item xs={12}>
-                  <Typography>Account Receivables Contact</Typography>
+                  <Typography>{contactTypes[1]?.name}</Typography>
                 </Grid>
                 <Grid item xs={6}>
                   <Box width={'100%'}>
@@ -295,7 +306,7 @@ const AdminContact = () => {
               </Grid>
               <Grid container item spacing={2}>
                 <Grid item xs={12}>
-                  <Typography>Your Company Insurance Contact</Typography>
+                  <Typography>{contactTypes[2]?.name}</Typography>
                 </Grid>
                 <Grid item xs={6}>
                   <Box width={'100%'}>
