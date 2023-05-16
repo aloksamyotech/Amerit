@@ -6,7 +6,7 @@ import {
   Typography
 } from '@mui/material';
 import React from 'react';
-import { CheckboxList } from 'src/mocks/admin-profile';
+import { checkboxList } from 'src/mocks/admin-profile';
 
 const AdditionalServices = () => {
   return (
@@ -37,12 +37,13 @@ const AdditionalServices = () => {
       </Grid>
       <Grid item xs={12}>
         <FormGroup sx={{ display: 'inline-block' }}>
-          {CheckboxList.general.map((generalItem: string) => (
+          {checkboxList.general.map((generalItem: string) => (
             <FormControlLabel
               key={generalItem}
               control={<Checkbox />}
               label={generalItem}
               sx={{
+                mr: '20px',
                 mt: '15px',
                 width: '225px',
                 fontSize: '15px'
@@ -67,12 +68,13 @@ const AdditionalServices = () => {
       </Grid>
       <Grid item xs={12}>
         <FormGroup sx={{ display: 'inline-block' }}>
-          {CheckboxList.tire.map((generalItem: string) => (
+          {checkboxList.tire.map((generalItem: string) => (
             <FormControlLabel
               key={generalItem}
               control={<Checkbox />}
               label={generalItem}
               sx={{
+                mr: '20px',
                 mt: '15px',
                 width: '225px',
                 fontSize: '15px'
@@ -96,12 +98,13 @@ const AdditionalServices = () => {
       </Grid>
       <Grid item xs={12}>
         <FormGroup sx={{ display: 'inline-block' }}>
-          {CheckboxList.towing.map((generalItem: string) => (
+          {checkboxList.towing.map((generalItem: string) => (
             <FormControlLabel
               key={generalItem}
               control={<Checkbox />}
               label={generalItem}
               sx={{
+                mr: '20px',
                 mt: '15px',
                 width: '225px',
                 fontSize: '15px'
@@ -125,12 +128,13 @@ const AdditionalServices = () => {
       </Grid>
       <Grid item xs={12}>
         <FormGroup sx={{ display: 'inline-block' }}>
-          {CheckboxList.parts.map((generalItem: string) => (
+          {checkboxList.parts.map((generalItem: string) => (
             <FormControlLabel
               key={generalItem}
               control={<Checkbox />}
               label={generalItem}
               sx={{
+                mr: '20px',
                 mt: '15px',
                 width: '225px',
                 fontSize: '15px'
