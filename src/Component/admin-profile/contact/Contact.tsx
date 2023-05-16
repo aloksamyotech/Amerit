@@ -1,5 +1,6 @@
 import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
 import {
   Box,
   Button,
@@ -12,6 +13,7 @@ import {
 } from '@mui/material';
 import { style } from '@components/admin-profile/style';
 import Contact from './types';
+import ContactFormSchema from './schema';
 import { useProfile } from '../context/ProfileContext';
 
 const defaultValues: Contact = {
@@ -36,7 +38,8 @@ const AdminContact = () => {
     handleSubmit,
     formState: { errors }
   } = useForm<Contact>({
-    defaultValues
+    defaultValues,
+    resolver: yupResolver(ContactFormSchema as any)
   });
 
   const onSubmit = (data: Contact) => {
@@ -119,7 +122,7 @@ const AdminContact = () => {
                 <Grid item xs={6}>
                   <Box width={'100%'}>
                     <Controller
-                      name='otherContacts[0]'
+                      name='otherContacts'
                       control={control}
                       render={({ field: { value, onChange } }: any) => (
                         <Box>
