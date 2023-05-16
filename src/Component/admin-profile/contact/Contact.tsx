@@ -33,8 +33,9 @@ const defaultValues: Contact = {
 
 const AdminContact = () => {
   const { updateTab, handleProgress } = useProfile();
-  const [contactTypes, setContactTypes] = useState({});
 
+  const [contactTypes, setContactTypes] =
+    useState<Array<{ value: number; name: string }>>();
   const {
     control,
     handleSubmit,
@@ -128,7 +129,9 @@ const AdminContact = () => {
               </Grid>
               <Grid container item spacing={2}>
                 <Grid item xs={12}>
-                  <Typography>{contactTypes[0]?.name}</Typography>
+                  <Typography>
+                    {contactTypes && contactTypes[0].name}
+                  </Typography>
                 </Grid>
                 <Grid item xs={6}>
                   <Box width={'100%'}>
@@ -217,7 +220,9 @@ const AdminContact = () => {
               </Grid>
               <Grid container item spacing={2}>
                 <Grid item xs={12}>
-                  <Typography>{contactTypes[1]?.name}</Typography>
+                  <Typography>
+                    {contactTypes && contactTypes[1]?.name}
+                  </Typography>
                 </Grid>
                 <Grid item xs={6}>
                   <Box width={'100%'}>
@@ -306,7 +311,9 @@ const AdminContact = () => {
               </Grid>
               <Grid container item spacing={2}>
                 <Grid item xs={12}>
-                  <Typography>{contactTypes[2]?.name}</Typography>
+                  <Typography>
+                    {contactTypes && contactTypes[2].name}
+                  </Typography>
                 </Grid>
                 <Grid item xs={6}>
                   <Box width={'100%'}>
