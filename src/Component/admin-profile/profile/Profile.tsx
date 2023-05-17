@@ -48,7 +48,7 @@ const defaultValues: Profile = {
 };
 
 const AdminProfile = () => {
-  const { updateTab, handleProgress } = useProfile();
+  const { updateTab, handleProgress, setUserid } = useProfile();
 
   const {
     control,
@@ -61,11 +61,11 @@ const AdminProfile = () => {
 
   const theme = useTheme();
 
-  const onSubmit = (data: Profile) => {
+  const onSubmit = async (data: Profile) => {
+    const userid = await saveAdminProfileDetails(data);
+    setUserid(Number(userid));
     updateTab(0);
     handleProgress('profile');
-    console.log({ data });
-    saveAdminProfileDetails(data);
   };
 
   return (

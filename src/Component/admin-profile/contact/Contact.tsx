@@ -42,7 +42,7 @@ const defaultValues = {
 };
 
 const AdminContact = () => {
-  const { updateTab, handleProgress } = useProfile();
+  const { updateTab, handleProgress, values } = useProfile();
 
   const [contactTypes, setContactTypes] =
     useState<Array<{ value: number; name: string }>>();
@@ -53,12 +53,13 @@ const AdminContact = () => {
     formState: { errors }
   } = useForm({
     defaultValues,
+
     resolver: yupResolver(ContactFormSchema as any)
   });
   const onSubmit = (data: typeof defaultValues) => {
     updateTab(1);
     handleProgress('contact');
-    AddContacts(data);
+    AddContacts(data, Number(values?.userid));
   };
 
   const getContactTypes = async () => {

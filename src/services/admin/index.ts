@@ -6,7 +6,7 @@ import { axiosClient } from '..';
 export const saveAdminProfileDetails = async (payload: Profile) => {
   const data = { detail: { ...payload } };
   const response = await axiosClient.post<Profile>('/VendorProfile', data);
-
+  console.log(response);
   return response.data;
 };
 
@@ -20,10 +20,10 @@ export const GetContactTypes = async () => {
   }
 };
 
-export const AddContacts = async (payload: any) => {
+export const AddContacts = async (payload: any, id: number) => {
   try {
-    const id = 1234;
     const data = { detail: { ...payload } };
+    console.log(id);
     const response = await axiosClient.post(
       `/VendorProfile/AddContacts/${id}`,
       data
