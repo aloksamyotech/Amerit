@@ -10,6 +10,31 @@ export const saveAdminProfileDetails = async (payload: Profile) => {
   return response.data;
 };
 
+export const GetContactTypes = async () => {
+  try {
+    const response = await axiosClient.get(`/VendorProfile/GetContactTypes`);
+
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const AddContacts = async (payload: any) => {
+  try {
+    const id = 1234;
+    const data = { detail: { ...payload } };
+    const response = await axiosClient.post(
+      `/VendorProfile/AddContacts/${id}`,
+      data
+    );
+
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const saveAdminContactDetails = async (payload: Contact) => {
   const data = { detail: { ...payload } };
   const response = await axiosClient.post<Contact>(
@@ -50,24 +75,7 @@ export const getAdminDocumentsdetails = async () => {
 
 export const saveAdminTermsDetails = async (payload: any) => {
   const data = { detail: { ...payload } };
-  const response = await axiosClient.post('/VendorProfile', data);
+  const response = await axiosClient.post(`/VendorProfile`, data);
 
-  return response.data;
-};
-
-export const GetContactTypes = async () => {
-  try {
-    const response = await axiosClient.get('/VendorProfile/GetContactTypes');
-    console.log(response);
-
-    return response.data;
-  } catch (error) {
-    console.log(error);
-  }
-};
-export const AddContacts = async (payload: any) => {
-  const data = { details: { ...payload } };
-  const response = await axiosClient.post('/VendorProfile/AddContacts/', data);
-  // console.log(response)s;
   return response.data;
 };

@@ -1,4 +1,3 @@
-import { StateList } from 'src/constants';
 export const TermsList = [
   {
     title: 'Payment Terms (select this on your Company Profile)',
