@@ -146,7 +146,7 @@ const AdminContact = () => {
                             value={value}
                             onChange={onChange}
                             data-testid='primaryName'
-                            placeholder='Name'
+                            placeholder='Primary Name'
                             error={Boolean(errors.primaryName)}
                           />
                         </Box>
@@ -174,7 +174,7 @@ const AdminContact = () => {
                             value={value}
                             onChange={onChange}
                             data-testid='primaryEmail'
-                            placeholder='Email'
+                            placeholder='Primary Email'
                             error={Boolean(errors.primaryEmail)}
                           />
                         </Box>
@@ -202,7 +202,7 @@ const AdminContact = () => {
                             value={value}
                             onChange={onChange}
                             data-testid='primaryPhone'
-                            placeholder='Phone'
+                            placeholder='Primary Phone'
                             error={Boolean(errors.primaryPhone)}
                           />
                         </Box>
@@ -237,7 +237,7 @@ const AdminContact = () => {
                             value={value}
                             onChange={onChange}
                             data-testid='accountName'
-                            placeholder='Name'
+                            placeholder='Account Name'
                             error={Boolean(errors.accountName)}
                           />
                         </Box>
@@ -265,7 +265,7 @@ const AdminContact = () => {
                             value={value}
                             onChange={onChange}
                             data-testid='accountEmail'
-                            placeholder='Email'
+                            placeholder='Account Email'
                             error={Boolean(errors.accountEmail)}
                           />
                         </Box>
