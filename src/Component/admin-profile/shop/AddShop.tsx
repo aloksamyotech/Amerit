@@ -45,6 +45,7 @@ const AddShop = () => {
     updateTab(0);
     console.log({ data });
   };
+
   return (
     <Container sx={{ bgcolor: 'white' }}>
       <Box className='Box-wrp' sx={{ marginBottom: '25px' }}>
@@ -74,7 +75,7 @@ const AddShop = () => {
             <FormControl fullWidth sx={{ mt: 2 }}>
               <Grid container spacing={2}>
                 {InputList.map((item) => (
-                  <Grid item xs={item.grid}>
+                  <Grid key={item.id} item xs={item.grid}>
                     <FormControl fullWidth>
                       <Controller
                         name={item.name}
@@ -136,7 +137,14 @@ const AddShop = () => {
                   </Box>
                 </Grid>
                 {CheckList.dayOfWeek.map((item, index) => (
-                  <Grid item xs={12} container spacing={2} alignItems='center'>
+                  <Grid
+                    item
+                    key={index}
+                    xs={12}
+                    container
+                    spacing={2}
+                    alignItems='center'
+                  >
                     <Grid item xs={2}>
                       <Controller
                         name={`hoursOfOperation.${index}.${item}`}
@@ -186,6 +194,7 @@ const AddShop = () => {
                                 `hoursOfOperation.${index}.twentyFourHours`
                               )
                             }
+                            value={value}
                             onChange={(newValue) => onChange(newValue)}
                           />
                         )}
