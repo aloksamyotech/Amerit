@@ -223,6 +223,20 @@ const AdminContact = () => {
                   );
                 })}
             </Grid>
+            <Grid container item spacing={2}>
+              <Grid item xs={6}>
+                <Box width={'100%'} pt={2}>
+                  <Button
+                    color='secondary'
+                    variant='contained'
+                    size='large'
+                    type='submit'
+                  >
+                    Save Changes
+                  </Button>
+                </Box>
+              </Grid>
+            </Grid>
           </FormControl>
         </form>
       </Paper>
