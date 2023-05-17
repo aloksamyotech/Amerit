@@ -18,17 +18,28 @@ import { useProfile } from '../context/ProfileContext';
 import { GetContactTypes } from 'src/services/admin';
 
 const defaultValues: Contact = {
-  principleName: '',
-  principleTitle: '',
-  primaryName: '',
-  primaryPhone: '',
-  primaryEmail: '',
-  accountName: '',
-  accountPhone: '',
-  accountEmail: '',
-  companyName: '',
-  companyPhone: '',
-  companyEmail: ''
+  principalPersonTitle: '',
+  principalPerson: '',
+  otherContacts: [
+    {
+      name: '',
+      email: '',
+      phone: '',
+      contactType: 0
+    },
+    {
+      name: '',
+      email: '',
+      phone: '',
+      contactType: 0
+    },
+    {
+      name: '',
+      email: '',
+      phone: '',
+      contactType: 0
+    }
+  ]
 };
 
 const AdminContact = () => {
