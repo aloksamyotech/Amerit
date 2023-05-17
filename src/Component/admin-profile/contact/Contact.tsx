@@ -15,7 +15,7 @@ import { style } from '@components/admin-profile/style';
 import Contact from './types';
 import ContactFormSchema from './schema';
 import { useProfile } from '../context/ProfileContext';
-import { GetContactTypes } from 'src/services/admin';
+import { AddContacts, GetContactTypes } from 'src/services/admin';
 
 const defaultValues: Contact = {
   principalPersonTitle: '',
@@ -60,6 +60,7 @@ const AdminContact = () => {
     updateTab(1);
     handleProgress('contact');
     console.log({ data });
+    AddContacts(data);
   };
 
   const getContactTypes = async () => {
