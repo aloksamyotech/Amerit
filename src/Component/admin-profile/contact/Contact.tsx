@@ -138,7 +138,7 @@ const AdminContact = () => {
                       <Grid item xs={6}>
                         <Box width={'100%'}>
                           <Controller
-                            name='otherContacts'
+                            name='primaryName'
                             control={control}
                             render={({ field: { value, onChange } }: any) => (
                               <Box>
