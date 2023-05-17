@@ -150,7 +150,7 @@ const AdminContact = () => {
                       <Grid item xs={6}>
                         <Box width={'100%'}>
                           <Controller
-                            name={`primaryName`}
+                            name='otherContacts[0].name'
                             control={control}
                             render={({ field: { value, onChange } }: any) => (
                               <Box>
@@ -158,18 +158,20 @@ const AdminContact = () => {
                                   size='small'
                                   sx={style}
                                   onChange={onChange}
-                                  data-testid='primaryName'
+                                  data-testid={`otherContacts[0].name`}
                                   placeholder='Name'
-                                  error={Boolean(errors.primaryName)}
+                                  error={Boolean(
+                                    errors.otherContacts?.[0]?.name
+                                  )}
                                 />
                               </Box>
                             )}
                           />
-                          {errors.primaryName && (
+                          {errors.otherContacts?.[0]?.name && (
                             <FormHelperText
                               sx={{ color: 'error.main', marginLeft: '0px' }}
                             >
-                              {errors.primaryName.message}
+                              {errors.otherContacts?.[0]?.name?.message}
                             </FormHelperText>
                           )}
                         </Box>
@@ -177,7 +179,7 @@ const AdminContact = () => {
                       <Grid item xs={6}>
                         <Box width={'100%'}>
                           <Controller
-                            name='primaryEmail'
+                            name='otherContacts.[1].name'
                             control={control}
                             render={({ field: { value, onChange } }: any) => (
                               <Box>
@@ -186,18 +188,20 @@ const AdminContact = () => {
                                   value={value}
                                   sx={style}
                                   onChange={onChange}
-                                  data-testid='primaryEmail'
+                                  data-testid='otherContacts.[1].email'
                                   placeholder='Email'
-                                  error={Boolean(errors.primaryEmail)}
+                                  error={Boolean(
+                                    errors.otherContacts?.[1]?.email
+                                  )}
                                 />
                               </Box>
                             )}
                           />
-                          {errors.primaryEmail && (
+                          {errors.otherContacts?.[1]?.email && (
                             <FormHelperText
                               sx={{ color: 'error.main', marginLeft: '0px' }}
                             >
-                              {errors.primaryEmail.message}
+                              {errors.otherContacts?.[1]?.email.message}
                             </FormHelperText>
                           )}
                         </Box>
@@ -205,7 +209,7 @@ const AdminContact = () => {
                       <Grid item xs={6}>
                         <Box width={'100%'}>
                           <Controller
-                            name='primaryPhone'
+                            name='otherContacts.[2].phone'
                             control={control}
                             render={({ field: { value, onChange } }: any) => (
                               <Box>
@@ -213,18 +217,20 @@ const AdminContact = () => {
                                   size='small'
                                   sx={style}
                                   onChange={onChange}
-                                  data-testid='primaryPhone'
+                                  data-testid='otherContacts.[2].phone'
                                   placeholder='Phone'
-                                  error={Boolean(errors.primaryPhone)}
+                                  error={Boolean(
+                                    errors.otherContacts?.[2]?.phone
+                                  )}
                                 />
                               </Box>
                             )}
                           />
-                          {errors.primaryPhone && (
+                          {errors.otherContacts?.[2]?.phone && (
                             <FormHelperText
                               sx={{ color: 'error.main', marginLeft: '0px' }}
                             >
-                              {errors.primaryPhone.message}
+                              {errors.otherContacts?.[2]?.phone.message}
                             </FormHelperText>
                           )}
                         </Box>

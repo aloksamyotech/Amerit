@@ -64,5 +64,6 @@ export const GetContactTypes = async () => {
 export const AddContacts = async (payload: any) => {
   const data = { details: { ...payload } };
   const response = await axiosClient.post('/VendorProfile/AddContacts/', data);
-  console.log(response);
+  // console.log(response)s;
+  return response.data;
 };
