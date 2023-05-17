@@ -83,7 +83,7 @@ const AdminContact = () => {
                             value={value}
                             onChange={onChange}
                             data-testid='principleName'
-                            placeholder='Name'
+                            placeholder='Principle Name'
                             error={Boolean(errors.principleName)}
                           />
                         </Box>
@@ -111,7 +111,7 @@ const AdminContact = () => {
                             value={value}
                             onChange={onChange}
                             data-testid='principleTitle'
-                            placeholder='Title'
+                            placeholder='Principle Title'
                             error={Boolean(errors.principleTitle)}
                           />
                         </Box>

@@ -214,24 +214,3 @@ export const Rates = {
     'Mobile Services'
   ]
 };
-
-export const Contact = [
-  {
-    id: 1,
-    name: 'principleName',
-    placeholder: 'Name',
-    grid: 6
-  },
-  {
-    id: 2,
-    name: 'principleTitle',
-    placeholder: 'Name',
-    grid: 6
-  },
-  {
-    id: 3,
-    name: 'principleTitle',
-    placeholder: 'principleTitle',
-    grid: 6
-  }
-];
