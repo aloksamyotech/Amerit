@@ -150,14 +150,13 @@ const AdminContact = () => {
                       <Grid item xs={6}>
                         <Box width={'100%'}>
                           <Controller
-                            name='otherContacts'
+                            name={`primaryName`}
                             control={control}
                             render={({ field: { value, onChange } }: any) => (
                               <Box>
                                 <TextField
                                   size='small'
                                   sx={style}
-                                  value={value}
                                   onChange={onChange}
                                   data-testid='primaryName'
                                   placeholder='Name'
@@ -184,8 +183,8 @@ const AdminContact = () => {
                               <Box>
                                 <TextField
                                   size='small'
-                                  sx={style}
                                   value={value}
+                                  sx={style}
                                   onChange={onChange}
                                   data-testid='primaryEmail'
                                   placeholder='Email'
@@ -213,7 +212,6 @@ const AdminContact = () => {
                                 <TextField
                                   size='small'
                                   sx={style}
-                                  value={value}
                                   onChange={onChange}
                                   data-testid='primaryPhone'
                                   placeholder='Phone'
