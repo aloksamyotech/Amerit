@@ -243,7 +243,7 @@ const AdminContact = () => {
                       size='large'
                       type='submit'
                     >
-                      Save Changess
+                      Save Changes
                     </Button>
                   </Box>
                 </Grid>
