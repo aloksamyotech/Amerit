@@ -56,8 +56,12 @@ export const saveAdminTermsDetails = async (payload: any) => {
 };
 
 export const GetContactTypes = async () => {
-  const response = await axiosClient.get('/VendorProfile/GetContactTypes');
-  console.log(response);
+  try {
+    const response = await axiosClient.get('/VendorProfile/GetContactTypes');
+    console.log(response);
 
-  return response.data;
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
 };
