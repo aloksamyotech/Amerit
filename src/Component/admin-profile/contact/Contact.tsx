@@ -84,7 +84,7 @@ const AdminContact = () => {
                 <Grid item xs={6}>
                   <Box width={'100%'}>
                     <Controller
-                      name='principleName'
+                      name='principalPerson'
                       control={control}
                       render={({ field: { value, onChange } }: any) => (
                         <Box>
@@ -93,18 +93,18 @@ const AdminContact = () => {
                             sx={style}
                             value={value}
                             onChange={onChange}
-                            data-testid='principleName'
-                            placeholder='Principle Name'
-                            error={Boolean(errors.principleName)}
+                            data-testid='principalPerson'
+                            placeholder='Name'
+                            error={Boolean(errors.principalPerson)}
                           />
                         </Box>
                       )}
                     />
-                    {errors.principleName && (
+                    {errors.principalPerson && (
                       <FormHelperText
                         sx={{ color: 'error.main', marginLeft: '0px' }}
                       >
-                        {errors.principleName.message}
+                        {errors.principalPerson.message}
                       </FormHelperText>
                     )}
                   </Box>
@@ -112,7 +112,7 @@ const AdminContact = () => {
                 <Grid item xs={6}>
                   <Box width={'100%'}>
                     <Controller
-                      name='principleTitle'
+                      name='principalPersonTitle'
                       control={control}
                       render={({ field: { value, onChange } }: any) => (
                         <Box>
@@ -121,18 +121,18 @@ const AdminContact = () => {
                             sx={style}
                             value={value}
                             onChange={onChange}
-                            data-testid='principleTitle'
-                            placeholder='Principle Title'
-                            error={Boolean(errors.principleTitle)}
+                            data-testid='principalPersonTitle'
+                            placeholder='Title'
+                            error={Boolean(errors.principalPersonTitle)}
                           />
                         </Box>
                       )}
                     />
-                    {errors.principleTitle && (
+                    {errors.principalPersonTitle && (
                       <FormHelperText
                         sx={{ color: 'error.main', marginLeft: '0px' }}
                       >
-                        {errors.principleTitle.message}
+                        {errors.principalPersonTitle.message}
                       </FormHelperText>
                     )}
                   </Box>
@@ -149,7 +149,7 @@ const AdminContact = () => {
                       <Grid item xs={6}>
                         <Box width={'100%'}>
                           <Controller
-                            name='primaryName'
+                            name='otherContacts'
                             control={control}
                             render={({ field: { value, onChange } }: any) => (
                               <Box>
@@ -233,6 +233,21 @@ const AdminContact = () => {
                     </Grid>
                   );
                 })}
+
+              <Grid container item spacing={2}>
+                <Grid item xs={6}>
+                  <Box width={'100%'} pt={2}>
+                    <Button
+                      color='secondary'
+                      variant='contained'
+                      size='large'
+                      type='submit'
+                    >
+                      Save Changess
+                    </Button>
+                  </Box>
+                </Grid>
+              </Grid>
             </Grid>
           </FormControl>
         </form>
