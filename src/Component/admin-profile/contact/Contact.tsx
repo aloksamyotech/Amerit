@@ -15,7 +15,7 @@ import { style } from '@components/admin-profile/style';
 import Contact from './types';
 import ContactFormSchema from './schema';
 import { useProfile } from '../context/ProfileContext';
-import { GetContactTypes } from 'src/services/admin';
+import { AddContacts, GetContactTypes } from 'src/services/admin';
 
 const defaultValues: Contact = {
   principalPersonTitle: '',
@@ -59,7 +59,8 @@ const AdminContact = () => {
   const onSubmit = (data: Contact) => {
     updateTab(1);
     handleProgress('contact');
-    let x = data.otherContacts.
+    console.log({ data });
+    AddContacts(data);
   };
 
   const getContactTypes = async () => {
@@ -149,59 +150,67 @@ const AdminContact = () => {
                       <Grid item xs={6}>
                         <Box width={'100%'}>
                           <Controller
-                            name={`otherContacts.${index}.name`}
+                            name='otherContacts[0].name'
                             control={control}
                             render={({ field: { value, onChange } }: any) => (
                               <Box>
                                 <TextField
                                   size='small'
                                   sx={style}
-                                  value={value}
                                   onChange={onChange}
-                                  data-testid={`otherContacts.${index}.name`}
+                                  data-testid={`otherContacts[0].name`}
                                   placeholder='Name'
-                                  error={Boolean(errors.otherContacts)}
+                                  error={Boolean(
+                                    errors.otherContacts?.[0]?.name
+                                  )}
                                 />
                               </Box>
                             )}
                           />
-                          {errors.otherContacts && (
+                          {errors.otherContacts?.[0]?.name && (
                             <FormHelperText
                               sx={{ color: 'error.main', marginLeft: '0px' }}
                             >
-                              {errors.otherContacts.message}
+                              {errors.otherContacts?.[0]?.name?.message}
                             </FormHelperText>
                           )}
                         </Box>
                       </Grid>
                       <Grid item xs={6}>
-                        <Controller
-                          name={`otherContacts.${index}.email`}
-                          control={control}
-                          render={({ field: { value, onChange } }: any) => (
-                            <TextField
-                              size='small'
-                              sx={style}
-                              value={value}
-                              onChange={onChange}
-                              data-testid={`otherContacts.${index}.email`}
-                              placeholder='Email'
-                              error={Boolean(errors.otherContacts)}
-                            />
+                        <Box width={'100%'}>
+                          <Controller
+                            name='otherContacts.[1].name'
+                            control={control}
+                            render={({ field: { value, onChange } }: any) => (
+                              <Box>
+                                <TextField
+                                  size='small'
+                                  // value={value}
+                                  sx={style}
+                                  onChange={onChange}
+                                  data-testid='otherContacts.[1].email'
+                                  placeholder='Email'
+                                  error={Boolean(
+                                    errors.otherContacts?.[1]?.email
+                                  )}
+                                />
+                              </Box>
+                            )}
+                          />
+                          {errors.otherContacts?.[1]?.email && (
+                            <FormHelperText
+                              sx={{ color: 'error.main', marginLeft: '0px' }}
+                            >
+                              {errors.otherContacts?.[1]?.email.message}
+                            </FormHelperText>
                           )}
-                        />
-                        {errors.otherContacts && (
-                          <FormHelperText
-                            sx={{ color: 'error.main', marginLeft: '0px' }}
-                          >
-                            {errors.otherContacts.message}
-                          </FormHelperText>
-                        )}
+                        </Box>
                       </Grid>
+
                       <Grid item xs={6}>
                         <Box width={'100%'}>
                           <Controller
-                            name={`otherContacts.${index}.phone`}
+                            name='otherContacts.[2].phone'
                             control={control}
                             render={({ field: { value, onChange } }: any) => (
                               <Box>
@@ -210,18 +219,20 @@ const AdminContact = () => {
                                   sx={style}
                                   value={value}
                                   onChange={onChange}
-                                  data-testid={`otherContacts.${index}.phone`}
+                                  data-testid='otherContacts.[2].phone'
                                   placeholder='Phone'
-                                  error={Boolean(errors.otherContacts)}
+                                  error={Boolean(
+                                    errors.otherContacts?.[2]?.phone
+                                  )}
                                 />
                               </Box>
                             )}
                           />
-                          {errors.otherContacts && (
+                          {errors.otherContacts?.[2]?.phone && (
                             <FormHelperText
                               sx={{ color: 'error.main', marginLeft: '0px' }}
                             >
-                              {errors.otherContacts.message}
+                              {errors.otherContacts?.[2]?.phone.message}
                             </FormHelperText>
                           )}
                         </Box>
