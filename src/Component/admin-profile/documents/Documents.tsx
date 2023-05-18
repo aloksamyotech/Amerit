@@ -20,7 +20,9 @@ const Documents = () => {
   const { updateTab, handleProgress } = useProfile();
 
   const [progress, setProgress] = React.useState(10);
-
+  const handleFileUpload = (file: File) => {
+    console.log('Uploaded file name:', file.name);
+  };
   React.useEffect(() => {
     const timer = setInterval(() => {
       setProgress((prevProgress) =>
@@ -157,7 +159,7 @@ const Documents = () => {
                     borderColor: (theme: Theme) => theme.palette.secondary.main
                   }}
                 >
-                 <Upload/>
+                 <Upload onFileUpload={handleFileUpload}/>
                 </Box>
               </Grid>
             </Grid>
@@ -178,7 +180,7 @@ const Documents = () => {
                     borderColor: (theme: Theme) => theme.palette.secondary.main
                   }}
                 >
-                 <Upload/>
+                 <Upload onFileUpload={handleFileUpload}/>
                 </Box>
               </Grid>
             </Grid>
@@ -199,7 +201,7 @@ const Documents = () => {
                     borderColor: (theme: Theme) => theme.palette.secondary.main
                   }}
                 >
-                 <Upload/>
+                 <Upload onFileUpload={handleFileUpload}/>
                 </Box>
               </Grid>
             </Grid>
