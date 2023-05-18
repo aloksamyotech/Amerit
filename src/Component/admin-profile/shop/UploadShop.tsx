@@ -21,10 +21,6 @@ import TableRow from '@mui/material/TableRow';
 import { useProfile } from '../context/ProfileContext';
 
 const UploadShop = () => {
-  const handleFileUpload = (file: File) => {
-    // Handle the uploaded file here
-    console.log('Uploaded file:', file);
-  };
   const { uploadShop } = useProfile();
   function createData(name: string, description: string) {
     return { name, description };
@@ -135,15 +131,15 @@ const UploadShop = () => {
                     }}
                     onClick={handleClick}
                   >
+                    Choose File
+                  </Button>
+
                   <input
                     type='file'
                     ref={hiddenFileInput}
                     onChange={handleChange}
                     style={{ display: 'none' }}
                   />
-                    Choose File
-                  </Button>
-
                   <Button color='secondary' variant='contained' size='large'>
                     Submit
                   </Button>

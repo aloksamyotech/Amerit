@@ -11,7 +11,7 @@ import {
   Typography
 } from '@mui/material';
 import React from 'react';
-import { TermsList } from 'src/mocks/admin-profile';
+import { TERMS_MOCK } from 'src/mocks/admin-profile';
 import { useProfile } from '../context/ProfileContext';
 
 const Terms = () => {
@@ -35,7 +35,7 @@ const Terms = () => {
         <FormControl fullWidth>
           <Typography variant='h4'>Terms and Conditions</Typography>
           <Box py={3}>
-            {TermsList.map((list, i) => (
+            {TERMS_MOCK.map((list, i) => (
               <Box py={1} key={`${i}`}>
                 <Typography variant='h6'>{list.title}</Typography>
                 <List
