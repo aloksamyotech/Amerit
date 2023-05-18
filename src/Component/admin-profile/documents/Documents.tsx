@@ -13,7 +13,7 @@ import { FileUploadOutlined, Close } from '@mui/icons-material';
 import Image from 'next/image';
 import LinearProgressWithLabel from './LinearProgressWithLabel';
 import { useProfile } from '../context/ProfileContext';
-import Upload from '../shop/Fileinput';
+import Upload from './Fileinput';
 
 const Documents = () => {
   const { updateTab, handleProgress } = useProfile();
