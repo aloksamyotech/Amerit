@@ -7,6 +7,7 @@ export const saveAdminProfileDetails = async (payload: Profile) => {
   const data = { detail: { ...payload } };
   const response = await axiosClient.post<Profile>('/VendorProfile', data);
   console.log(response);
+
   return response.data;
 };
 

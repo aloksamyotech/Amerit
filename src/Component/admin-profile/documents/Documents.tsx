@@ -19,6 +19,10 @@ const Documents = () => {
   const { updateTab, handleProgress } = useProfile();
 
   const [progress, setProgress] = React.useState(10);
+  const hiddenFileInput = React.useRef<HTMLInputElement>(null);
+  const handleClick = () => {
+    hiddenFileInput?.current?.click();
+  };
 
   React.useEffect(() => {
     const timer = setInterval(() => {
@@ -106,14 +110,36 @@ const Documents = () => {
                     sx={{
                       height: '130px',
                       border: '2px dotted ',
+                      cursor: 'pointer',
                       borderColor: (theme: Theme) =>
                         theme.palette.secondary.main
                     }}
                   >
                     <Box>
-                      <FileUploadOutlined />
+                      <FileUploadOutlined></FileUploadOutlined>
+
                       <Typography>{title.document}</Typography>
                       <Typography variant='caption'>{title.name}</Typography>
+                      <Grid item sx={{ mt: 2 }}>
+                        <Button
+                          variant='outlined'
+                          size='small'
+                          sx={{
+                            border: `1px solid ${(theme: Theme) =>
+                              theme.palette.primary.main}`,
+                            padding: '10px 20px 10px 20px',
+                            marginRight: '25px'
+                          }}
+                          onClick={handleClick}
+                        >
+                          <input
+                            type='file'
+                            ref={hiddenFileInput}
+                            style={{ display: 'none' }}
+                          />
+                          Choose File
+                        </Button>
+                      </Grid>
                     </Box>
                   </Box>
                 </Grid>
