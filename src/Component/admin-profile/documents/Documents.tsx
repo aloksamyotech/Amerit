@@ -12,13 +12,17 @@ import {
 import { FileUploadOutlined, Close } from '@mui/icons-material';
 import Image from 'next/image';
 import LinearProgressWithLabel from './LinearProgressWithLabel';
-import { titleList } from 'src/mocks/admin-profile';
 import { useProfile } from '../context/ProfileContext';
+import Upload from '../shop/Fileinput';
 
 const Documents = () => {
   const { updateTab, handleProgress } = useProfile();
 
   const [progress, setProgress] = React.useState(10);
+  const hiddenFileInput = React.useRef<HTMLInputElement>(null);
+  const handleClick = () => {
+    hiddenFileInput?.current?.click();
+  };
 
   React.useEffect(() => {
     const timer = setInterval(() => {
@@ -90,11 +94,11 @@ const Documents = () => {
               </Box>
             </Grid>
           </Grid>
-          {titleList.map((title) => (
+          {/* {TitleList.map((title) => ( */}
             <>
               <Grid container spacing={2}>
                 <Grid item xs={12}>
-                  <Typography variant='h6'>{title.title}</Typography>
+                  <Typography variant='h6'>ACH Form</Typography>
                 </Grid>
                 <Grid item xs={12}>
                   <Box
@@ -106,19 +110,20 @@ const Documents = () => {
                     sx={{
                       height: '130px',
                       border: '2px dotted ',
+                      cursor: 'pointer',
                       borderColor: (theme: Theme) =>
                         theme.palette.secondary.main
                     }}
                   >
                     <Box>
                       <FileUploadOutlined />
-                      <Typography>{title.document}</Typography>
-                      <Typography variant='caption'>{title.name}</Typography>
+                      <Typography>Uploading...</Typography>
+                      <Typography variant='caption'>Please wait</Typography>
                     </Box>
                   </Box>
                 </Grid>
               </Grid>
-              {title.title == 'ACH Form' ? (
+              {/* {title.title == 'ACH Form' ? ( */}
                 <Grid container spacing={2}>
                   <Grid item xs={12}>
                     <Box
@@ -161,9 +166,35 @@ const Documents = () => {
                     </Box>
                   </Grid>
                 </Grid>
-              ) : null}
+                <Grid container spacing={2}>
+                <Grid item xs={12}>
+                  <Typography variant='h6'>Certificate of Insurance</Typography>
+                </Grid>
+                <Grid item xs={12}>
+                  <Box
+                    width={'100%'}
+                    display='flex'
+                    alignItems='center'
+                    justifyContent='center'
+                    textAlign='center'
+                    sx={{
+                      height: '130px',
+                      border: '2px dotted ',
+                      borderColor: (theme: Theme) =>
+                        theme.palette.secondary.main
+                    }}
+                  >
+                    <Box>
+                      <FileUploadOutlined />
+                      <Typography>Drag & Drop or <Upload/> to Upload</Typography>
+                      <Typography variant='caption'>Jpg,Png,Pdf or Doc</Typography>
+                    </Box>
+                  </Box>
+                </Grid>
+              </Grid>
+              {/* ) : null} */}
             </>
-          ))}
+          {/* ))} */}
 
           <Grid container item spacing={2}>
             <Grid item xs={6}>
