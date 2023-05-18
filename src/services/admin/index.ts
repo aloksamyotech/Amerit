@@ -8,7 +8,6 @@ export const saveAdminProfileDetails = async (payload: Profile) => {
   const response = await axiosClient.post<Profile>('/VendorProfile', data);
   console.log(response);
 
-  
   return response.data;
 };
 
@@ -76,8 +75,15 @@ export const getAdminDocumentsdetails = async () => {
 };
 
 export const saveAdminTermsDetails = async (payload: any) => {
-  const data = { detail: { ...payload } };
-  const response = await axiosClient.post(`/VendorProfile`, data);
+  try {
+    console.log(payload);
+    const response = await axiosClient.post(
+      `/VendorProfile/TermsAgreed/${payload.id}?agreed=${payload.agreed}`
+    );
+    console.log(response);
 
-  return response.data;
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
 };
