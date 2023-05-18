@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
+import { useQuery } from 'react-query';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
   Box,
@@ -56,20 +57,16 @@ const AdminContact = () => {
 
     resolver: yupResolver(ContactFormSchema as any)
   });
+
+  useQuery(['contactTypes'], () =>
+    GetContactTypes().then((data) => setContactTypes(data))
+  );
+
   const onSubmit = (data: typeof defaultValues) => {
     updateTab(1);
     handleProgress('contact');
     AddContacts(data, Number(values?.userid));
   };
-
-  const getContactTypes = async () => {
-    const data = await GetContactTypes();
-    setContactTypes(data);
-  };
-
-  useEffect(() => {
-    getContactTypes();
-  }, []);
 
   return (
     <Box width={'100%'} sx={{ marginLeft: '1.0rem', marginRight: '1.0rem' }}>
