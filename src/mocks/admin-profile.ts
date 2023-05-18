@@ -66,33 +66,33 @@ export const CheckboxList = {
   ]
 };
 
-export const TitleList = [
-  {
-    title: 'ACH Form',
-    document: 'Uploading...',
-    name: 'please wait'
-  },
-  {
-    title: 'Certificate of Insurance',
-    document: 'Drag & Drop or Choose file to upload',
-    name: 'Jpg, Png, Pdf or Doc'
-  },
-  {
-    title: 'Workers’ Compensation',
-    document: 'Drag & Drop or Choose file to upload',
-    name: 'Jpg, Png, Pdf or Doc'
-  },
-  {
-    title: 'Inspector Qualifications 396.19',
-    document: 'Drag & Drop or Choose file to upload',
-    name: 'Jpg, Png, Pdf or Doc'
-  },
-  {
-    title: 'Brake Inspector Qualifications 396.25',
-    document: 'Drag & Drop or Choose file to upload',
-    name: 'Jpg, Png, Pdf or Doc'
-  }
-];
+// export const TitleList = [
+//   {
+//     title: 'ACH Form',
+//     document: 'Uploading...',
+//     name: 'please wait'
+//   },
+//   {
+//     title: 'Certificate of Insurance',
+//     document: 'Drag & Drop or Choose file to upload',
+//     name: 'Jpg, Png, Pdf or Doc'
+//   },
+//   {
+//     title: 'Workers’ Compensation',
+//     document: 'Drag & Drop or Choose file to upload',
+//     name: 'Jpg, Png, Pdf or Doc'
+//   },
+//   {
+//     title: 'Inspector Qualifications 396.19',
+//     document: 'Drag & Drop or Choose file to upload',
+//     name: 'Jpg, Png, Pdf or Doc'
+//   },
+//   {
+//     title: 'Brake Inspector Qualifications 396.25',
+//     document: 'Drag & Drop or Choose file to upload',
+//     name: 'Jpg, Png, Pdf or Doc'
+//   }
+// ];
 
 export const InputList = [
   {
