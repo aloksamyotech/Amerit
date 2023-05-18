@@ -1,4 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
+import { useMutation } from 'react-query';
+import { useRouter } from 'next/router';
 import MaterialReactTable, { MRT_Icons } from 'material-react-table';
 import { Box, Button, useTheme } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -9,7 +11,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSortDown, faSortUp } from '@fortawesome/free-solid-svg-icons';
 import { columns } from './Columns';
 import { EditableCell } from './EditableCell';
-import { EstimateTable } from '../types';
+import { EstimateTable, JobSectionLine } from '../types';
+import {
+  deleteJobSectionEstimateRow,
+  createJobSectionEstimateRow
+} from 'src/services/estimate';
 
 const Table = ({
   setVendorsEstimateList,
@@ -23,9 +29,13 @@ const Table = ({
   setTowing,
   setTravel,
   types,
+  sectionId,
+  vmrs
 }: EstimateTable) => {
   const theme = useTheme();
-  const [data, setData] = useState(estimateList);
+  const router = useRouter();
+  const { vendorRepairOrderId } = router.query;
+  const [data, setData] = useState(estimateList || []);
   const [index, setIndex] = useState(-1);
   const [rowIndexToUpdate, setRowIndexToUpdate] = useState(-1);
   const [qtyText, setQtyText] = useState(0);
@@ -36,7 +46,116 @@ const Table = ({
   const [typeText, setTypeText] = useState('');
   const [partDescriptionText, setPartDescriptionText] = useState('');
   const [mfgPartNumberText, setMfgPartNumberText] = useState('');
+  const [isRowValidationFulfilled, setIsRowValidationFulfilled] = useState(false);
+  const [rowToDeleteId, setRowToDeleteId] = useState<number>();
+  const [addRow, setAddRow] = useState<JobSectionLine>({} as JobSectionLine);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  const { mutate: deleteTableRow } = useMutation<any, Error>(async () => {
+    return (
+      rowToDeleteId &&
+      (await deleteJobSectionEstimateRow(
+        Number(vendorRepairOrderId || 0),
+        sectionId || 0,
+        rowToDeleteId
+      ))
+    );
+  });
+
+  const { mutate: postTableRow } = useMutation<any, Error>(async () => {
+    return (
+      addRow &&
+      (await createJobSectionEstimateRow(
+        addRow,
+        sectionId || 0,
+        Number(vendorRepairOrderId || 0)
+      ))
+    );
+  });
+
+  useEffect(() => {
+    if (addRow) {
+      postTableRow();
+    }
+  }, [addRow]);
+
+  const typeRef = useRef<HTMLInputElement>(null);
+  const partDescriptionTextRef = useRef<HTMLInputElement>(null);
+  const mfgPartNumberTextRef = useRef<HTMLInputElement>(null);
+  const qtyTextRef = useRef<HTMLInputElement>(null);
+  const chargeTextRef = useRef<HTMLInputElement>(null);
+
+  const triggerValidation = (
+    reference: React.RefObject<HTMLInputElement>,
+    field: string | number
+  ): boolean => {
+    if (reference) {
+      if (reference.current) {
+        if (field == '' || field == 0) {
+          reference.current.style.display = 'block';
+          reference.current.style.color = theme.palette.error.main;
+          reference.current.style.border = 'none';
+          reference.current.style.background = 'transparent';
+          reference.current.value = 'Required';
+          reference.current.style.fontWeight = '400';
+          reference.current.style.fontSize = '12px';
+
+          setIsRowValidationFulfilled(false);
+          setSaveRow(false);
+
+          return false;
+        } else {
+          reference.current.style.display = 'none';
+          setIsRowValidationFulfilled(true);
+
+          return true;
+        }
+      }
+    }
+
+    return false;
+  };
+
+  useEffect(() => {
+    triggerValidation(typeRef, typeText);
+  }, [typeText]);
+
+  useEffect(() => {
+    triggerValidation(partDescriptionTextRef, partDescriptionText);
+  }, [partDescriptionText]);
+
+  useEffect(() => {
+    triggerValidation(mfgPartNumberTextRef, mfgPartNumberText);
+  }, [mfgPartNumberText]);
+
+  useEffect(() => {
+    triggerValidation(qtyTextRef, qtyText);
+  }, [qtyText]);
+
+  useEffect(() => {
+    triggerValidation(chargeTextRef, chargeText);
+  }, [chargeText]);
+
+  const saveTableRow = () => {
+    const detail: JobSectionLine = {
+      jobType: typeText,
+      vrmsCode: vmrs,
+      vrmsDescription: 'vrms description',
+      partNumber: mfgPartNumberText,
+      quantity: qtyText,
+      charge: chargeText,
+      total: totalText,
+
+      // partDescription: partDescriptionText,
+    };
+    setAddRow(detail);
+  };
+
+  useEffect(() => {
+    if (rowToDeleteId) {
+      deleteTableRow();
+    }
+  }, [rowToDeleteId]);
 
   useEffect(() => {
     setTotalText(qtyText * chargeText);
@@ -126,41 +245,96 @@ const Table = ({
         ...data,
         {
           type: (
-            <EditableCell
-              rowIndex={rowIndex}
-              accessorKey='type'
-              handleSaveRow={handleSaveRow}
-              isTypeSelect={true}
-              types={types}
-            />
+            <Box>
+              <EditableCell
+                rowIndex={rowIndex}
+                accessorKey='type'
+                handleSaveRow={handleSaveRow}
+                isTypeSelect={true}
+                types={types}
+              />
+              <Box sx={{ height: '12px' }}>
+                <input
+                  type={'text'}
+                  ref={typeRef}
+                  value=''
+                  style={{ display: 'none', width: '58px' }}
+                  disabled
+                />
+              </Box>
+            </Box>
           ),
           partDescription: (
-            <EditableCell
-              rowIndex={rowIndex}
-              accessorKey='partDescription'
-              handleSaveRow={handleSaveRow}
-            />
+            <Box>
+              <EditableCell
+                rowIndex={rowIndex}
+                accessorKey='partDescription'
+                handleSaveRow={handleSaveRow}
+              />
+              <Box sx={{ height: '12px' }}>
+                <input
+                  type={'text'}
+                  ref={partDescriptionTextRef}
+                  value=''
+                  disabled
+                  style={{ display: 'none' }}
+                />
+              </Box>
+            </Box>
           ),
           mfgPartNumber: (
-            <EditableCell
-              rowIndex={rowIndex}
-              accessorKey='mfgPartNumber'
-              handleSaveRow={handleSaveRow}
-            />
+            <Box>
+              <EditableCell
+                rowIndex={rowIndex}
+                accessorKey='mfgPartNumber'
+                handleSaveRow={handleSaveRow}
+              />
+              <Box sx={{ height: '12px' }}>
+                <input
+                  type={'text'}
+                  ref={mfgPartNumberTextRef}
+                  value=''
+                  disabled
+                  style={{ display: 'none' }}
+                />
+              </Box>
+            </Box>
           ),
           qty: (
-            <EditableCell
-              rowIndex={rowIndex}
-              accessorKey='qty'
-              handleSaveRow={handleSaveRow}
-            />
+            <Box>
+              <EditableCell
+                rowIndex={rowIndex}
+                accessorKey='qty'
+                handleSaveRow={handleSaveRow}
+              />
+              <Box sx={{ height: '12px' }}>
+                <input
+                  type={'text'}
+                  ref={qtyTextRef}
+                  value=''
+                  style={{ display: 'none', width: '58px' }}
+                  disabled
+                />
+              </Box>
+            </Box>
           ),
           charge: (
-            <EditableCell
-              rowIndex={rowIndex}
-              accessorKey='charge'
-              handleSaveRow={handleSaveRow}
-            />
+            <Box>
+              <EditableCell
+                rowIndex={rowIndex}
+                accessorKey='charge'
+                handleSaveRow={handleSaveRow}
+              />
+              <Box sx={{ height: '12px' }}>
+                <input
+                  type={'text'}
+                  ref={chargeTextRef}
+                  value=''
+                  style={{ display: 'none', width: '58px' }}
+                  disabled
+                />
+              </Box>
+            </Box>
           ),
           total: (
             <input
@@ -197,6 +371,8 @@ const Table = ({
   };
 
   const handleDeleteClick = (rowIndex: number) => {
+    const { id } = data[rowIndex];
+    setRowToDeleteId(id || 0);
     setIndex(rowIndex);
     setRefresh(true);
   };
@@ -224,27 +400,54 @@ const Table = ({
   };
 
   useEffect(() => {
-    if (rowIndexToUpdate > -1 && saveRow) {
-      data[rowIndexToUpdate]['type'] = typeText;
-      data[rowIndexToUpdate]['partDescription'] = partDescriptionText;
-      data[rowIndexToUpdate]['mfgPartNumber'] = mfgPartNumberText;
-      data[rowIndexToUpdate]['qty'] = qtyText;
-      data[rowIndexToUpdate]['charge'] = chargeText;
-      data[rowIndexToUpdate]['total'] = totalText;
-      setData([...data]);
-      setVendorsEstimateList([...data]);
-      setSaveRow(false);
-    }
+    if (isRowValidationFulfilled) {
+      if (rowIndexToUpdate > -1 && saveRow) {
+        data[rowIndexToUpdate]['type'] = typeText;
+        data[rowIndexToUpdate]['partDescription'] = partDescriptionText;
+        data[rowIndexToUpdate]['mfgPartNumber'] = mfgPartNumberText;
+        data[rowIndexToUpdate]['qty'] = qtyText;
+        data[rowIndexToUpdate]['charge'] = chargeText;
+        data[rowIndexToUpdate]['total'] = totalText;
+        setData([...data]);
+        setVendorsEstimateList([...data]);
+        setSaveRow(false);
+        saveTableRow();
+      }
 
-    if (!saveRow) {
-      setTypeText('');
-      setPartDescriptionText('');
-      setMfgPartNumberText('');
-      setQtyText(0);
-      setChargeText(0);
-      setTotalText(0);
+      if (!saveRow) {
+        setTypeText('');
+        setPartDescriptionText('');
+        setMfgPartNumberText('');
+        setQtyText(0);
+        setChargeText(0);
+        setTotalText(0);
+      }
     }
   }, [saveRow]);
+
+  const handleSaveClick = () => {
+    const activeValidations = [];
+    let isFulfilled: boolean = false;
+
+    isFulfilled = triggerValidation(typeRef, typeText);
+    if (isFulfilled) activeValidations.push(isFulfilled);
+
+    isFulfilled = triggerValidation(partDescriptionTextRef, partDescriptionText);
+    if (isFulfilled) activeValidations.push(isFulfilled);
+
+    isFulfilled = triggerValidation(mfgPartNumberTextRef, mfgPartNumberText);
+    if (isFulfilled) activeValidations.push(isFulfilled);
+
+    isFulfilled = triggerValidation(qtyTextRef, qtyText);
+    if (isFulfilled) activeValidations.push(isFulfilled);
+
+    isFulfilled = triggerValidation(chargeTextRef, chargeText);
+    if (isFulfilled) activeValidations.push(isFulfilled);
+
+    if (activeValidations.length === 5) {
+      setSaveRow(true);
+    }
+  };
 
   return (
     <>
@@ -298,7 +501,7 @@ const Table = ({
               }}
             >
               {row.original.charge?.props && (
-                <IconButton onClick={() => setSaveRow(true)}>
+                <IconButton onClick={handleSaveClick}>
                   <SaveIcon fontSize="small" />
                 </IconButton>
               )}

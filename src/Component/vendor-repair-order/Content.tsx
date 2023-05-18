@@ -147,7 +147,7 @@ const Content = ({
                 <Typography sx={formValue}>XX 999,999.00 XX</Typography>
               )}
             </Grid>
-            <Grid item xs={6} lg={3}>
+            <Grid item xs={6} lg={3} sx={{ alignSelf: 'end' }}>
               <Button
                 disableElevation={true}
                 onClick={() => alert('Measurement placeholder')}

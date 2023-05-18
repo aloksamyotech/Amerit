@@ -27,4 +27,5 @@ const ProfileFormSchema = yup.object().shape({
   toolsAndSupplies: yup.boolean(),
   oemDealer: yup.boolean()
 });
+
 export default ProfileFormSchema;

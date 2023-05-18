@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { useState } from 'react';
 import {
   Paper,
   Typography,
@@ -64,9 +63,9 @@ const AdminProfile = () => {
 
   const onSubmit = async (data: Profile) => {
     const userid = await saveAdminProfileDetails(data);
-    handleProgress('profile');
-    updateTab(0);
     setUserid(Number(userid));
+    updateTab(0);
+    handleProgress('profile');
   };
 
   return (

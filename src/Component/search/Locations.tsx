@@ -26,7 +26,18 @@ const Locations = ({
       value={value === '' ? '1' : value}
       onChange={onChange}
       displayEmpty
-      sx={{ width: '100%', fontSize: '12px' }}
+      sx={{
+        width: '100%',
+        fontSize: '12px',
+
+        /* Provide a "Location" placeholder */
+        '& .MuiSelect-select .notranslate::after': 'Location'
+          ? {
+              content: '"Location"',
+              opacity: 0.42
+            }
+          : {}
+      }}
       SelectDisplayProps={{
         style: {
           paddingTop: 8,
