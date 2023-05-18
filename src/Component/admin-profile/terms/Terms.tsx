@@ -16,7 +16,7 @@ import { useProfile } from '../context/ProfileContext';
 import { saveAdminTermsDetails } from 'src/services/admin';
 
 const Terms = () => {
-  const { updateTab, handleProgress } = useProfile();
+  const { updateTab, handleProgress, values } = useProfile();
   const [isAgree, setIsAgree] = useState<boolean>(false);
   const handlechange = (event: any) => {
     console.log(event.target.checked);
@@ -24,7 +24,7 @@ const Terms = () => {
   };
   const handleSubmit = () => {
     saveAdminTermsDetails({
-      id: 15,
+      id: Number(values?.userid),
       agreed: isAgree
     });
     handleProgress('terms');
