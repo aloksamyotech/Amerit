@@ -34,6 +34,7 @@ const VendorRepairOrder = () => {
         key={nextJobSectionId}
         sectionNumber={nextJobSectionId}
         removeElement={removeJobSection}
+        defaultExpanded={true}
       />
     ]);
   };

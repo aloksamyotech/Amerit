@@ -27,6 +27,7 @@ const EditJobSectionItem = ({
   type,
   id,
   tmsRepairOrderSectionId,
+  vmrs,
 }: Estimate) => {
   const defaultValues: CreateJobSection = {
     cause,
@@ -244,6 +245,8 @@ const EditJobSectionItem = ({
         type={type}
         setTotalEstimate={setTotalEstmateAmount}
         setTotalActual={setTotalActualAmount}
+        sectionId={tmsRepairOrderSectionId}
+        vmrs={vmrs}
       />
     </Box>
   );

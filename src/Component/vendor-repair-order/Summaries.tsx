@@ -24,9 +24,9 @@ const Summaries = () => {
 
   const summariseLineItems = (summary: Summary) => {
     jobSectionsData?.jobSections?.map((jobSection) => {
-      if (jobSection?.vroLines) {
+      if (jobSection?.lines) {
         // TODO: Add correct type on lineItem, currently one doesn't exist
-        jobSection.vroLines.forEach((lineItem: any) => {
+        jobSection.lines.forEach((lineItem: any) => {
           const lineItemType = lineItem.vroLineTypeCode;
           const propName = MAP_LINE_ITEM_TYPES_TO_PROP[
             lineItemType

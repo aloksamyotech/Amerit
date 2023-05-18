@@ -3,21 +3,29 @@ import { VMRS_MOCKS } from 'src/mocks/estimate';
 import {
   CreateJobSection,
   Estimate,
-  JobSectionEstimate
+  JobSectionEstimate,
+  JobSectionLine
 } from '@components/estimate/job-section/types';
 
 const API_ENDPOINT = 'https://vendorportalbeaps-dev.azurewebsites.net/api'; // TODO: put this in a config
 
 export const jobs = (id: string) => {
-  if (typeof id === 'string') { // TODO - find a better way to handle this
+  if (typeof id === 'string') {
+    // TODO - find a better way to handle this
     return axios
-    .get(`${API_ENDPOINT}/RepairOrders/${id}/section`)
-    .then((res) => res.data);
+      .get(`${API_ENDPOINT}/RepairOrders/${id}/section`)
+      .then((res) => res.data);
   }
 };
 
 export const types = () => {
-  const url = `${API_ENDPOINT}/JobTypes/categories`;
+  const url = `${API_ENDPOINT}/SectionTypes`;
+
+  return axios.get(url).then((res) => res.data);
+};
+
+export const sectionTypes = (id: number) => {
+  const url = `${API_ENDPOINT}/SectionTypes/${id}`;
 
   return axios.get(url).then((res) => res.data);
 };
@@ -82,8 +90,32 @@ export const createJobSectionActual = async (request: JobSectionEstimate) => {
 
 export const deleteJobSection = (id: number, sectionId: number) => {
   return axios
+    .delete(`${API_ENDPOINT}/RepairOrders/${id}/section/${sectionId}`)
+    .then((res) => res.data);
+};
+
+export const deleteJobSectionEstimateRow = (
+  id: number,
+  sectionId: number,
+  lineId: number
+) => {
+  return axios
     .delete(
-      `${API_ENDPOINT}/RepairOrders/${id}/section/${sectionId}`
+      `${API_ENDPOINT}/RepairOrders/${id}/section/${sectionId}/line/${lineId}`
     )
     .then((res) => res.data);
+};
+
+export const createJobSectionEstimateRow = async (
+  request: JobSectionLine,
+  sectionId: number,
+  id: number
+) => {
+  return axios
+    .post(`${API_ENDPOINT}/RepairOrders/${id}/section/${sectionId}/line`, {
+      ...request
+    })
+    .then((response) => {
+      console.log(response);
+    });
 };

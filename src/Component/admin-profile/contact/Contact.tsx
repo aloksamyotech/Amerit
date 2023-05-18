@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
 import {
   Box,
   Button,
@@ -11,39 +12,64 @@ import {
   Typography
 } from '@mui/material';
 import { style } from '@components/admin-profile/style';
-import { Contact as ContactProps } from './types';
+import ContactFormSchema from './schema';
 import { useProfile } from '../context/ProfileContext';
+import { AddContacts, GetContactTypes } from 'src/services/admin';
 
-const defaultValues: ContactProps = {
-  principleName: '',
-  principleTitle: '',
-  primaryName: '',
-  primaryPhone: '',
-  primaryEmail: '',
-  accountName: '',
-  accountPhone: '',
-  accountEmail: '',
-  companyName: '',
-  companyPhone: '',
-  companyEmail: ''
+const defaultValues = {
+  principalPersonTitle: '',
+  principalPerson: '',
+  otherContacts: [
+    {
+      name: '',
+      email: '',
+      phone: '',
+      contactType: 0
+    },
+    {
+      name: '',
+      email: '',
+      phone: '',
+      contactType: 1
+    },
+    {
+      name: '',
+      email: '',
+      phone: '',
+      contactType: 2
+    }
+  ]
 };
 
-const Contact = () => {
-  const { updateTab, handleProgress } = useProfile();
+const AdminContact = () => {
+  const { updateTab, handleProgress, values } = useProfile();
+
+  const [contactTypes, setContactTypes] =
+    useState<Array<{ value: number; name: string }>>();
 
   const {
     control,
     handleSubmit,
     formState: { errors }
-  } = useForm<ContactProps>({
-    defaultValues
-  });
+  } = useForm({
+    defaultValues,
 
-  const onSubmit = (data: ContactProps) => {
+    resolver: yupResolver(ContactFormSchema as any)
+  });
+  const onSubmit = (data: typeof defaultValues) => {
     updateTab(1);
     handleProgress('contact');
-    console.log({ data });
+    AddContacts(data, Number(values?.userid));
   };
+
+  const getContactTypes = async () => {
+    const data = await GetContactTypes();
+    setContactTypes(data);
+  };
+
+  useEffect(() => {
+    getContactTypes();
+  }, []);
 
   return (
     <Box width={'100%'} sx={{ marginLeft: '1.0rem', marginRight: '1.0rem' }}>
@@ -58,7 +84,7 @@ const Contact = () => {
                 <Grid item xs={6}>
                   <Box width={'100%'}>
                     <Controller
-                      name='principleName'
+                      name='principalPerson'
                       control={control}
                       render={({ field: { value, onChange } }: any) => (
                         <Box>
@@ -67,18 +93,18 @@ const Contact = () => {
                             sx={style}
                             value={value}
                             onChange={onChange}
-                            data-testid='principleName'
+                            data-testid='principalPerson'
                             placeholder='Name'
-                            error={Boolean(errors.principleName)}
+                            error={Boolean(errors.principalPerson)}
                           />
                         </Box>
                       )}
                     />
-                    {errors.principleName && (
+                    {errors.principalPerson && (
                       <FormHelperText
                         sx={{ color: 'error.main', marginLeft: '0px' }}
                       >
-                        {errors.principleName.message}
+                        {errors.principalPerson.message}
                       </FormHelperText>
                     )}
                   </Box>
@@ -86,7 +112,7 @@ const Contact = () => {
                 <Grid item xs={6}>
                   <Box width={'100%'}>
                     <Controller
-                      name='principleTitle'
+                      name='principalPersonTitle'
                       control={control}
                       render={({ field: { value, onChange } }: any) => (
                         <Box>
@@ -95,290 +121,126 @@ const Contact = () => {
                             sx={style}
                             value={value}
                             onChange={onChange}
-                            data-testid='principleTitle'
+                            data-testid='principalPersonTitle'
                             placeholder='Title'
-                            error={Boolean(errors.principleTitle)}
+                            error={Boolean(errors.principalPersonTitle)}
                           />
                         </Box>
                       )}
                     />
-                    {errors.principleTitle && (
+                    {errors.principalPersonTitle && (
                       <FormHelperText
                         sx={{ color: 'error.main', marginLeft: '0px' }}
                       >
-                        {errors.principleTitle.message}
+                        {errors.principalPersonTitle.message}
                       </FormHelperText>
                     )}
                   </Box>
                 </Grid>
               </Grid>
-              <Grid container item spacing={2}>
-                <Grid item xs={12}>
-                  <Typography>Primary Contact</Typography>
-                </Grid>
-                <Grid item xs={6}>
-                  <Box width={'100%'}>
-                    <Controller
-                      name='primaryName'
-                      control={control}
-                      render={({ field: { value, onChange } }: any) => (
-                        <Box>
-                          <TextField
-                            size='small'
-                            sx={style}
-                            value={value}
-                            onChange={onChange}
-                            data-testid='primaryName'
-                            placeholder='Name'
-                            error={Boolean(errors.primaryName)}
+
+              {contactTypes &&
+                contactTypes.map((item, index: number) => {
+                  return (
+                    <Grid key={item.value} container item spacing={2}>
+                      <Grid item xs={12}>
+                        <Typography>{` ${item.name} Contact `}</Typography>
+                      </Grid>
+                      <Grid item xs={6}>
+                        <Box width={'100%'}>
+                          <Controller
+                            name={`otherContacts.${index}.name`}
+                            control={control}
+                            render={({ field: { value, onChange } }: any) => (
+                              <Box>
+                                <TextField
+                                  size='small'
+                                  sx={style}
+                                  value={value}
+                                  onChange={onChange}
+                                  data-testid={`otherContacts[${index}].name`}
+                                  placeholder='Name'
+                                  error={Boolean(
+                                    errors.otherContacts?.[index]?.name
+                                  )}
+                                />
+                              </Box>
+                            )}
                           />
+                          {errors.otherContacts?.[index]?.name && (
+                            <FormHelperText
+                              sx={{ color: 'error.main', marginLeft: '0px' }}
+                            >
+                              {errors.otherContacts?.[index]?.name?.message}
+                            </FormHelperText>
+                          )}
                         </Box>
-                      )}
-                    />
-                    {errors.primaryName && (
-                      <FormHelperText
-                        sx={{ color: 'error.main', marginLeft: '0px' }}
-                      >
-                        {errors.primaryName.message}
-                      </FormHelperText>
-                    )}
-                  </Box>
-                </Grid>
-                <Grid item xs={6}>
-                  <Box width={'100%'}>
-                    <Controller
-                      name='primaryEmail'
-                      control={control}
-                      render={({ field: { value, onChange } }: any) => (
-                        <Box>
-                          <TextField
-                            size='small'
-                            sx={style}
-                            value={value}
-                            onChange={onChange}
-                            data-testid='primaryEmail'
-                            placeholder='Email'
-                            error={Boolean(errors.primaryEmail)}
+                      </Grid>
+                      <Grid item xs={6}>
+                        <Box width={'100%'}>
+                          <Controller
+                            name={`otherContacts.${index}.email`}
+                            control={control}
+                            render={({ field: { value, onChange } }: any) => (
+                              <Box>
+                                <TextField
+                                  size='small'
+                                  value={value}
+                                  sx={style}
+                                  onChange={onChange}
+                                  data-testid={`otherContacts[${index}].email`}
+                                  placeholder='Email'
+                                  error={Boolean(
+                                    errors.otherContacts?.[index]?.email
+                                  )}
+                                />
+                              </Box>
+                            )}
                           />
+                          {errors.otherContacts?.[index]?.email && (
+                            <FormHelperText
+                              sx={{ color: 'error.main', marginLeft: '0px' }}
+                            >
+                              {errors.otherContacts?.[index]?.email?.message}
+                            </FormHelperText>
+                          )}
                         </Box>
-                      )}
-                    />
-                    {errors.primaryEmail && (
-                      <FormHelperText
-                        sx={{ color: 'error.main', marginLeft: '0px' }}
-                      >
-                        {errors.primaryEmail.message}
-                      </FormHelperText>
-                    )}
-                  </Box>
-                </Grid>
-                <Grid item xs={6}>
-                  <Box width={'100%'}>
-                    <Controller
-                      name='primaryPhone'
-                      control={control}
-                      render={({ field: { value, onChange } }: any) => (
-                        <Box>
-                          <TextField
-                            size='small'
-                            sx={style}
-                            value={value}
-                            onChange={onChange}
-                            data-testid='primaryPhone'
-                            placeholder='Phone'
-                            error={Boolean(errors.primaryPhone)}
+                      </Grid>
+
+                      <Grid item xs={6}>
+                        <Box width={'100%'}>
+                          <Controller
+                            name={`otherContacts.${index}.phone`}
+                            control={control}
+                            render={({ field: { value, onChange } }: any) => (
+                              <Box>
+                                <TextField
+                                  size='small'
+                                  sx={style}
+                                  value={value}
+                                  onChange={onChange}
+                                  data-testid={`otherContacts[${index}].phone`}
+                                  placeholder='Phone'
+                                  error={Boolean(
+                                    errors.otherContacts?.[index]?.phone
+                                  )}
+                                />
+                              </Box>
+                            )}
                           />
+                          {errors.otherContacts?.[index]?.phone && (
+                            <FormHelperText
+                              sx={{ color: 'error.main', marginLeft: '0px' }}
+                            >
+                              {errors.otherContacts?.[index]?.phone?.message}
+                            </FormHelperText>
+                          )}
                         </Box>
-                      )}
-                    />
-                    {errors.primaryPhone && (
-                      <FormHelperText
-                        sx={{ color: 'error.main', marginLeft: '0px' }}
-                      >
-                        {errors.primaryPhone.message}
-                      </FormHelperText>
-                    )}
-                  </Box>
-                </Grid>
-              </Grid>
-              <Grid container item spacing={2}>
-                <Grid item xs={12}>
-                  <Typography>Account Receivables Contact</Typography>
-                </Grid>
-                <Grid item xs={6}>
-                  <Box width={'100%'}>
-                    <Controller
-                      name='accountName'
-                      control={control}
-                      render={({ field: { value, onChange } }: any) => (
-                        <Box>
-                          <TextField
-                            size='small'
-                            sx={style}
-                            value={value}
-                            onChange={onChange}
-                            data-testid='accountName'
-                            placeholder='Name'
-                            error={Boolean(errors.accountName)}
-                          />
-                        </Box>
-                      )}
-                    />
-                    {errors.accountName && (
-                      <FormHelperText
-                        sx={{ color: 'error.main', marginLeft: '0px' }}
-                      >
-                        {errors.accountName.message}
-                      </FormHelperText>
-                    )}
-                  </Box>
-                </Grid>
-                <Grid item xs={6}>
-                  <Box width={'100%'}>
-                    <Controller
-                      name='accountEmail'
-                      control={control}
-                      render={({ field: { value, onChange } }: any) => (
-                        <Box>
-                          <TextField
-                            size='small'
-                            sx={style}
-                            value={value}
-                            onChange={onChange}
-                            data-testid='accountEmail'
-                            placeholder='Email'
-                            error={Boolean(errors.accountEmail)}
-                          />
-                        </Box>
-                      )}
-                    />
-                    {errors.accountEmail && (
-                      <FormHelperText
-                        sx={{ color: 'error.main', marginLeft: '0px' }}
-                      >
-                        {errors.accountEmail.message}
-                      </FormHelperText>
-                    )}
-                  </Box>
-                </Grid>
-                <Grid item xs={6}>
-                  <Box width={'100%'}>
-                    <Controller
-                      name='accountPhone'
-                      control={control}
-                      render={({ field: { value, onChange } }: any) => (
-                        <Box>
-                          <TextField
-                            size='small'
-                            sx={style}
-                            value={value}
-                            onChange={onChange}
-                            data-testid='accountPhone'
-                            placeholder='Phone'
-                            error={Boolean(errors.accountPhone)}
-                          />
-                        </Box>
-                      )}
-                    />
-                    {errors.accountPhone && (
-                      <FormHelperText
-                        sx={{ color: 'error.main', marginLeft: '0px' }}
-                      >
-                        {errors.accountPhone.message}
-                      </FormHelperText>
-                    )}
-                  </Box>
-                </Grid>
-              </Grid>
-              <Grid container item spacing={2}>
-                <Grid item xs={12}>
-                  <Typography>Your Company Insurance Contact</Typography>
-                </Grid>
-                <Grid item xs={6}>
-                  <Box width={'100%'}>
-                    <Controller
-                      name='companyName'
-                      control={control}
-                      render={({ field: { value, onChange } }: any) => (
-                        <Box>
-                          <TextField
-                            size='small'
-                            sx={style}
-                            value={value}
-                            onChange={onChange}
-                            data-testid='companyName'
-                            placeholder='Name'
-                            error={Boolean(errors.companyName)}
-                          />
-                        </Box>
-                      )}
-                    />
-                    {errors.companyName && (
-                      <FormHelperText
-                        sx={{ color: 'error.main', marginLeft: '0px' }}
-                      >
-                        {errors.companyName.message}
-                      </FormHelperText>
-                    )}
-                  </Box>
-                </Grid>
-                <Grid item xs={6}>
-                  <Box width={'100%'}>
-                    <Controller
-                      name='companyEmail'
-                      control={control}
-                      render={({ field: { value, onChange } }: any) => (
-                        <Box>
-                          <TextField
-                            size='small'
-                            sx={style}
-                            value={value}
-                            onChange={onChange}
-                            data-testid='companyEmail'
-                            placeholder='Email'
-                            error={Boolean(errors.companyEmail)}
-                          />
-                        </Box>
-                      )}
-                    />
-                    {errors.companyEmail && (
-                      <FormHelperText
-                        sx={{ color: 'error.main', marginLeft: '0px' }}
-                      >
-                        {errors.companyEmail.message}
-                      </FormHelperText>
-                    )}
-                  </Box>
-                </Grid>
-                <Grid item xs={6}>
-                  <Box width={'100%'}>
-                    <Controller
-                      name='companyPhone'
-                      control={control}
-                      render={({ field: { value, onChange } }: any) => (
-                        <Box>
-                          <TextField
-                            size='small'
-                            sx={style}
-                            value={value}
-                            onChange={onChange}
-                            data-testid='companyPhone'
-                            placeholder='Phone'
-                            error={Boolean(errors.companyPhone)}
-                          />
-                        </Box>
-                      )}
-                    />
-                    {errors.companyPhone && (
-                      <FormHelperText
-                        sx={{ color: 'error.main', marginLeft: '0px' }}
-                      >
-                        {errors.companyPhone.message}
-                      </FormHelperText>
-                    )}
-                  </Box>
-                </Grid>
-              </Grid>
+                      </Grid>
+                    </Grid>
+                  );
+                })}
+
               <Grid container item spacing={2}>
                 <Grid item xs={6}>
                   <Box width={'100%'} pt={2}>
@@ -401,4 +263,4 @@ const Contact = () => {
   );
 };
 
-export default Contact;
+export default AdminContact;

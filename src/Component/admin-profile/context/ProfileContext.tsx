@@ -18,6 +18,9 @@ const profileContextDefaultValues: profileContext = {
   },
   handleProgress: () => {
     return undefined;
+  },
+  setUserid: () => {
+    return undefined;
   }
 };
 
@@ -35,6 +38,7 @@ type Props = {
 
 export function ProfileProvider({ children }: Props) {
   const [values, setValues] = useState<Values>({
+    userid: 0,
     currentTab: 0,
     isAddNewShop: false,
     isUploadShop: false,
@@ -50,6 +54,8 @@ export function ProfileProvider({ children }: Props) {
   });
   const addNewShop = (state: boolean) =>
     setValues((prev) => ({ ...prev, isAddNewShop: state }));
+  const setUserid = (id: number) =>
+    setValues((prev) => ({ ...prev, userid: id }));
   const uploadShop = (state: boolean) =>
     setValues((prev) => ({ ...prev, isUploadShop: state }));
 
@@ -82,6 +88,7 @@ export function ProfileProvider({ children }: Props) {
     addNewShop,
     uploadShop,
     updateTab,
+    setUserid,
     handleTabChange,
     handleProgress
   };

@@ -12,42 +12,45 @@ const JobSections = () => {
   const { vendorRepairOrderId } = router.query;
 
   return (
-      <Box>
-        {jobSectionsData?.jobSections?.map((job: Estimate) => {
-          const {
-            id,
-            sectionTypeCode,
-            vmrs,
-            complaint,
-            correction,
-            cause,
-            sectionSqNbr,
-            vroLines,
-            estimateAmount,
-            actualAmount,
-            notes,
-          } = job;
+    <Box>
+      {jobSectionsData?.jobSections?.map((job: Estimate) => {
+        const {
+          id,
+          sectionTypeCode,
+          vmrs,
+          complaint,
+          correction,
+          cause,
+          sectionSqNbr,
+          lines,
+          estimateAmount,
+          actualAmount,
+          notes,
+          jobType,
+        } = job;
+       console.log('job', job);
 
-          return (
-            <VroLinesProvider key={sectionSqNbr} data={{ data: vroLines }}>
-              <JobSection
-                key={sectionSqNbr}
-                type={sectionTypeCode}
-                vmrs={vmrs}
-                estimateAmount={estimateAmount}
-                actualAmount={actualAmount}
-                complaint={complaint}
-                cause={cause}
-                correction={correction}
-                notes={notes}
-                sectionNumber={sectionSqNbr}
-                id={Number(vendorRepairOrderId || 0)}
-                tmsRepairOrderSectionId={Number(id || 0)}
-              />
-            </VroLinesProvider>
-          );
-        })}
-      </Box>
+        return (
+          <VroLinesProvider key={sectionSqNbr} data={{ data: lines }}>
+            <JobSection
+              key={sectionSqNbr}
+              type={sectionTypeCode}
+              vmrs={vmrs}
+              estimateAmount={estimateAmount}
+              actualAmount={actualAmount}
+              complaint={complaint}
+              cause={cause}
+              correction={correction}
+              notes={notes}
+              sectionNumber={sectionSqNbr}
+              id={Number(vendorRepairOrderId || 0)}
+              tmsRepairOrderSectionId={Number(id || 0)}
+              jobType={jobType}
+            />
+          </VroLinesProvider>
+        );
+      })}
+    </Box>
   );
 };
 

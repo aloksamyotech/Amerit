@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useMutation, useQuery } from 'react-query';
 import Box from '@mui/material/Box';
 import Tab from '@mui/material/Tab';
@@ -9,28 +9,57 @@ import useJobSection from '@hooks/job-section';
 import LineItemsSummary from '@components/common/line-items-summary/LineItemsSummary';
 import {
   JobSectionEstimate,
+  JobType,
   LineItem,
   VendorEstimateType
 } from '@components/estimate/job-section/types';
-import { VENDOR_ESTIMATE_MOCKS, VENDOR_ACTUAL_MOCKS } from 'src/mocks/estimate';
+import { VENDOR_ACTUAL_MOCKS } from 'src/mocks/estimate';
 import {
   createJobSectionEstimate,
   createJobSectionActual,
-  types
+  types,
+  sectionTypes,
 } from 'src/services/estimate';
 import Table from '../table';
+import { TableContext } from '../VroLinesProvider';
 
 export default function TabsControl({
   type,
   setTotalEstimate,
-  setTotalActual
+  setTotalActual,
+  sectionId,
+  vmrs,
 }: VendorEstimateType) {
   const [value, setValue] = useState('1');
+  const [sectionType, setSectionType] = useState<JobType>();
   const [vendorsEstimateList, setVendorsEstimateList] = useState<LineItem[]>(
     []
   );
   const [vendorsActualList, setVendorsActualList] = useState<LineItem[]>([]);
+  const { mutate: sectionTypeMutate, data: sectionTypesData } = useMutation<
+    any,
+    Error
+  >(async () => {
+    return sectionType && (await sectionTypes(sectionType.id));
+  });
   const { data: typesData } = useQuery(['types'], types);
+  const { data } = useContext(TableContext);
+
+  useEffect(() => {
+    if (type) {
+      const sectionTypeValue: JobType = typesData?.find(
+        (x: JobType) => x.name === type.trim()
+      );
+      setSectionType(sectionTypeValue);
+    }
+  }, [type, typesData]);
+
+  useEffect(() => {
+    if (sectionType) {
+      sectionTypeMutate();
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sectionType]);
 
   // TODO: This whole area needs a refactor. I am not doing it now because Umer is
   // also working in this area and I don't want to cause conflicts. So for now everything
@@ -165,6 +194,31 @@ export default function TabsControl({
     sectionTotal: sectionTotalActual
   };
 
+  const tableRows = data?.map((row: any) => { // TODO - Need to check with BE about the type
+    const {
+      id,
+      vroSectionId,
+      lineDesc1PartNbr,
+      lineDesc2MfgPartDesc,
+      vendEstQty,
+      vendEstUnitAmt,
+      vroLineTypeCode
+    } = row;
+
+    return (
+      {
+        type: vroLineTypeCode,
+        partDescription: lineDesc1PartNbr,
+        mfgPartNumber: lineDesc2MfgPartDesc,
+        qty: vendEstQty,
+        charge: vendEstUnitAmt,
+        total: vendEstQty * vendEstUnitAmt,
+        vroSectionId,
+        id
+      }
+    )
+  });
+
   return (
     <Box sx={{ width: '100%', typography: 'body1' }}>
       <TabContext value={value}>
@@ -201,9 +255,9 @@ export default function TabsControl({
               />
               <Box>
                 <Table
-                  types={typesData}
+                  types={sectionTypesData}
                   setVendorsEstimateList={setVendorsEstimateList}
-                  estimateList={VENDOR_ESTIMATE_MOCKS}
+                  estimateList={tableRows}
                   setParts={setPartsEstimate}
                   setShopSupplies={setShopSuppliesEstimate}
                   setFees={setFeesEstimate}
@@ -212,6 +266,8 @@ export default function TabsControl({
                   setFreight={setFreightEstimate}
                   setTowing={setTowingEstimate}
                   setTravel={setTravelEstimate}
+                  sectionId={sectionId}
+                  vmrs={vmrs}
                 />
               </Box>
               <Box mt={2} display='flex' justifyContent='right'>

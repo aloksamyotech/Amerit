@@ -2,7 +2,7 @@ import { Dispatch, SetStateAction, useEffect } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { useSession } from 'next-auth/react';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Box } from '@mui/material';
+import { Box, useMediaQuery } from '@mui/material';
 import Card from '@mui/material/Card';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
@@ -46,6 +46,8 @@ const Search = ({
   });
 
   const theme = useTheme();
+  const isWideDisplay = useMediaQuery(theme.breakpoints.up('md'));
+
   const { data: session } = useSession();
 
   // There is now a requirement to populate the results on mount
@@ -70,7 +72,7 @@ const Search = ({
     <Card elevation={0}>
       <CardContent>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <Grid container spacing={6} mb={2}>
+          <Grid container spacing={isWideDisplay ? '20px' : '10px'} mb={2}>
             <Grid item xs={12} sm={3}>
               <Box width={'100%'}>
                 <FormControl fullWidth>

@@ -6,7 +6,7 @@ import EditJobSectionItem from './EditJobSectionItem';
 import { Estimate } from './types';
 
 const JobSection = ({
-  type,
+  jobType,
   vmrs,
   estimateAmount,
   actualAmount,
@@ -30,8 +30,8 @@ const JobSection = ({
       <JobAccordion
         heading={
           <JobSectionHeader
-            id={id}
-            type={type}
+            id={tmsRepairOrderSectionId}
+            type={jobType}
             vmrs={vmrs}
             estimateAmount={totalEstimateAmount}
             actualAmount={totalActualAmount}
@@ -39,7 +39,7 @@ const JobSection = ({
         }
         detail={
           <EditJobSectionItem
-            type={type}
+            type={jobType}
             vmrs={vmrs}
             estimateAmount={totalEstimateAmount}
             actualAmount={actualAmount}

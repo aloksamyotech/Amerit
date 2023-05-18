@@ -21,9 +21,11 @@ export interface Estimate {
   correctionText?: string;
   causeText?: string;
   sectionSqNbr?: number;
-  vroLines?: any; // TODO - need to provide types in next ticket
+  jobType?: string;
+  lines?: any; // TODO - need to provide types in next ticket
   setTotalEstmateAmount?: (value?: number) => void;
   setTotalActualAmount?: (value?: number) => void;
+  sectionId?: number;
 }
 
 export interface CreateJobSection {
@@ -39,6 +41,7 @@ export interface CreateJobSection {
 export interface JobSection {
   sectionNumber: number;
   removeElement?: (index: number) => void;
+  defaultExpanded?: boolean;
 }
 
 export interface LineItem {
@@ -48,6 +51,7 @@ export interface LineItem {
   qty: number | ReactElement<any, any>;
   charge: number | ReactElement<any, any>;
   total: number | ReactElement<any, any>;
+  id?: number;
 }
 
 export interface JobType {
@@ -71,6 +75,8 @@ export interface VendorEstimateType {
   setTotalEstimate?: (value: number) => void;
   setTotalActual?: (value: number) => void;
   types?: JobType[];
+  sectionId?: number;
+  vmrs?: string;
 }
 
 export interface JobSectionEstimate {
@@ -98,6 +104,8 @@ export interface EstimateTable {
   setTowing: (value: number) => void;
   setTravel: (value: number) => void;
   availableLineItemTypes?: string[];
+  sectionId?: number;
+  vmrs?: string;
 }
 
 export interface VendorEstimateFields {
@@ -139,4 +147,23 @@ export interface SummaryField {
 export interface JobSectionsContextProvider {
   jobSections: Estimate[];
   refetch: () => void;
+}
+
+export interface JobSectionLine {
+  charge: number;
+  jobType: string;
+  vrmsDescription: string;
+  partNumber: string;
+  quantity: number;
+  total: number;
+  vrmsCode?: string;
+
+  // TODO : need to check with BE
+  // partDescription: string;
+}
+export interface JobAccordionSection {
+  heading: ReactElement<any, any>;
+  detail: ReactElement<any, any>;
+  panelCountText?: string;
+  defaultExpanded?: boolean;
 }

@@ -1,7 +1,7 @@
 import { SelectOptionsProps } from '@components/admin-profile/profile/types/SelectOptionsProps';
 
 export const HEADER_HEIGHT = 69;
-export const CONTENT_MAX_WIDTH = '80vw';
+export const CONTENT_MAX_WIDTH = '1380px';
 export const NAV_WIDTH = 240;
 export const CONTAINER_BORDER_RADIUS = 8;
 

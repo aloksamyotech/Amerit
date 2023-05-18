@@ -30,15 +30,17 @@ const AddJobSectionItem = ({ sectionNumber, removeElement }: JobSection) => {
   const { vendorRepairOrderId } = router.query;
   const { refetch } = useContext(JobSectionsContext);
 
-  const { mutate: postJobSection, isSuccess } = useMutation<any, Error>(async () => {
-    return (
-      addJobSectionPayload &&
-      (await createJobSection(
-        addJobSectionPayload,
-        vendorRepairOrderId as string
-      ))
-    );
-  });
+  const { mutate: postJobSection, isSuccess } = useMutation<any, Error>(
+    async () => {
+      return (
+        addJobSectionPayload &&
+        (await createJobSection(
+          addJobSectionPayload,
+          vendorRepairOrderId as string
+        ))
+      );
+    }
+  );
 
   const style = { ...textFieldStyle };
   const { data: typesData } = useQuery(['types'], types);
@@ -48,7 +50,7 @@ const AddJobSectionItem = ({ sectionNumber, removeElement }: JobSection) => {
     vrms: '',
     cause: '',
     complaint: '',
-    correction:'',
+    correction: '',
     notes: ''
   };
 
@@ -77,8 +79,8 @@ const AddJobSectionItem = ({ sectionNumber, removeElement }: JobSection) => {
 
   useEffect(() => {
     if (isSuccess) {
-     removeElement && removeElement(sectionNumber - 1);
-     refetch();
+      removeElement && removeElement(sectionNumber - 1);
+      refetch();
     }
   }, [isSuccess]);
 
