@@ -19,6 +19,10 @@ const Documents = () => {
   const { updateTab, handleProgress } = useProfile();
 
   const [progress, setProgress] = React.useState(10);
+  const hiddenFileInput = React.useRef<HTMLInputElement>(null);
+  const handleClick = () => {
+    hiddenFileInput?.current?.click();
+  };
 
   React.useEffect(() => {
     const timer = setInterval(() => {
@@ -106,6 +110,7 @@ const Documents = () => {
                     sx={{
                       height: '130px',
                       border: '2px dotted ',
+                      cursor: 'pointer',
                       borderColor: (theme: Theme) =>
                         theme.palette.secondary.main
                     }}
