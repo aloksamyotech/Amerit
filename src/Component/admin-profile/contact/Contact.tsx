@@ -15,7 +15,10 @@ import {
 import { style } from '@components/admin-profile/style';
 import ContactFormSchema from './schema';
 import { useProfile } from '../context/ProfileContext';
-import { AddContacts, GetContactTypes } from 'src/services/admin';
+import {
+  getAdminContactTypes,
+  saveAdminContactDetails
+} from 'src/services/admin';
 
 const defaultValues = {
   principalPersonTitle: '',
@@ -59,13 +62,13 @@ const AdminContact = () => {
   });
 
   useQuery(['contactTypes'], () =>
-    GetContactTypes().then((data) => setContactTypes(data))
+    getAdminContactTypes().then((data) => setContactTypes(data))
   );
 
   const onSubmit = (data: typeof defaultValues) => {
     updateTab(1);
     handleProgress('contact');
-    AddContacts(data, Number(values?.userid));
+    saveAdminContactDetails(data, Number(values?.userid));
   };
 
   return (
