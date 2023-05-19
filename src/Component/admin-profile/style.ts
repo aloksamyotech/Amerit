@@ -18,8 +18,6 @@ export const Input = {
 
 }
 export const Box = {
-  // border:'1px dashed #b6bed1',
-  backgroundColor:'#f0f2f7',
   padding:'34px 10px',
   display: 'flex',
   overflow: 'hidden'

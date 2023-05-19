@@ -17,7 +17,6 @@ import Uploading from './uploading';
 import Upload from './Upload';
 import { getAdminDocumentsdetails } from 'src/services/admin';
 import { useQuery } from 'react-query';
-import { indexOf } from 'cypress/types/lodash';
 import LinearProgressWithLabel from './LinearProgressWithLabel';
 
 const Documents = () => {
@@ -34,8 +33,6 @@ const Documents = () => {
     handleProgress('document');
     updateTab(2);
   };
-
-
   return (
     <Box width={'100%'}>
       <Paper sx={{ padding: '1.5rem' }}>
@@ -143,14 +140,12 @@ const Documents = () => {
             <Grid item xs={12}>
               <Box
                 width={'100%'}
-                display='flex'
+                display='block'
                 alignItems='center'
                 justifyContent='center'
                 textAlign='center'
                 sx={{
-                  height: '130px',
-                  border: '2px dotted ',
-                  borderColor: (theme: Theme) => theme.palette.secondary.main
+                  height: '130px'
                 }}
               >
                 <Upload/>
@@ -164,14 +159,12 @@ const Documents = () => {
             <Grid item xs={12}>
               <Box
                 width={'100%'}
-                display='flex'
+                display='block'
                 alignItems='center'
                 justifyContent='center'
                 textAlign='center'
                 sx={{
-                  height: '130px',
-                  border: '2px dotted ',
-                  borderColor: (theme: Theme) => theme.palette.secondary.main
+                  height: '130px'
                 }}
               >
               <Upload/>
@@ -185,14 +178,12 @@ const Documents = () => {
             <Grid item xs={12}>
               <Box
                 width={'100%'}
-                display='flex'
+                display='block'
                 alignItems='center'
                 justifyContent='center'
                 textAlign='center'
                 sx={{
-                  height: '130px',
-                  border: '2px dotted ',
-                  borderColor: (theme: Theme) => theme.palette.secondary.main
+                  height: '130px'
                 }}
               >
                 <Upload/>
