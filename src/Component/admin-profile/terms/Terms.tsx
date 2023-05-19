@@ -19,7 +19,6 @@ const Terms = () => {
   const { updateTab, handleProgress, values } = useProfile();
   const [isAgree, setIsAgree] = useState<boolean>(false);
   const handlechange = (event: any) => {
-    console.log(event.target.checked);
     setIsAgree(event.target.checked);
   };
   const handleSubmit = () => {

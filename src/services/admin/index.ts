@@ -1,6 +1,5 @@
 import { Profile } from '@components/admin-profile/profile/types/ProfileForm';
 import { ILinearProgressWithLabel } from '@components/admin-profile/documents/types';
-import Contact from '@components/admin-profile/contact/types';
 import { axiosClient } from '..';
 
 export const saveAdminProfileDetails = async (payload: Profile) => {
@@ -36,30 +35,31 @@ export const AddContacts = async (payload: any, id: number) => {
   }
 };
 
-export const saveAdminContactDetails = async (payload: Contact) => {
-  const data = { detail: { ...payload } };
-  const response = await axiosClient.post<Contact>(
-    '/VendorProfile/AddContacts/123',
-    data
-  );
+// export const saveAdminContactDetails = async (payload: Contact) => {
+//   const data = { detail: { ...payload } };
+//   console.log(data);
+//   const response = await axiosClient.post<Contact>(
+//     '/VendorProfile/AddContacts/123',
+//     data
+//   );
 
-  return response.data;
-};
+//   return response.data;
+// };
 
-export const getAdminContactdetails = async () => {
-  const response = await axiosClient.get<Contact>(
-    '/VendorProfile/GetContactTypes'
-  );
+// export const getAdminContactdetails = async () => {
+//   const response = await axiosClient.get<Contact>(
+//     '/VendorProfile/GetContactTypes'
+//   );
 
-  return response.data;
-};
+//   return response.data;
+// };
 
 export const saveAdminDocumentDetails = async (
   payload: ILinearProgressWithLabel
 ) => {
   const data = { detail: { ...payload } };
   const response = await axiosClient.post<ILinearProgressWithLabel>(
-    `/VendorProfile/AddDocuments/${payload}`,
+    `/VendorProfile/AddDocuments/`,
     data
   );
 
