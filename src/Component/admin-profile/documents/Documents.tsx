@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Box,
   Typography,
@@ -7,7 +7,8 @@ import {
   Grid,
   Button,
   IconButton,
-  Theme
+  Theme,
+  Link
 } from '@mui/material';
 import { FileUploadOutlined, Close } from '@mui/icons-material';
 import Image from 'next/image';
@@ -18,11 +19,11 @@ import Uploading from './uploading';
 
 const Documents = () => {
   const { updateTab, handleProgress } = useProfile();
-
+  const fileRef = React.useRef();
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+  const hiddenFileInput = React.useRef<HTMLInputElement>(null);
   const [progress, setProgress] = React.useState(10);
-  const handleFileUpload = (file: File) => {
-    console.log('Uploaded file name:', file.name);
-  };
+
   React.useEffect(() => {
     const timer = setInterval(() => {
       setProgress((prevProgress) =>
@@ -39,6 +40,22 @@ const Documents = () => {
     handleProgress('document');
     updateTab(2);
   };
+  const handleClick = () => {
+    hiddenFileInput?.current?.click();
+  };
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(event)
+    const Nmfiles = event.target.files;
+    console.log(Nmfiles[0]?.name, 'harshit')
+    if (Nmfiles && Nmfiles.length > 0) {
+      const files: File[] = Array.from(Nmfiles);
+      setSelectedFiles((prevSelectedFiles:  any) => [...prevSelectedFiles, ...files]);
+    }
+    console.log(Nmfiles)
+    const selectedFiles = Nmfiles as FileList;
+    console.log(selectedFiles);
+  };
+
 
   return (
     <Box width={'100%'}>
@@ -93,119 +110,186 @@ const Documents = () => {
               </Box>
             </Grid>
           </Grid>
-          {/* {TitleList.map((title) => ( */}
-          <>
-            <Grid container spacing={2}>
-              <Grid item xs={12}>
-                <Typography variant='h6'>ACH Form</Typography>
-              </Grid>
-              <Uploading/>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <Typography variant='h6'>ACH Form</Typography>
             </Grid>
-            <Grid container spacing={2}>
-              <Grid item xs={12}>
-                <Box
-                  width={'100%'}
-                  alignItems='center'
-                  sx={{
-                    p: 1,
-                    border: '1px solid ',
-                    borderColor: (theme: Theme) => theme.palette.primary.main,
-                    marginTop: '20px'
-                  }}
-                >
-                  <Box display='flex' width='100%' sx={{ p: 1 }}>
-                    <Image
-                      src='/images/pdf.svg'
-                      height={38}
-                      width={34}
-                      alt='Follow us on Twitter'
-                    />
-                    <Box
-                      display='flex'
-                      justifyContent='space-between'
-                      width='100%'
-                    >
-                      <Box sx={{ ml: 2 }}>
-                        <Typography variant='subtitle2'>
-                          ACH Form Document.pdf
-                        </Typography>
-                        <Typography variant='caption'>443 kb</Typography>
-                      </Box>
-                      <IconButton>
-                        <Close />
-                      </IconButton>
+            <Uploading />
+          </Grid>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <Box
+                width={'100%'}
+                alignItems='center'
+                sx={{
+                  p: 1,
+                  border: '1px solid ',
+                  borderColor: (theme: Theme) => theme.palette.primary.main,
+                  marginTop: '20px'
+                }}
+              >
+                <Box display='flex' width='100%' sx={{ p: 1 }}>
+                  <Image
+                    src='/images/pdf.svg'
+                    height={38}
+                    width={34}
+                    alt='Follow us on Twitter'
+                  />
+                  <Box
+                    display='flex'
+                    justifyContent='space-between'
+                    width='100%'
+                  >
+                    <Box sx={{ ml: 2 }}>
+                      <Typography variant='subtitle2'>
+                        ACH Form Document.pdf
+                      </Typography>
+                      <Typography variant='caption'>443 kb</Typography>
                     </Box>
+                    <IconButton>
+                      <Close />
+                    </IconButton>
                   </Box>
-                  <Box sx={{ width: '100%' }}>
-                    <LinearProgressWithLabel value={progress} />
-                  </Box>
                 </Box>
-              </Grid>
-            </Grid>
-            <Grid container spacing={2}>
-              <Grid item xs={12}>
-                <Typography variant='h6'>Certificate of Insurance</Typography>
-              </Grid>
-              <Grid item xs={12}>
-                <Box
-                  width={'100%'}
-                  display='flex'
-                  alignItems='center'
-                  justifyContent='center'
-                  textAlign='center'
-                  sx={{
-                    height: '130px',
-                    border: '2px dotted ',
-                    borderColor: (theme: Theme) => theme.palette.secondary.main
-                  }}
-                >
-                 <Upload onFileUpload={handleFileUpload}/>
+                <Box sx={{ width: '100%' }}>
+                  <LinearProgressWithLabel value={progress} />
                 </Box>
-              </Grid>
+              </Box>
             </Grid>
-            <Grid container spacing={2}>
-              <Grid item xs={12}>
-                <Typography variant='h6'>Worker's Compensation</Typography>
-              </Grid>
-              <Grid item xs={12}>
-                <Box
-                  width={'100%'}
-                  display='flex'
-                  alignItems='center'
-                  justifyContent='center'
-                  textAlign='center'
-                  sx={{
-                    height: '130px',
-                    border: '2px dotted ',
-                    borderColor: (theme: Theme) => theme.palette.secondary.main
-                  }}
-                >
-                 <Upload onFileUpload={handleFileUpload}/>
+          </Grid>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <Typography variant='h6'>Certificate of Insurance</Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <Box
+                width={'100%'}
+                display='flex'
+                alignItems='center'
+                justifyContent='center'
+                textAlign='center'
+                sx={{
+                  height: '130px',
+                  border: '2px dotted ',
+                  borderColor: (theme: Theme) => theme.palette.secondary.main
+                }}
+              >
+                <Box>
+                  <FileUploadOutlined />
+                  <Typography>Drag & Drop or
+                    <Link sx={{
+                      cursor: 'pointer',
+                      mr: '10px',
+                      ml: '10px',
+                      color: (theme: Theme) => theme.palette.linkBlue.main
+                    }}
+                      onClick={() => handleClick()}
+                    >
+                      <input
+                        type='file'
+                        multiple
+                        ref={hiddenFileInput}
+                        onChange={handleChange}
+                        hidden
+                      />
+                      Choose File
+                    </Link>
+                    to Upload</Typography>
+                  <Typography variant='caption'>
+                    Jpg,Png,Pdf or Doc
+                  </Typography>
                 </Box>
-              </Grid>
+              </Box>
             </Grid>
-            <Grid container spacing={2}>
-              <Grid item xs={12}>
-                <Typography variant='h6'>Inspector Qualification 396.19</Typography>
-              </Grid>
-              <Grid item xs={12}>
-                <Box
-                  width={'100%'}
-                  display='flex'
-                  alignItems='center'
-                  justifyContent='center'
-                  textAlign='center'
-                  sx={{
-                    height: '130px',
-                    border: '2px dotted ',
-                    borderColor: (theme: Theme) => theme.palette.secondary.main
-                  }}
-                >
-                 <Upload onFileUpload={handleFileUpload}/>
+          </Grid>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <Typography variant='h6'>Worker's Compensation</Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <Box
+                width={'100%'}
+                display='flex'
+                alignItems='center'
+                justifyContent='center'
+                textAlign='center'
+                sx={{
+                  height: '130px',
+                  border: '2px dotted ',
+                  borderColor: (theme: Theme) => theme.palette.secondary.main
+                }}
+              >
+                <Box>
+                  <FileUploadOutlined />
+                  <Typography>Drag & Drop or
+                    <Link sx={{
+                      cursor: 'pointer',
+                      mr: '10px',
+                      ml: '10px',
+                      color: (theme: Theme) => theme.palette.linkBlue.main
+                    }}
+                      onClick={() => handleClick()}
+                    >
+                      <input
+                        type='file'
+                        ref={hiddenFileInput}
+                        onChange={handleChange}
+                        hidden
+                      />
+                      Choose File
+                    </Link>
+                    to Upload</Typography>
+                  <Typography variant='caption'>
+                    Jpg,Png,Pdf or Doc
+                  </Typography>
                 </Box>
-              </Grid>
+              </Box>
             </Grid>
-          </>
+          </Grid>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <Typography variant='h6'>Inspector Qualification 396.19</Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <Box
+                width={'100%'}
+                display='flex'
+                alignItems='center'
+                justifyContent='center'
+                textAlign='center'
+                sx={{
+                  height: '130px',
+                  border: '2px dotted ',
+                  borderColor: (theme: Theme) => theme.palette.secondary.main
+                }}
+              >
+                <Box>
+                  <FileUploadOutlined />
+                  <Typography>Drag & Drop or
+                    <Link sx={{
+                      cursor: 'pointer',
+                      mr: '10px',
+                      ml: '10px',
+                      color: (theme: Theme) => theme.palette.linkBlue.main
+                    }}
+                      onClick={() => handleClick()}
+                    >
+                      <input
+                        type='file'
+                        ref={hiddenFileInput}
+                        onChange={handleChange}
+                        hidden
+                      />
+                      Choose File
+                    </Link>
+                    to Upload</Typography>
+                  <Typography variant='caption'>
+                    Jpg,Png,Pdf or Doc
+                  </Typography>
+                </Box>
+              </Box>
+            </Grid>
+          </Grid>
           <Grid container item spacing={2}>
             <Grid item xs={6}>
               <Box width={'100%'} pt={2}>

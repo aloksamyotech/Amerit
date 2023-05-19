@@ -25,7 +25,7 @@ const Upload: React.FC<FileInputProps> = ({ onFileUpload }) => {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     console.log(event)
     const  Nmfiles  = event.target.files;
-    console.log(Nmfiles[0].name)
+    console.log(Nmfiles[0]?.name,'harshit')
     if (Nmfiles && Nmfiles.length > 0) {
       const file = Nmfiles[0];
       onFileUpload(file);
