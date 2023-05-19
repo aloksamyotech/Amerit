@@ -12,10 +12,12 @@ import {
 } from '@mui/material';
 import { FileUploadOutlined, Close } from '@mui/icons-material';
 import Image from 'next/image';
-import LinearProgressWithLabel from './LinearProgressWithLabel';
 import { useProfile } from '../context/ProfileContext';
 import Upload from './Fileinput';
 import Uploading from './uploading';
+import { getAdminDocumentsdetails } from 'src/services/admin';
+import { useQuery } from 'react-query';
+import { indexOf } from 'cypress/types/lodash';
 
 const Documents = () => {
   const { updateTab, handleProgress } = useProfile();
@@ -23,18 +25,11 @@ const Documents = () => {
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const hiddenFileInput = React.useRef<HTMLInputElement>(null);
   const [progress, setProgress] = React.useState(10);
+  const [documentTypes, setDocumentTypes] = useState();
 
-  React.useEffect(() => {
-    const timer = setInterval(() => {
-      setProgress((prevProgress) =>
-        prevProgress >= 100 ? 10 : prevProgress + 10
-      );
-    }, 800);
-
-    return () => {
-      clearInterval(timer);
-    };
-  }, []);
+  useQuery(['documentTypes'], () =>
+    getAdminDocumentsdetails().then((data) => setDocumentTypes(data))
+  );
 
   const handleSubmit = () => {
     handleProgress('document');
@@ -44,18 +39,20 @@ const Documents = () => {
     hiddenFileInput?.current?.click();
   };
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(event)
+    console.log(event);
     const Nmfiles = event.target.files;
-    console.log(Nmfiles[0]?.name, 'harshit')
+    console.log(Nmfiles[0]?.name, 'harshit');
     if (Nmfiles && Nmfiles.length > 0) {
       const files: File[] = Array.from(Nmfiles);
-      setSelectedFiles((prevSelectedFiles:  any) => [...prevSelectedFiles, ...files]);
+      setSelectedFiles((prevSelectedFiles: any) => [
+        ...prevSelectedFiles,
+        ...files
+      ]);
     }
-    console.log(Nmfiles)
+    console.log(Nmfiles);
     const selectedFiles = Nmfiles as FileList;
     console.log(selectedFiles);
   };
-
 
   return (
     <Box width={'100%'}>
@@ -116,194 +113,65 @@ const Documents = () => {
             </Grid>
             <Uploading />
           </Grid>
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <Box
-                width={'100%'}
-                alignItems='center'
-                sx={{
-                  p: 1,
-                  border: '1px solid ',
-                  borderColor: (theme: Theme) => theme.palette.primary.main,
-                  marginTop: '20px'
-                }}
-              >
-                <Box display='flex' width='100%' sx={{ p: 1 }}>
-                  <Image
-                    src='/images/pdf.svg'
-                    height={38}
-                    width={34}
-                    alt='Follow us on Twitter'
-                  />
-                  <Box
-                    display='flex'
-                    justifyContent='space-between'
-                    width='100%'
-                  >
-                    <Box sx={{ ml: 2 }}>
-                      <Typography variant='subtitle2'>
-                        ACH Form Document.pdf
-                      </Typography>
-                      <Typography variant='caption'>443 kb</Typography>
+
+          {documentTypes &&
+            documentTypes.map((item, index) => {
+              console.log(item);
+              console.log(documentTypes);
+
+              return (
+                <Grid key={index} container spacing={2}>
+                  <Grid item xs={12}>
+                    <Typography variant='h6'>{item.name}</Typography>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Box
+                      width={'100%'}
+                      display='flex'
+                      alignItems='center'
+                      justifyContent='center'
+                      textAlign='center'
+                      sx={{
+                        height: '130px',
+                        border: '2px dotted ',
+                        borderColor: (theme: Theme) =>
+                          theme.palette.secondary.main
+                      }}
+                    >
+                      <Box>
+                        <FileUploadOutlined />
+                        <Typography>
+                          Drag & Drop or
+                          <Link
+                            sx={{
+                              cursor: 'pointer',
+                              mr: '10px',
+                              ml: '10px',
+                              color: (theme: Theme) =>
+                                theme.palette.linkBlue.main
+                            }}
+                            onClick={() => handleClick()}
+                          >
+                            <input
+                              type='file'
+                              multiple
+                              ref={hiddenFileInput}
+                              onChange={handleChange}
+                              hidden
+                            />
+                            Choose File
+                          </Link>
+                          to Upload
+                        </Typography>
+                        <Typography variant='caption'>
+                          Jpg,Png,Pdf or Doc
+                        </Typography>
+                      </Box>
                     </Box>
-                    <IconButton>
-                      <Close />
-                    </IconButton>
-                  </Box>
-                </Box>
-                <Box sx={{ width: '100%' }}>
-                  <LinearProgressWithLabel value={progress} />
-                </Box>
-              </Box>
-            </Grid>
-          </Grid>
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <Typography variant='h6'>Certificate of Insurance</Typography>
-            </Grid>
-            <Grid item xs={12}>
-              <Box
-                width={'100%'}
-                display='flex'
-                alignItems='center'
-                justifyContent='center'
-                textAlign='center'
-                sx={{
-                  height: '130px',
-                  border: '2px dotted ',
-                  borderColor: (theme: Theme) => theme.palette.secondary.main
-                }}
-              >
-                <Box>
-                  <FileUploadOutlined />
-                  <Typography>Drag & Drop or
-                    <Link sx={{
-                      cursor: 'pointer',
-                      mr: '10px',
-                      ml: '10px',
-                      color: (theme: Theme) => theme.palette.linkBlue.main
-                    }}
-                      onClick={() => handleClick()}
-                    >
-                      <input
-                        type='file'
-                        multiple
-                        ref={hiddenFileInput}
-                        onChange={handleChange}
-                        hidden
-                      />
-                      Choose File
-                    </Link>
-                    to Upload</Typography>
-                  <Typography variant='caption'>
-                    Jpg,Png,Pdf or Doc
-                  </Typography>
-                </Box>
-              </Box>
-            </Grid>
-          </Grid>
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <Typography variant='h6'>Worker's Compensation</Typography>
-            </Grid>
-            <Grid item xs={12}>
-              <Box
-                width={'100%'}
-                display='flex'
-                alignItems='center'
-                justifyContent='center'
-                textAlign='center'
-                sx={{
-                  height: '130px',
-                  border: '2px dotted ',
-                  borderColor: (theme: Theme) => theme.palette.secondary.main
-                }}
-              >
-                <Box>
-                  <FileUploadOutlined />
-                  <Typography>Drag & Drop or
-                    <Link sx={{
-                      cursor: 'pointer',
-                      mr: '10px',
-                      ml: '10px',
-                      color: (theme: Theme) => theme.palette.linkBlue.main
-                    }}
-                      onClick={() => handleClick()}
-                    >
-                      <input
-                        type='file'
-                        ref={hiddenFileInput}
-                        onChange={handleChange}
-                        hidden
-                      />
-                      Choose File
-                    </Link>
-                    to Upload</Typography>
-                  <Typography variant='caption'>
-                    Jpg,Png,Pdf or Doc
-                  </Typography>
-                </Box>
-              </Box>
-            </Grid>
-          </Grid>
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <Typography variant='h6'>Inspector Qualification 396.19</Typography>
-            </Grid>
-            <Grid item xs={12}>
-              <Box
-                width={'100%'}
-                display='flex'
-                alignItems='center'
-                justifyContent='center'
-                textAlign='center'
-                sx={{
-                  height: '130px',
-                  border: '2px dotted ',
-                  borderColor: (theme: Theme) => theme.palette.secondary.main
-                }}
-              >
-                <Box>
-                  <FileUploadOutlined />
-                  <Typography>Drag & Drop or
-                    <Link sx={{
-                      cursor: 'pointer',
-                      mr: '10px',
-                      ml: '10px',
-                      color: (theme: Theme) => theme.palette.linkBlue.main
-                    }}
-                      onClick={() => handleClick()}
-                    >
-                      <input
-                        type='file'
-                        ref={hiddenFileInput}
-                        onChange={handleChange}
-                        hidden
-                      />
-                      Choose File
-                    </Link>
-                    to Upload</Typography>
-                  <Typography variant='caption'>
-                    Jpg,Png,Pdf or Doc
-                  </Typography>
-                </Box>
-              </Box>
-            </Grid>
-          </Grid>
-          <Grid container item spacing={2}>
-            <Grid item xs={6}>
-              <Box width={'100%'} pt={2}>
-                <Button
-                  color='secondary'
-                  variant='contained'
-                  size='large'
-                  onClick={handleSubmit}
-                >
-                  Save Changes
-                </Button>
-              </Box>
-            </Grid>
-          </Grid>
+                  </Grid>
+                </Grid>
+              );
+            })}
         </FormControl>
       </Paper>
     </Box>

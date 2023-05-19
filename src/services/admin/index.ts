@@ -13,6 +13,7 @@ export const saveAdminProfileDetails = async (payload: Profile) => {
 export const getAdminContactTypes = async () => {
   try {
     const response = await axiosClient.get(`/VendorProfile/GetContactTypes`);
+    console.log(response);
 
     return response.data;
   } catch (error) {
@@ -35,6 +36,18 @@ export const saveAdminContactDetails = async (payload: any, id: number) => {
   }
 };
 
+export const getAdminDocumentsdetails = async () => {
+  try {
+    const response = await axiosClient.get<ILinearProgressWithLabel>(
+      '/VendorProfile/GetDocumentTypes'
+    );
+
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const saveAdminDocumentDetails = async (
   payload: ILinearProgressWithLabel
 ) => {
@@ -46,15 +59,6 @@ export const saveAdminDocumentDetails = async (
 
   return response.data;
 };
-
-export const getAdminDocumentsdetails = async () => {
-  const response = await axiosClient.get<ILinearProgressWithLabel>(
-    '/VendorProfile/GetDocumentTypes'
-  );
-
-  return response.data;
-};
-
 export const saveAdminTermsDetails = async (payload: any) => {
   try {
     console.log(payload);
