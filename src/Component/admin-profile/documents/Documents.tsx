@@ -14,8 +14,8 @@ import { FileUploadOutlined, Close } from '@mui/icons-material';
 import Image from 'next/image';
 import LinearProgressWithLabel from './LinearProgressWithLabel';
 import { useProfile } from '../context/ProfileContext';
-import Upload from './Fileinput';
 import Uploading from './uploading';
+import Upload from './Upload';
 
 const Documents = () => {
   const { updateTab, handleProgress } = useProfile();
@@ -23,6 +23,7 @@ const Documents = () => {
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const hiddenFileInput = React.useRef<HTMLInputElement>(null);
   const [progress, setProgress] = React.useState(10);
+  const [uploading, setUploading] = useState(false)
 
   React.useEffect(() => {
     const timer = setInterval(() => {
@@ -42,18 +43,13 @@ const Documents = () => {
   };
   const handleClick = () => {
     hiddenFileInput?.current?.click();
+    setUploading(true);
+    setTimeout(() =>{
+      setUploading(false);
+    },2000);
   };
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(event)
-    const Nmfiles = event.target.files;
-    console.log(Nmfiles[0]?.name, 'harshit')
-    if (Nmfiles && Nmfiles.length > 0) {
-      const files: File[] = Array.from(Nmfiles);
-      setSelectedFiles((prevSelectedFiles:  any) => [...prevSelectedFiles, ...files]);
-    }
-    console.log(Nmfiles)
-    const selectedFiles = Nmfiles as FileList;
-    console.log(selectedFiles);
+  const handleFileUpload = (file: File) => {
+    console.log('Uploaded file name:', file.name);
   };
 
 
@@ -164,41 +160,19 @@ const Documents = () => {
             <Grid item xs={12}>
               <Box
                 width={'100%'}
-                display='flex'
+                display='block'
                 alignItems='center'
                 justifyContent='center'
                 textAlign='center'
                 sx={{
                   height: '130px',
-                  border: '2px dotted ',
-                  borderColor: (theme: Theme) => theme.palette.secondary.main
+                  // border: '2px dotted ',
+                  // borderColor: (theme: Theme) => theme.palette.secondary.main
                 }}
               >
-                <Box>
-                  <FileUploadOutlined />
-                  <Typography>Drag & Drop or
-                    <Link sx={{
-                      cursor: 'pointer',
-                      mr: '10px',
-                      ml: '10px',
-                      color: (theme: Theme) => theme.palette.linkBlue.main
-                    }}
-                      onClick={() => handleClick()}
-                    >
-                      <input
-                        type='file'
-                        multiple
-                        ref={hiddenFileInput}
-                        onChange={handleChange}
-                        hidden
-                      />
-                      Choose File
-                    </Link>
-                    to Upload</Typography>
-                  <Typography variant='caption'>
-                    Jpg,Png,Pdf or Doc
-                  </Typography>
-                </Box>
+                <Upload/>
+                {/* <Upload onFileUpload ={handleFileUpload}/> */}
+                {/* {uploading && <p>Uploading/....</p>} */}
               </Box>
             </Grid>
           </Grid>
@@ -219,30 +193,8 @@ const Documents = () => {
                   borderColor: (theme: Theme) => theme.palette.secondary.main
                 }}
               >
-                <Box>
-                  <FileUploadOutlined />
-                  <Typography>Drag & Drop or
-                    <Link sx={{
-                      cursor: 'pointer',
-                      mr: '10px',
-                      ml: '10px',
-                      color: (theme: Theme) => theme.palette.linkBlue.main
-                    }}
-                      onClick={() => handleClick()}
-                    >
-                      <input
-                        type='file'
-                        ref={hiddenFileInput}
-                        onChange={handleChange}
-                        hidden
-                      />
-                      Choose File
-                    </Link>
-                    to Upload</Typography>
-                  <Typography variant='caption'>
-                    Jpg,Png,Pdf or Doc
-                  </Typography>
-                </Box>
+                <Upload onFileUpload ={handleFileUpload}/>
+                {uploading && <p>Uploading/....</p>}
               </Box>
             </Grid>
           </Grid>
@@ -263,30 +215,8 @@ const Documents = () => {
                   borderColor: (theme: Theme) => theme.palette.secondary.main
                 }}
               >
-                <Box>
-                  <FileUploadOutlined />
-                  <Typography>Drag & Drop or
-                    <Link sx={{
-                      cursor: 'pointer',
-                      mr: '10px',
-                      ml: '10px',
-                      color: (theme: Theme) => theme.palette.linkBlue.main
-                    }}
-                      onClick={() => handleClick()}
-                    >
-                      <input
-                        type='file'
-                        ref={hiddenFileInput}
-                        onChange={handleChange}
-                        hidden
-                      />
-                      Choose File
-                    </Link>
-                    to Upload</Typography>
-                  <Typography variant='caption'>
-                    Jpg,Png,Pdf or Doc
-                  </Typography>
-                </Box>
+                <Upload onFileUpload ={handleFileUpload}/>
+                {uploading && <p>Uploading/....</p>}
               </Box>
             </Grid>
           </Grid>
