@@ -10,7 +10,7 @@ export const saveAdminProfileDetails = async (payload: Profile) => {
   return response.data;
 };
 
-export const GetContactTypes = async () => {
+export const getAdminContactTypes = async () => {
   try {
     const response = await axiosClient.get(`/VendorProfile/GetContactTypes`);
 
@@ -20,7 +20,7 @@ export const GetContactTypes = async () => {
   }
 };
 
-export const AddContacts = async (payload: any, id: number) => {
+export const saveAdminContactDetails = async (payload: any, id: number) => {
   try {
     const data = { detail: { ...payload } };
     console.log(id);
@@ -34,25 +34,6 @@ export const AddContacts = async (payload: any, id: number) => {
     console.log(error);
   }
 };
-
-// export const saveAdminContactDetails = async (payload: Contact) => {
-//   const data = { detail: { ...payload } };
-//   console.log(data);
-//   const response = await axiosClient.post<Contact>(
-//     '/VendorProfile/AddContacts/123',
-//     data
-//   );
-
-//   return response.data;
-// };
-
-// export const getAdminContactdetails = async () => {
-//   const response = await axiosClient.get<Contact>(
-//     '/VendorProfile/GetContactTypes'
-//   );
-
-//   return response.data;
-// };
 
 export const saveAdminDocumentDetails = async (
   payload: ILinearProgressWithLabel
