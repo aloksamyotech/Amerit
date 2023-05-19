@@ -17,7 +17,7 @@ import {
 import { Controller, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { CropSquare, Square } from '@mui/icons-material';
-import { Profile } from './types/ProfileForm';
+import { Profile as ProfileProps } from './types/ProfileForm';
 import { style } from '../style';
 import ProfileFormSchema from '../schema';
 import {
@@ -29,7 +29,7 @@ import { useProfile } from '../context/ProfileContext';
 import { StateList } from 'src/constants';
 import { saveAdminProfileDetails } from 'src/services/admin';
 
-const defaultValues: Profile = {
+const defaultValues: ProfileProps = {
   companyName: '',
   address1: '',
   address2: '',
@@ -47,21 +47,21 @@ const defaultValues: Profile = {
   oemDealer: false
 };
 
-const AdminProfile = () => {
+const Profile = () => {
   const { updateTab, handleProgress, setUserid } = useProfile();
 
   const {
     control,
     handleSubmit,
     formState: { errors }
-  } = useForm<Profile>({
+  } = useForm<ProfileProps>({
     defaultValues,
     resolver: yupResolver(ProfileFormSchema as any)
   });
 
   const theme = useTheme();
 
-  const onSubmit = async (data: Profile) => {
+  const onSubmit = async (data: ProfileProps) => {
     const userid = await saveAdminProfileDetails(data);
     setUserid(Number(userid));
     updateTab(0);
@@ -535,4 +535,4 @@ const AdminProfile = () => {
   );
 };
 
-export default AdminProfile;
+export default Profile;

@@ -3,14 +3,17 @@ import { ILinearProgressWithLabel } from '@components/admin-profile/documents/ty
 import { axiosClient } from '..';
 
 export const saveAdminProfileDetails = async (payload: Profile) => {
-  const data = { detail: { ...payload } };
-  const response = await axiosClient.post<Profile>('/VendorProfile', data);
-  console.log(response);
+  try {
+    const data = { detail: { ...payload } };
+    const response = await axiosClient.post<Profile>('/VendorProfile', data);
 
-  return response.data;
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
 };
 
-export const GetContactTypes = async () => {
+export const getAdminContactTypes = async () => {
   try {
     const response = await axiosClient.get(`/VendorProfile/GetContactTypes`);
 
@@ -20,10 +23,9 @@ export const GetContactTypes = async () => {
   }
 };
 
-export const AddContacts = async (payload: any, id: number) => {
+export const saveAdminContactDetails = async (payload: any, id: number) => {
   try {
     const data = { detail: { ...payload } };
-    console.log(id);
     const response = await axiosClient.post(
       `/VendorProfile/AddContacts/${id}`,
       data
@@ -35,52 +37,38 @@ export const AddContacts = async (payload: any, id: number) => {
   }
 };
 
-// export const saveAdminContactDetails = async (payload: Contact) => {
-//   const data = { detail: { ...payload } };
-//   console.log(data);
-//   const response = await axiosClient.post<Contact>(
-//     '/VendorProfile/AddContacts/123',
-//     data
-//   );
+export const getAdminDocumentsdetails = async () => {
+  try {
+    const response = await axiosClient.get<ILinearProgressWithLabel>(
+      '/VendorProfile/GetDocumentTypes'
+    );
 
-//   return response.data;
-// };
-
-// export const getAdminContactdetails = async () => {
-//   const response = await axiosClient.get<Contact>(
-//     '/VendorProfile/GetContactTypes'
-//   );
-
-//   return response.data;
-// };
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 export const saveAdminDocumentDetails = async (
   payload: ILinearProgressWithLabel
 ) => {
-  const data = { detail: { ...payload } };
-  const response = await axiosClient.post<ILinearProgressWithLabel>(
-    `/VendorProfile/AddDocuments/`,
-    data
-  );
+  try {
+    const data = { detail: { ...payload } };
+    const response = await axiosClient.post<ILinearProgressWithLabel>(
+      `/VendorProfile/AddDocuments/`,
+      data
+    );
 
-  return response.data;
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
 };
-
-export const getAdminDocumentsdetails = async () => {
-  const response = await axiosClient.get<ILinearProgressWithLabel>(
-    '/VendorProfile/GetDocumentTypes'
-  );
-
-  return response.data;
-};
-
 export const saveAdminTermsDetails = async (payload: any) => {
   try {
-    console.log(payload);
     const response = await axiosClient.post(
       `/VendorProfile/TermsAgreed/${payload.id}?agreed=${payload.agreed}`
     );
-    console.log(response);
 
     return response.data;
   } catch (error) {
