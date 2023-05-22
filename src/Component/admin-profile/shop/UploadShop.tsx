@@ -72,7 +72,6 @@ const UploadShop = () => {
             role='button'
           />
           <Grid
-            variant='h4'
             sx={{
               display: 'inline-block',
               fontSize: '20px',

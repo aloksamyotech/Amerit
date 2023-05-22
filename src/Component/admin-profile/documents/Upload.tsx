@@ -11,13 +11,7 @@ const Upload: React.FC = () => {
 
     const handleClick = () => {
         hiddenFileInput?.current?.click();
-        // setShowComponent(true)
-        // Timeout();
-         let Timeout =
-            setTimeout(() => {
-                setShowComponent(true)
-            }, 1000);
-            console.log("timeout runas");
+        setShowComponent(true);
     }
     const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
         const fileList = event.target.files;

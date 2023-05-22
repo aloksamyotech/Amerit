@@ -17,7 +17,7 @@ export const Input = {
   zIndex: -1
 
 }
-export const Box = {
+export const CBox = {
   padding:'34px 10px',
   display: 'flex',
   overflow: 'hidden'

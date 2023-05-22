@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import {
   Box,
   Typography,
@@ -14,10 +14,12 @@ import { Close, FileUploadOutlined } from '@mui/icons-material';
 import Image from 'next/image';
 import LinearProgressWithLabel from './LinearProgressWithLabel';
 import { useProfile } from '../context/ProfileContext';
-import Upload from './Upload';
+// import Upload from './Upload';
+import { useMutation, useQuery } from 'react-query';
 import Uploading from './uploading';
-import { useQuery } from 'react-query';
-import { getAdminDocumentsDetails } from 'src/services/admin';
+
+import { getAdminDocumentsDetails, saveDocumentType } from 'src/services/admin';
+import { CBox, Input } from '../style';
 
 const Documents = () => {
   const { updateTab, handleProgress } = useProfile();
@@ -25,33 +27,44 @@ const Documents = () => {
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const hiddenFileInput = React.useRef<HTMLInputElement>(null);
   const [progress, setProgress] = React.useState(10);
-  const [documentTypes,setDocumentTypes] = useState();
+  const [documentTypes, setDocumentTypes] = useState();
+   const defaultValues = {
+    name: ''
 
+   }
   useQuery(['documentTypes'], () =>
     getAdminDocumentsDetails().then((data) => setDocumentTypes(data)),
   );
-  
+  const mutation = useMutation((data: typeof defaultValues) =>
+  saveDocumentType(data)
+);
+
 
   const handleSubmit = () => {
     handleProgress('document');
     updateTab(2);
+    mutation.mutate();
   };
-  const handleClick = () => {
-    hiddenFileInput?.current?.click();
-  };
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(event)
-    const Nmfiles = event.target.files;
-    console.log(Nmfiles[0]?.name, 'harshit')
-    if (Nmfiles && Nmfiles.length > 0) {
-      const files: File[] = Array.from(Nmfiles);
-      setSelectedFiles((prevSelectedFiles:  any) => [...prevSelectedFiles, ...files]);
-    }
-    console.log(Nmfiles)
-    const selectedFiles = Nmfiles as FileList;
-    console.log(selectedFiles);
-  };
+    const [showComponent, setShowComponent] = useState(false);
 
+    const handleClick = () => {
+        hiddenFileInput?.current?.click();
+        setShowComponent(true);
+    }
+    const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+      const { files } = event.target;
+    const selectedFiles = files as FileList;
+    if(files && files.length > 0) {
+const newFiles: File[] = Array.from (files);
+setSelectedFiles((prevSelectedFiles) => [...prevSelectedFiles,...newFiles]);
+    }
+    console.log(selectedFiles);
+        // const fileList = event.target.files;
+        // if (fileList && fileList.length > 0) {
+        //     const files: File[] = Array.from(fileList);
+        //     setSelectedFiles((prevSelectedFiles) => [...prevSelectedFiles, ...files]);
+        // }
+    };
 
   return (
     <Box width={'100%'}>
@@ -165,7 +178,47 @@ const Documents = () => {
                 justifyContent='center'
                 textAlign='center'
               >
-                <Upload/>
+
+
+                {selectedFiles.length === 0 && (
+                  <Grid sx={{
+                    cursor: 'pointer',
+                    width: '100%',
+                    color: (theme: Theme) => theme.palette.linkBlue.main,
+                    border: '2px dotted',
+                    borderColor: (theme: Theme) => theme.palette.secondary.main
+                  }}
+                    style={CBox}
+                    onClick={() => handleClick()}
+                  >
+                    <Grid container lg={12}>
+                      <Grid xs={12}>
+                        <FileUploadOutlined />
+                      </Grid>
+                      <Grid xs={12}>
+                        <input
+                          type='file'
+                          ref={hiddenFileInput}
+                          style={Input}
+                          onChange={handleFileChange}
+                        />
+                        <Grid sx={{ color: '#000', mr: '5px', display: 'inline-block' }}>Drag & Drop or</Grid>
+                        Choose File<Grid sx={{ color: '#000', ml: '5px', display: 'inline-block' }}> to Upload</Grid>
+                      </Grid>
+                    </Grid>
+                  </Grid>
+                )}
+                {selectedFiles.length > 0 && (
+                  <>
+                    {showComponent ? <Uploading /> : null}
+                    <ul>
+                      {selectedFiles.map((file, index) => (
+                        <li key={index}>{file.name}</li>
+                      ))}
+                    </ul>
+                  </>
+                )}
+                {/* <Upload/> */}
               </Box>
             </Grid>
           </Grid>
@@ -184,7 +237,45 @@ const Documents = () => {
                   height: '130px'
                 }}
               >
-                <Upload/>
+                {selectedFiles.length === 0 && (
+                  <Grid sx={{
+                    cursor: 'pointer',
+                    width: '100%',
+                    color: (theme: Theme) => theme.palette.linkBlue.main,
+                    border: '2px dotted',
+                    borderColor: (theme: Theme) => theme.palette.secondary.main
+                  }}
+                    style={CBox}
+                    onClick={() => handleClick()}
+                  >
+                    <Grid container lg={12}>
+                      <Grid xs={12}>
+                        <FileUploadOutlined />
+                      </Grid>
+                      <Grid xs={12}>
+                        <input
+                          type='file'
+                          ref={hiddenFileInput}
+                          style={Input}
+                          onChange={handleFileChange}
+                        />
+                        <Grid sx={{ color: '#000', mr: '5px', display: 'inline-block' }}>Drag & Drop or</Grid>
+                        Choose File<Grid sx={{ color: '#000', ml: '5px', display: 'inline-block' }}> to Upload</Grid>
+                      </Grid>
+                    </Grid>
+                  </Grid>
+                )}
+                {selectedFiles.length > 0 && (
+                  <>
+                    {showComponent ? <Uploading /> : null}
+                    <ul>
+                      {selectedFiles.map((file, index) => (
+                        <li key={index}>{file.name}</li>
+                      ))}
+                    </ul>
+                  </>
+                )}
+                {/* <Upload/> */}
               </Box>
             </Grid>
           </Grid>
@@ -203,7 +294,45 @@ const Documents = () => {
                   height: '130px'
                 }}
               >
-                <Upload/>
+                {selectedFiles.length === 0 && (
+                  <Grid sx={{
+                    cursor: 'pointer',
+                    width: '100%',
+                    color: (theme: Theme) => theme.palette.linkBlue.main,
+                    border: '2px dotted',
+                    borderColor: (theme: Theme) => theme.palette.secondary.main
+                  }}
+                    style={CBox}
+                    onClick={() => handleClick()}
+                  >
+                    <Grid container lg={12}>
+                      <Grid xs={12}>
+                        <FileUploadOutlined />
+                      </Grid>
+                      <Grid xs={12}>
+                        <input
+                          type='file'
+                          ref={hiddenFileInput}
+                          style={Input}
+                          onChange={handleFileChange}
+                        />
+                        <Grid sx={{ color: '#000', mr: '5px', display: 'inline-block' }}>Drag & Drop or</Grid>
+                        Choose File<Grid sx={{ color: '#000', ml: '5px', display: 'inline-block' }}> to Upload</Grid>
+                      </Grid>
+                    </Grid>
+                  </Grid>
+                )}
+                {selectedFiles.length > 0 && (
+                  <>
+                    {showComponent ? <Uploading /> : null}
+                    <ul>
+                      {selectedFiles.map((file, index) => (
+                        <li key={index}>{file.name}</li>
+                      ))}
+                    </ul>
+                  </>
+                )}
+                {/* <Upload/> */}
               </Box>
             </Grid>
           </Grid>

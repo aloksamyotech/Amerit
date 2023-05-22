@@ -103,10 +103,11 @@ export const saveAdminTermsDetails = async (payload: any) => {
     console.log(error);
   }
 };
-export const saveDocumentType = async (payload: any) => {
+export const saveDocumentType = async (payload: any, id: number) => {
   try{
+    const data = { detail: { ...payload } };
     const response = await axiosClient.post(
-      `/VendorProfile/AddDocuments/${payload.id}?type=${payload.int}`
+      `/VendorProfile/AddDocuments/${id}`,data
     );
     return response.data;
   }catch(error){
