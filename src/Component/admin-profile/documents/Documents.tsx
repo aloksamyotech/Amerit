@@ -22,7 +22,7 @@ import { getAdminDocumentsDetails, saveDocumentType } from 'src/services/admin';
 import { CBox, Input } from '../style';
 
 const Documents = () => {
-  const { updateTab, handleProgress } = useProfile();
+  const { updateTab, handleProgress, values } = useProfile();
   const fileRef = React.useRef();
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const hiddenFileInput = React.useRef<HTMLInputElement>(null);
@@ -32,18 +32,19 @@ const Documents = () => {
     name: ''
 
    }
+   
   useQuery(['documentTypes'], () =>
     getAdminDocumentsDetails().then((data) => setDocumentTypes(data)),
   );
-  const mutation = useMutation((data: typeof defaultValues) =>
-  saveDocumentType(data)
+  const mutation = useMutation((data: any) =>
+  saveDocumentType(Number(values?.userid) ,data)
 );
 
 
-  const handleSubmit = () => {
+  const handleSubmit = (data: any) => {
     handleProgress('document');
     updateTab(2);
-    mutation.mutate();
+    mutation.mutate(data);
   };
     const [showComponent, setShowComponent] = useState(false);
 
