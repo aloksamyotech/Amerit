@@ -57,11 +57,7 @@ const AddShop = () => {
           />
           <Typography
             variant='h4'
-            sx={{
-              display: 'inline-block',
-              fontSize: '30px',
-              verticalAlign: 'middle'
-            }}
+           
           >
             Add a New Shop
           </Typography>
@@ -124,9 +120,8 @@ const AddShop = () => {
                   <Box className='back-blck'>
                     <Typography
                       variant='h4'
-                      fontWeight='bold'
-                      fontSize='18px'
-                      sx={{ mt: 2 }}
+                    
+                     
                     >
                       Hours of Operation
                     </Typography>
@@ -204,7 +199,6 @@ const AddShop = () => {
               </Grid>
               <Typography
                 variant='h4'
-                sx={{ fontWeight: 'bold', fontSize: '18px' }}
               >
                 Service and Rates
               </Typography>

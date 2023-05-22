@@ -14,11 +14,7 @@ const AdditionalServices = () => {
       <Grid item xs={12}>
         <Typography
           variant='h4'
-          style={{
-            fontWeight: 'bold',
-            fontSize: '23px',
-            marginBottom: '15px'
-          }}
+          
         >
           Additional Services
         </Typography>
@@ -26,11 +22,7 @@ const AdditionalServices = () => {
       <Grid item xs={12}>
         <Typography
           variant='h5'
-          style={{
-            display: 'inline-block',
-            fontWeight: 'normal',
-            fontSize: '19px'
-          }}
+         
         >
           General
         </Typography>
@@ -42,12 +34,7 @@ const AdditionalServices = () => {
               key={generalItem}
               control={<Checkbox />}
               label={generalItem}
-              sx={{
-                mr: '20px',
-                mt: '15px',
-                width: '225px',
-                fontSize: '15px'
-              }}
+             
             />
           ))}
         </FormGroup>
@@ -56,12 +43,7 @@ const AdditionalServices = () => {
       <Grid item xs={12}>
         <Typography
           variant='h5'
-          style={{
-            display: 'inline-block',
-            fontWeight: 'normal',
-            fontSize: '19px',
-            marginTop: '15px'
-          }}
+         
         >
           Tire
         </Typography>
@@ -86,12 +68,7 @@ const AdditionalServices = () => {
       <Grid item xs={12}>
         <Typography
           variant='h5'
-          style={{
-            display: 'inline-block',
-            fontWeight: 'normal',
-            fontSize: '19px',
-            marginTop: '15px'
-          }}
+         
         >
           Towing
         </Typography>
@@ -116,12 +93,7 @@ const AdditionalServices = () => {
       <Grid item xs={12}>
         <Typography
           variant='h5'
-          style={{
-            display: 'inline-block',
-            fontWeight: 'normal',
-            fontSize: '19px',
-            marginTop: '15px'
-          }}
+         
         >
           Parts
         </Typography>

@@ -71,7 +71,7 @@ const UploadShop = () => {
             onClick={() => uploadShop(false)}
             role='button'
           />
-          <Typography
+          <Grid
             variant='h4'
             sx={{
               display: 'inline-block',
@@ -80,7 +80,7 @@ const UploadShop = () => {
             }}
           >
             Uploads Shop
-          </Typography>
+          </Grid>
         </Link>
         <Grid container sx={{ mt: 2 }} spacing={2}>
           <Grid item xs={6}>
@@ -106,7 +106,6 @@ const UploadShop = () => {
                   >
                     <DescriptionIcon sx={{ display: 'inline-block' }} />{' '}
                     <Typography
-                      sx={{ display: 'inline-block', verticalAlign: 'super' }}
                     >
                       Download a sample file here
                     </Typography>
@@ -117,7 +116,7 @@ const UploadShop = () => {
                   sx={{ height: '65px', width: '65px', marginTop: '35px' }}
                 />
                 <h3>Add a New Shop</h3>
-                <Typography variant='h5' sx={{ fontSize: '15px' }}>
+                <Typography variant='h5' >
                   Upload an CSV (Comma Separated Values) file with your shops.
                 </Typography>
                 <Grid item sx={{ mt: 2 }}>
@@ -152,12 +151,12 @@ const UploadShop = () => {
               <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 500 }} aria-label='simple table'>
                   <TableHead>
-                    <Typography
+                    <Grid
                       fontSize={15}
                       sx={{ mt: 2, marginLeft: '10px' }}
                     >
                       Column Headers in CSV File
-                    </Typography>
+                    </Grid>
                   </TableHead>
                   <TableBody>
                     {rows.map((row) => (

@@ -30,7 +30,7 @@ const Upload: React.FC = () => {
     return (
         <>
             {selectedFiles.length === 0 && (
-                <Typography sx={{
+                <Grid sx={{
                     cursor: 'pointer',
                     width: '100%',
                     color: (theme: Theme) => theme.palette.linkBlue.main,
@@ -51,11 +51,11 @@ const Upload: React.FC = () => {
                                 style={Input}
                                 onChange={handleFileChange}
                             />
-                            <Typography sx={{ color: '#000', mr: '5px', display: 'inline-block' }}>Drag & Drop or</Typography>
-                            Choose File<Typography sx={{ color: '#000', ml: '5px', display: 'inline-block' }}> to Upload</Typography>
+                            <Grid sx={{ color: '#000', mr: '5px', display: 'inline-block' }}>Drag & Drop or</Grid>
+                            Choose File<Grid sx={{ color: '#000', ml: '5px', display: 'inline-block' }}> to Upload</Grid>
                         </Grid>
                     </Grid>
-                </Typography>
+                </Grid>
             )}
             {selectedFiles.length > 0 && (
                 <>
