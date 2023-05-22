@@ -105,6 +105,7 @@ export const saveAdminTermsDetails = async (payload: any) => {
 };
 export const saveDocumentType = async (payload: any, id: number) => {
   try {
+    console.log("flaskdfakjsfldjkf")
     console.log(payload);
     const response = await axiosClient.post(
       `/VendorProfile/AddDocuments/${id}`,

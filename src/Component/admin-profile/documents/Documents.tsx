@@ -14,6 +14,7 @@ import { Close, FileUploadOutlined } from '@mui/icons-material';
 import Image from 'next/image';
 import LinearProgressWithLabel from './LinearProgressWithLabel';
 import { useProfile } from '../context/ProfileContext';
+// import Upload from './Upload';
 import { useMutation, useQuery } from 'react-query';
 import Uploading from './uploading';
 
@@ -35,15 +36,15 @@ const Documents = () => {
   useQuery(['documentTypes'], () =>
     getAdminDocumentsDetails().then((data) => setDocumentTypes(data)),
   );
-  const mutation = useMutation((data: typeof defaultValues) =>
-  saveDocumentType(data,Number(values?.userid))
+  const mutation = useMutation((data: any) =>
+  saveDocumentType(data , 12 )
 );
 
 
   const handleSubmit = (data: any) => {
     handleProgress('document');
     updateTab(2);
-    mutation.mutate(data);
+    mutation.mutate(selectedFiles[0]);
   };
     const [showComponent, setShowComponent] = useState(false);
 
@@ -59,6 +60,11 @@ const newFiles: File[] = Array.from (files);
 setSelectedFiles((prevSelectedFiles) => [...prevSelectedFiles,...newFiles]);
     }
     console.log(selectedFiles);
+        // const fileList = event.target.files;
+        // if (fileList && fileList.length > 0) {
+        //     const files: File[] = Array.from(fileList);
+        //     setSelectedFiles((prevSelectedFiles) => [...prevSelectedFiles, ...files]);
+        // }
     };
 
   return (
