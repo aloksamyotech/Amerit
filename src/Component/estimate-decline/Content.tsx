@@ -1,4 +1,6 @@
 import NextLink from 'next/link';
+import { useRouter } from 'next/router';
+import { useMutation } from 'react-query';
 import { Controller, useForm } from 'react-hook-form';
 import {
   Grid,
@@ -15,6 +17,7 @@ import { useTheme } from '@mui/material/styles';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { VendorRepairOrder } from '@components/common/vendor-repair-order/types';
+import { decline } from 'src/services/estimate-request';
 import { EstimateDecline } from './types';
 import schema from './schema';
 import { VENDOR_REPAIR_ORDER_PAGE } from 'src/constants';
@@ -24,9 +27,13 @@ const Content = ({
 }: {
   vendorRepairOrder: VendorRepairOrder;
 }) => {
+  const router = useRouter();
+
+  const { id, repairOrderNumber } = vendorRepairOrder;
+
   const defaultValues: EstimateDecline = {
-    reasonId: '0',
-    vendorFleetManagerMessage: ''
+    code: '0',
+    message: ''
   };
 
   const {
@@ -39,7 +46,19 @@ const Content = ({
   });
   const theme = useTheme();
 
-  const onSubmit = (data: EstimateDecline) => console.log(data);
+  const { mutateAsync: declineEstimate } = useMutation(
+    async (formData: EstimateDecline) => await decline(formData, id)
+  );
+
+  const onSubmit = (formData: EstimateDecline) => {
+    declineEstimate(formData)
+      .then(() => {
+        router.push(`/${VENDOR_REPAIR_ORDER_PAGE}/${repairOrderNumber}`);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   return (
     <Grid item xs={12}>
@@ -66,7 +85,7 @@ const Content = ({
                   Reason for declining
                 </InputLabel>
                 <Controller
-                  name='reasonId'
+                  name='code'
                   control={control}
                   render={({ field: { value, onChange } }: any) => (
                     <Select value={value} size='small' onChange={onChange}>
@@ -92,15 +111,15 @@ const Content = ({
                   Message for VFM
                 </InputLabel>
                 <Controller
-                  name='vendorFleetManagerMessage'
+                  name='message'
                   control={control}
                   render={({ field: { value, onChange } }: any) => (
                     <TextField
                       value={value}
                       onChange={onChange}
-                      error={Boolean(errors.vendorFleetManagerMessage)}
+                      error={Boolean(errors.message)}
                       InputProps={
-                        errors.vendorFleetManagerMessage && {
+                        errors.message && {
                           endAdornment: (
                             <FontAwesomeIcon
                               title='Alert'
@@ -123,9 +142,9 @@ const Content = ({
                     />
                   )}
                 />
-                {errors.vendorFleetManagerMessage && (
+                {errors.message && (
                   <FormHelperText sx={{ color: 'error.main' }}>
-                    {errors.vendorFleetManagerMessage?.message as string}
+                    {errors.message?.message as string}
                   </FormHelperText>
                 )}
               </FormControl>
@@ -137,14 +156,13 @@ const Content = ({
                   color='secondary'
                   variant='contained'
                   size='small'
-                  onClick={() => alert('Decline and send placeholder')}
                 >
                   Decline and send
                 </Button>
               </Grid>
               <Grid item>
                 <NextLink
-                  href={`/${VENDOR_REPAIR_ORDER_PAGE}/${vendorRepairOrder.repairOrderNumber}`}
+                  href={`/${VENDOR_REPAIR_ORDER_PAGE}/${repairOrderNumber}`}
                   passHref
                 >
                   <Button size='small'>Cancel</Button>

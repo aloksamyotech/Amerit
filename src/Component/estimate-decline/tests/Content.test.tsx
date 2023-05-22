@@ -4,6 +4,14 @@ import { MOCK_VENDOR_REPAIR_ORDERS } from '@core/test/mocks';
 
 const mockVendorRepairOrder = MOCK_VENDOR_REPAIR_ORDERS[0];
 
+jest.mock('next/router', () => ({
+  useRouter() {
+    return {
+      push: jest.fn()
+    };
+  }
+}));
+
 describe('Content', () => {
   beforeEach(() => {
     render(<Content vendorRepairOrder={mockVendorRepairOrder} />);

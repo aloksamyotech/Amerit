@@ -19,6 +19,7 @@ const summaryProps = {
   freight: 30,
   towing: 0,
   travel: 0,
+  taxes: 0,
   sectionTotal: 60
 };
 

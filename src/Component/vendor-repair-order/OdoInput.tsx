@@ -1,13 +1,13 @@
 import { Controller, Control, FieldErrors } from 'react-hook-form';
 import { Box, TextField, FormHelperText } from '@mui/material';
-import { VendorRepairOrder } from './types';
+import { EstimateMetadata } from './types';
 
 const OdoInput = ({
   control,
   errors
 }: {
-  control: Control<VendorRepairOrder>;
-  errors: FieldErrors<VendorRepairOrder>;
+  control: Control<EstimateMetadata>;
+  errors: FieldErrors<EstimateMetadata>;
 }) => (
   <>
     <Controller

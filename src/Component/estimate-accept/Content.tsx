@@ -1,5 +1,7 @@
 import { Controller, useForm } from 'react-hook-form';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { useMutation } from 'react-query';
 import {
   Grid,
   Typography,
@@ -14,6 +16,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { DatePicker, TimePicker } from '@mui/x-date-pickers';
 import { VendorRepairOrder } from '@components/common/vendor-repair-order/types';
+import { accept } from 'src/services/estimate-request';
 import schema from './schema';
 import { EstimateAccept } from './types';
 import { VENDOR_REPAIR_ORDER_PAGE } from 'src/constants';
@@ -23,15 +26,16 @@ const Content = ({
 }: {
   vendorRepairOrder: VendorRepairOrder;
 }) => {
+  const router = useRouter();
   const { shop } = vendorRepairOrder;
 
   const defaultValues: EstimateAccept = {
-    vendorWorkOrder: '',
+    vendorWorkOrderNumber: '',
     vendorShop: shop.name,
     availableDate: new Date(),
     availableTimeFrom: new Date(),
     availableTimeTo: new Date(),
-    vendorFleetManagerMessage: ''
+    message: ''
   };
 
   const {
@@ -41,7 +45,21 @@ const Content = ({
   } = useForm<EstimateAccept>({ defaultValues, resolver: yupResolver(schema) });
   const theme = useTheme();
 
-  const onSubmit = (data: EstimateAccept) => console.log(data);
+  const { id, repairOrderNumber } = vendorRepairOrder;
+
+  const { mutateAsync: acceptEstimate } = useMutation(
+    async (formData: EstimateAccept) => await accept(formData, id)
+  );
+
+  const onSubmit = (formData: EstimateAccept) => {
+    acceptEstimate(formData)
+      .then(() => {
+        router.push(`/${VENDOR_REPAIR_ORDER_PAGE}/${repairOrderNumber}`);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   return (
     <Grid item xs={12}>
@@ -209,7 +227,7 @@ const Content = ({
                   Vendor Work Nbr
                 </InputLabel>
                 <Controller
-                  name='vendorWorkOrder'
+                  name='vendorWorkOrderNumber'
                   control={control}
                   render={({ field: { value, onChange } }: any) => (
                     <TextField
@@ -220,9 +238,9 @@ const Content = ({
                       }}
                       value={value}
                       onChange={onChange}
-                      error={Boolean(errors.vendorWorkOrder)}
+                      error={Boolean(errors.vendorWorkOrderNumber)}
                       InputProps={
-                        errors.vendorWorkOrder && {
+                        errors.vendorWorkOrderNumber && {
                           endAdornment: (
                             <FontAwesomeIcon
                               title='Alert'
@@ -238,9 +256,9 @@ const Content = ({
                     />
                   )}
                 />
-                {errors.vendorWorkOrder && (
+                {errors.vendorWorkOrderNumber && (
                   <FormHelperText sx={{ color: 'error.main' }}>
-                    {errors.vendorWorkOrder?.message as string}
+                    {errors.vendorWorkOrderNumber?.message as string}
                   </FormHelperText>
                 )}
               </FormControl>
@@ -264,20 +282,20 @@ const Content = ({
                   Message for VFM
                 </InputLabel>
                 <Controller
-                  name='vendorFleetManagerMessage'
+                  name='message'
                   control={control}
                   render={({ field: { value, onChange } }: any) => (
                     <TextField
                       value={value}
                       onChange={onChange}
-                      error={Boolean(errors.vendorFleetManagerMessage)}
+                      error={Boolean(errors.message)}
                       sx={{
                         '& .MuiOutlinedInput-notchedOutline': {
                           border: `2px solid ${theme.palette.common.black}`
                         }
                       }}
                       InputProps={
-                        errors.vendorFleetManagerMessage && {
+                        errors.message && {
                           endAdornment: (
                             <FontAwesomeIcon
                               title='Alert'
@@ -295,9 +313,9 @@ const Content = ({
                     />
                   )}
                 />
-                {errors.vendorFleetManagerMessage && (
+                {errors.message && (
                   <FormHelperText sx={{ color: 'error.main' }}>
-                    {errors.vendorFleetManagerMessage?.message as string}
+                    {errors.message?.message as string}
                   </FormHelperText>
                 )}
               </FormControl>
@@ -305,15 +323,12 @@ const Content = ({
           </Grid>
         </Grid>
         <Grid item container gap='20px' sx={{ paddingTop: '40px' }}>
-          <Button
-            type='submit'
-            color='secondary'
-            variant='contained'
-            onClick={() => alert('Accept and send placeholder')}
-          >
+          <Button type='submit' color='secondary' variant='contained'>
             Accept and send
           </Button>
-          <Link href={`/${VENDOR_REPAIR_ORDER_PAGE}/${vendorRepairOrder.id}`}>
+          <Link
+            href={`/${VENDOR_REPAIR_ORDER_PAGE}/${vendorRepairOrder.repairOrderNumber}`}
+          >
             <Button>Cancel</Button>
           </Link>
         </Grid>

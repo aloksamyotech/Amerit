@@ -10,22 +10,13 @@ import {
   Paper,
   Typography
 } from '@mui/material';
-import React, { useState } from 'react';
+import React from 'react';
 import { TERMS_MOCK } from 'src/mocks/admin-profile';
 import { useProfile } from '../context/ProfileContext';
-import { saveAdminTermsDetails } from 'src/services/admin';
 
 const Terms = () => {
-  const { updateTab, handleProgress, values } = useProfile();
-  const [isAgree, setIsAgree] = useState<boolean>(false);
-  const handlechange = (event: any) => {
-    setIsAgree(event.target.checked);
-  };
+  const { updateTab, handleProgress } = useProfile();
   const handleSubmit = () => {
-    saveAdminTermsDetails({
-      id: Number(values?.userid),
-      agreed: isAgree
-    });
     handleProgress('terms');
     updateTab(4);
   };
@@ -80,7 +71,7 @@ const Terms = () => {
           </Typography>
           <Grid xs={6} pt={2}>
             <FormControlLabel
-              control={<Checkbox onChange={handlechange} />}
+              control={<Checkbox />}
               label='I agree to the above terms'
             />
             <Grid xs={3}>

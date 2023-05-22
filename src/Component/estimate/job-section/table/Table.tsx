@@ -28,6 +28,7 @@ const Table = ({
   setFreight,
   setTowing,
   setTravel,
+  setTaxes,
   types,
   sectionId,
   vmrs
@@ -43,10 +44,12 @@ const Table = ({
   const [totalText, setTotalText] = useState(0);
   const [refresh, setRefresh] = useState(false);
   const [saveRow, setSaveRow] = useState(false);
+  const [disableButton, setDisableButton] = useState<boolean>(false);
   const [typeText, setTypeText] = useState('');
   const [partDescriptionText, setPartDescriptionText] = useState('');
   const [mfgPartNumberText, setMfgPartNumberText] = useState('');
-  const [isRowValidationFulfilled, setIsRowValidationFulfilled] = useState(false);
+  const [isRowValidationFulfilled, setIsRowValidationFulfilled] =
+    useState(false);
   const [rowToDeleteId, setRowToDeleteId] = useState<number>();
   const [addRow, setAddRow] = useState<JobSectionLine>({} as JobSectionLine);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -145,8 +148,7 @@ const Table = ({
       quantity: qtyText,
       charge: chargeText,
       total: totalText,
-
-      // partDescription: partDescriptionText,
+      partDescription: partDescriptionText
     };
     setAddRow(detail);
   };
@@ -182,14 +184,15 @@ const Table = ({
   }, [refresh]);
 
   useEffect(() => {
-    const parts = data.filter((x) => x.type === 'Parts');
-    const shopSupply = data.filter((x) => x.type === 'Shop Supplies');
-    const fees = data.filter((x) => x.type === 'Fees');
-    const labor = data.filter((x) => x.type === 'Labor');
-    const sublet = data.filter((x) => x.type === 'Sublet');
-    const freight = data.filter((x) => x.type === 'Freight');
-    const towing = data.filter((x) => x.type === 'Towing');
-    const travel = data.filter((x) => x.type === 'Travel');
+    const parts = data.filter((x) => x.jobType === 'Parts');
+    const shopSupply = data.filter((x) => x.jobType === 'Shop Supplies');
+    const fees = data.filter((x) => x.jobType === 'Fees');
+    const labor = data.filter((x) => x.jobType === 'Labor');
+    const sublet = data.filter((x) => x.jobType === 'Sublet');
+    const freight = data.filter((x) => x.jobType === 'Freight');
+    const towing = data.filter((x) => x.jobType === 'Towing');
+    const travel = data.filter((x) => x.jobType === 'Travel');
+    const taxes = data.filter((x) => x.jobType === 'Taxes');
 
     let partsTotal = 0;
     let shopSuppliesTotal = 0;
@@ -199,30 +202,34 @@ const Table = ({
     let freightTotal = 0;
     let towingTotal = 0;
     let travelTotal = 0;
+    let taxesTotal = 0;
 
     parts.forEach((x) => {
-      partsTotal += Number(x.qty) * Number(x.charge);
+      partsTotal += Number(x.quantity) * Number(x.charge);
     });
     fees.forEach((x) => {
-      feesTotal += Number(x.qty) * Number(x.charge);
+      feesTotal += Number(x.quantity) * Number(x.charge);
     });
     shopSupply.forEach((x) => {
-      shopSuppliesTotal += Number(x.qty) * Number(x.charge);
+      shopSuppliesTotal += Number(x.quantity) * Number(x.charge);
     });
     labor.forEach((x) => {
-      laborTotal += Number(x.qty) * Number(x.charge);
+      laborTotal += Number(x.quantity) * Number(x.charge);
     });
     sublet.forEach((x) => {
-      subletTotal += Number(x.qty) * Number(x.charge);
+      subletTotal += Number(x.quantity) * Number(x.charge);
     });
     freight.forEach((x) => {
-      freightTotal += Number(x.qty) * Number(x.charge);
+      freightTotal += Number(x.quantity) * Number(x.charge);
     });
     towing.forEach((x) => {
-      towingTotal += Number(x.qty) * Number(x.charge);
+      towingTotal += Number(x.quantity) * Number(x.charge);
     });
     travel.forEach((x) => {
-      travelTotal += Number(x.qty) * Number(x.charge);
+      travelTotal += Number(x.quantity) * Number(x.charge);
+    });
+    taxes.forEach((x) => {
+      taxesTotal += Number(x.quantity) * Number(x.charge);
     });
 
     setParts(partsTotal);
@@ -233,24 +240,30 @@ const Table = ({
     setFreight(freightTotal);
     setTowing(towingTotal);
     setTravel(travelTotal);
+    setTaxes(taxesTotal);
   }, [data]);
 
-  const handleAddClick = () => {
+  const isEditableElementExists = () => {
     const isElement = data.some(
       (estimateItem: any) => estimateItem?.charge?.props
     );
-    if (!isElement) {
+
+    return isElement;
+  };
+
+  const handleAddClick = () => {
+    if (!isEditableElementExists()) {
+      setDisableButton(true);
       const rowIndex = data && data.length ? data.length : 0;
       setData([
         ...data,
         {
-          type: (
+          jobType: (
             <Box>
               <EditableCell
                 rowIndex={rowIndex}
-                accessorKey='type'
+                accessorKey='jobType'
                 handleSaveRow={handleSaveRow}
-                isTypeSelect={true}
                 types={types}
               />
               <Box sx={{ height: '12px' }}>
@@ -282,11 +295,11 @@ const Table = ({
               </Box>
             </Box>
           ),
-          mfgPartNumber: (
+          partNumber: (
             <Box>
               <EditableCell
                 rowIndex={rowIndex}
-                accessorKey='mfgPartNumber'
+                accessorKey='partNumber'
                 handleSaveRow={handleSaveRow}
               />
               <Box sx={{ height: '12px' }}>
@@ -300,7 +313,7 @@ const Table = ({
               </Box>
             </Box>
           ),
-          qty: (
+          quantity: (
             <Box>
               <EditableCell
                 rowIndex={rowIndex}
@@ -345,7 +358,7 @@ const Table = ({
               style={{
                 width: '64px',
                 border: 'none',
-                backgroundColor: 'transparent',
+                backgroundColor: 'transparent'
               }}
             />
           )
@@ -375,17 +388,18 @@ const Table = ({
     setRowToDeleteId(id || 0);
     setIndex(rowIndex);
     setRefresh(true);
+    setDisableButton(false);
   };
 
   const handleSaveRow = (index: number, accessorKey: string, value: string) => {
     setRowIndexToUpdate(index);
-    if (accessorKey === 'type') {
+    if (accessorKey === 'jobType') {
       setTypeText(value);
     }
     if (accessorKey === 'partDescription') {
       setPartDescriptionText(value);
     }
-    if (accessorKey === 'mfgPartNumber') {
+    if (accessorKey === 'partNumber') {
       setMfgPartNumberText(value);
     }
     if (accessorKey === 'qty') {
@@ -402,10 +416,10 @@ const Table = ({
   useEffect(() => {
     if (isRowValidationFulfilled) {
       if (rowIndexToUpdate > -1 && saveRow) {
-        data[rowIndexToUpdate]['type'] = typeText;
+        data[rowIndexToUpdate]['jobType'] = typeText;
         data[rowIndexToUpdate]['partDescription'] = partDescriptionText;
-        data[rowIndexToUpdate]['mfgPartNumber'] = mfgPartNumberText;
-        data[rowIndexToUpdate]['qty'] = qtyText;
+        data[rowIndexToUpdate]['partNumber'] = mfgPartNumberText;
+        data[rowIndexToUpdate]['quantity'] = qtyText;
         data[rowIndexToUpdate]['charge'] = chargeText;
         data[rowIndexToUpdate]['total'] = totalText;
         setData([...data]);
@@ -432,7 +446,10 @@ const Table = ({
     isFulfilled = triggerValidation(typeRef, typeText);
     if (isFulfilled) activeValidations.push(isFulfilled);
 
-    isFulfilled = triggerValidation(partDescriptionTextRef, partDescriptionText);
+    isFulfilled = triggerValidation(
+      partDescriptionTextRef,
+      partDescriptionText
+    );
     if (isFulfilled) activeValidations.push(isFulfilled);
 
     isFulfilled = triggerValidation(mfgPartNumberTextRef, mfgPartNumberText);
@@ -446,6 +463,7 @@ const Table = ({
 
     if (activeValidations.length === 5) {
       setSaveRow(true);
+      setDisableButton(false);
     }
   };
 
@@ -459,9 +477,9 @@ const Table = ({
           data={data}
           enableRowOrdering
           enableSorting={false}
-          muiTablePaperProps = {{
+          muiTablePaperProps={{
             elevation: 0,
-            sx: {border: `2px solid ${theme.palette.charcoal[200]}`}
+            sx: { border: `2px solid ${theme.palette.charcoal[200]}` }
           }}
           muiTableBodyRowDragHandleProps={({ table }) => ({
             onDragEnd: () => {
@@ -484,6 +502,7 @@ const Table = ({
                   onClick={handleAddClick}
                   color='secondary'
                   startIcon={<AddIcon />}
+                  disabled={disableButton}
                 >
                   ADD LINE
                 </Button>
@@ -497,12 +516,12 @@ const Table = ({
               style={{
                 display: 'flex',
                 justifyContent: 'right',
-                width: '70px',
+                width: '70px'
               }}
             >
               {row.original.charge?.props && (
                 <IconButton onClick={handleSaveClick}>
-                  <SaveIcon fontSize="small" />
+                  <SaveIcon fontSize='small' />
                 </IconButton>
               )}
               <IconButton
@@ -510,7 +529,7 @@ const Table = ({
                   handleDeleteClick(row.index);
                 }}
               >
-                <DeleteIcon fontSize="small" />
+                <DeleteIcon fontSize='small' />
               </IconButton>
             </Box>
           )}

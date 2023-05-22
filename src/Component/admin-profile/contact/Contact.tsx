@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { useQuery } from 'react-query';
+import { useMutation, useQuery } from 'react-query';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
   Box,
@@ -45,7 +45,7 @@ const defaultValues = {
   ]
 };
 
-const AdminContact = () => {
+const Contact = () => {
   const { updateTab, handleProgress, values } = useProfile();
 
   const [contactTypes, setContactTypes] =
@@ -57,7 +57,6 @@ const AdminContact = () => {
     formState: { errors }
   } = useForm({
     defaultValues,
-
     resolver: yupResolver(ContactFormSchema as any)
   });
 
@@ -65,10 +64,13 @@ const AdminContact = () => {
     getAdminContactTypes().then((data) => setContactTypes(data))
   );
 
+  const mutation = useMutation((data: typeof defaultValues) =>
+    saveAdminContactDetails(data, Number(values?.userid))
+  );
   const onSubmit = (data: typeof defaultValues) => {
     updateTab(1);
     handleProgress('contact');
-    saveAdminContactDetails(data, Number(values?.userid));
+    mutation.mutate(data);
   };
 
   return (
@@ -93,7 +95,6 @@ const AdminContact = () => {
                             sx={style}
                             value={value}
                             onChange={onChange}
-                            data-testid='principalPerson'
                             placeholder='Name'
                             error={Boolean(errors.principalPerson)}
                           />
@@ -101,9 +102,7 @@ const AdminContact = () => {
                       )}
                     />
                     {errors.principalPerson && (
-                      <FormHelperText
-                        sx={{ color: 'error.main', marginLeft: '0px' }}
-                      >
+                      <FormHelperText error sx={{ ml: 0 }}>
                         {errors.principalPerson.message}
                       </FormHelperText>
                     )}
@@ -121,7 +120,6 @@ const AdminContact = () => {
                             sx={style}
                             value={value}
                             onChange={onChange}
-                            data-testid='principalPersonTitle'
                             placeholder='Title'
                             error={Boolean(errors.principalPersonTitle)}
                           />
@@ -129,9 +127,7 @@ const AdminContact = () => {
                       )}
                     />
                     {errors.principalPersonTitle && (
-                      <FormHelperText
-                        sx={{ color: 'error.main', marginLeft: '0px' }}
-                      >
+                      <FormHelperText error sx={{ ml: 0 }}>
                         {errors.principalPersonTitle.message}
                       </FormHelperText>
                     )}
@@ -158,7 +154,6 @@ const AdminContact = () => {
                                   sx={style}
                                   value={value}
                                   onChange={onChange}
-                                  data-testid={`otherContacts[${index}].name`}
                                   placeholder='Name'
                                   error={Boolean(
                                     errors.otherContacts?.[index]?.name
@@ -263,4 +258,4 @@ const AdminContact = () => {
   );
 };
 
-export default AdminContact;
+export default Contact;

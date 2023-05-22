@@ -1,6 +1,6 @@
-import { VendorEstimateFields } from '@components/estimate/job-section/types';
+import { VendorRepairOrder } from '@components/common/vendor-repair-order/types';
 
-export interface VendorRepairOrder {
+export interface EstimateMetadata {
   odo: string;
   workOrder: string;
 }
@@ -8,8 +8,5 @@ export interface VendorRepairOrder {
 export interface EstimateAcceptButtonType {
   isDirty: boolean;
   isSaved: boolean;
+  vendorRepairOrder: VendorRepairOrder;
 }
-
-export type Summary = {
-  [key in keyof VendorEstimateFields]: number;
-};

@@ -1,4 +1,5 @@
-import { Box, TextField, InputLabel } from '@mui/material';
+import { Dispatch, SetStateAction } from 'react';
+import { Box, TextField, InputLabel, InputAdornment } from '@mui/material';
 import {
   VendorEstimateFields,
   SummaryField
@@ -18,11 +19,24 @@ const summaryFields: SummaryField[] = [
 
 const LineItemsSummary = ({
   vendorEstimateItem,
-  availableLineItemTypes
+  availableLineItemTypes,
+  enableTaxes,
+  taxes,
+  setTaxes
 }: {
   vendorEstimateItem: VendorEstimateFields;
   availableLineItemTypes: string[];
+  enableTaxes?: boolean;
+  taxes?: number;
+  setTaxes?: Dispatch<SetStateAction<number>>;
 }) => {
+  const updateTaxes = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+    if (setTaxes) {
+      setTaxes(Number(value));
+    }
+  };
+
   return (
     <Box display='flex' justifyContent='center'>
       {summaryFields.map((field, index) => (
@@ -36,10 +50,48 @@ const LineItemsSummary = ({
             type='number'
             size='small'
             disabled={!availableLineItemTypes?.includes(field.label)}
-            value={vendorEstimateItem[field.prop]}
+            value={Number(vendorEstimateItem[field.prop]).toFixed(2)}
+            InputProps={{
+              sx: {
+                '.MuiInputBase-input': {
+                  textAlign: 'right',
+                  '&::placeholder': {
+                    textAlign: 'right'
+                  }
+                }
+              },
+              startAdornment: (
+                <InputAdornment position='start'>$</InputAdornment>
+              )
+            }}
           />
         </Box>
       ))}
+      <Box p={2}>
+        <InputLabel shrink={true} sx={{ fontWeight: 1000 }} htmlFor='Taxes'>
+          Taxes
+        </InputLabel>
+        <TextField
+          name='Taxes'
+          sx={textFieldStyle}
+          type='number'
+          value={enableTaxes ? taxes : Number(taxes).toFixed(2)}
+          onChange={updateTaxes}
+          size='small'
+          disabled={!enableTaxes}
+          InputProps={{
+            sx: {
+              '.MuiInputBase-input': {
+                textAlign: 'right',
+                '&::placeholder': {
+                  textAlign: 'right'
+                }
+              }
+            },
+            startAdornment: <InputAdornment position='start'>$</InputAdornment>
+          }}
+        />
+      </Box>
       <Box p={2} pr={0}>
         <InputLabel
           shrink={true}
@@ -53,8 +105,19 @@ const LineItemsSummary = ({
           sx={textFieldStyle}
           type='number'
           disabled
-          value={vendorEstimateItem.sectionTotal}
+          value={Number(vendorEstimateItem.sectionTotal).toFixed(2)}
           size='small'
+          InputProps={{
+            sx: {
+              '.MuiInputBase-input': {
+                textAlign: 'right',
+                '&::placeholder': {
+                  textAlign: 'right'
+                }
+              }
+            },
+            startAdornment: <InputAdornment position='start'>$</InputAdornment>
+          }}
         />
       </Box>
     </Box>

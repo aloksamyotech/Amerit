@@ -28,7 +28,6 @@ const JobSections = () => {
           notes,
           jobType,
         } = job;
-       console.log('job', job);
 
         return (
           <VroLinesProvider key={sectionSqNbr} data={{ data: lines }}>

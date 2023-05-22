@@ -13,7 +13,9 @@ import {
   faBars,
   faUser,
   faArrowRightFromBracket,
-  faXmark
+  faXmark,
+  faDownload,
+  faEnvelope
 } from '@fortawesome/free-solid-svg-icons';
 
 library.add(
@@ -25,5 +27,7 @@ library.add(
   faBars,
   faUser,
   faArrowRightFromBracket,
-  faXmark
+  faXmark,
+  faDownload,
+  faEnvelope
 );

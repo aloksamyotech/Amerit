@@ -6,8 +6,8 @@ const schema = yup
     availableDate: yup.date().required(),
     availableTimeFrom: yup.date().required(),
     availableTimeTo: yup.date().required(),
-    vendorWorkOrder: yup.string(),
-    vendorFleetManagerMessage: yup.string()
+    vendorWorkOrderNumber: yup.string(),
+    message: yup.string()
   })
   .required();
 

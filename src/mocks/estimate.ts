@@ -39,10 +39,10 @@ export const REPAIR_REASONS_MOCKS: RepairReason[] = [
 
 export const VENDOR_ESTIMATE_MOCKS: EstimateList[] = [
   {
-    type: 'Parts',
+    jobType: 'Parts',
     partDescription: 'Part description',
-    mfgPartNumber: 'mfg Part Number',
-    qty: 2,
+    partNumber: 'mfg Part Number',
+    quantity: 2,
     charge: 120.0,
     total: 240.0
   }
@@ -50,10 +50,10 @@ export const VENDOR_ESTIMATE_MOCKS: EstimateList[] = [
 
 export const VENDOR_ACTUAL_MOCKS: EstimateList[] = [
   {
-    type: 'Freight',
+    jobType: 'Freight',
     partDescription: 'Freight description',
-    mfgPartNumber: 'mfg Part Number',
-    qty: 1,
+    partNumber: 'mfg Part Number',
+    quantity: 1,
     charge: 1000.0,
     total: 1000.0
   }

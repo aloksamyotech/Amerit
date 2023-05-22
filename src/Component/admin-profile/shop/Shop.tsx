@@ -23,7 +23,6 @@ const columns: GridColDef[] = [
   {
     field: 'Phone',
     headerName: 'Phone',
-    type: 'number',
     minWidth: 150,
     flex: 1
   },

@@ -169,6 +169,16 @@ const AddJobSectionItem = ({ sectionNumber, removeElement }: JobSection) => {
                           );
                         })}
                       </Select>
+                      {errors.jobType && (
+                      <FormHelperText
+                        sx={{
+                          color: 'error.main',
+                          marginLeft: '0px'
+                        }}
+                      >
+                        {errors?.jobType?.message}
+                      </FormHelperText>
+                    )}
                     </Box>
                   );
                 }}

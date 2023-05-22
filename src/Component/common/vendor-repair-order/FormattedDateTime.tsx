@@ -1,13 +1,16 @@
 import { Typography, styled } from '@mui/material';
+import { EMPTY_VALUE } from 'src/constants';
 import { TypographyFormattedDateTime } from './types';
 
 const FormattedDateTime = ({
   date,
   direction,
   color,
+  justify,
   ...typographyProps
 }: TypographyFormattedDateTime) => {
-  if (date == null || date.length === 0) return <span>--</span>;
+  if (date == null || date.length === 0)
+    return <Typography component='span'>{EMPTY_VALUE}</Typography>;
 
   const timeOptions: Intl.DateTimeFormatOptions = {
     hour12: true,
@@ -24,7 +27,8 @@ const FormattedDateTime = ({
   const StyledTime = styled('time')({
     display: 'flex',
     flexDirection: direction,
-    gap: direction === 'row' ? '1em' : '0'
+    gap: direction === 'row' ? '1em' : '0',
+    justifyContent: justify ?? 'flex-start'
   });
 
   return (

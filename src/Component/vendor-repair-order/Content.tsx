@@ -1,3 +1,4 @@
+import { Dispatch, SetStateAction } from 'react';
 import { Control, FieldErrors } from 'react-hook-form';
 import { Grid, Typography, Button, Box } from '@mui/material';
 import {
@@ -5,24 +6,30 @@ import {
   VendorShopSummary
 } from '@components/common/vendor-repair-order';
 import { VendorRepairOrder } from '@components/common/vendor-repair-order/types';
+import useSummaries from '@hooks/summaries';
+import { STATUS_REQUESTED } from 'src/constants';
 import OdoInput from './OdoInput';
 import WorkOrderInput from './WorkOrderInput';
-import { VendorRepairOrder as VendorRepairOrderForm } from './types';
+import { EMPTY_VALUE } from 'src/constants';
+import { EstimateMetadata } from './types';
 import { formCaption, formValue } from './styles';
 
 const Content = ({
   vendorRepairOrder,
-  estimateCreate,
   control,
-  errors
+  errors,
+  setDisplaySummary
 }: {
   vendorRepairOrder: VendorRepairOrder;
-  estimateCreate: boolean;
-  control: Control<VendorRepairOrderForm, any>;
-  errors: FieldErrors<VendorRepairOrderForm>;
+  control: Control<EstimateMetadata, any>;
+  errors: FieldErrors<EstimateMetadata>;
+  setDisplaySummary: Dispatch<SetStateAction<boolean>>;
 }) => {
-  const { status, unit, estimateDue, responseDue } = vendorRepairOrder;
+  const { status, unit, estimateDue, responseDue, shopAvailable } =
+    vendorRepairOrder;
   const { vin, year, make, model, due } = unit;
+
+  const { summary } = useSummaries();
 
   return (
     <Grid item container xs={12} sx={{ color: 'charcoal.main' }}>
@@ -56,18 +63,20 @@ const Content = ({
             <Grid
               item
               xs={6}
-              lg={estimateCreate ? 3 : 9}
+              lg={vendorRepairOrder.status !== STATUS_REQUESTED ? 3 : 9}
               sx={{ marginBottom: { xs: '10px', lg: '0' } }}
             >
               <Typography sx={formCaption}>Contact</Typography>
-              <Typography sx={formValue}>XX Name Surname XX</Typography>
+              <Typography sx={formValue}>
+                {vendorRepairOrder?.shop?.name ?? EMPTY_VALUE}
+              </Typography>
             </Grid>
-            {estimateCreate && (
+            {vendorRepairOrder.status !== STATUS_REQUESTED && (
               <>
                 <Grid item xs={6} lg={3}>
                   <Typography sx={formCaption}>Estimate Total</Typography>
                   <Button
-                    onClick={() => alert('Estimate Total placeholder')}
+                    onClick={() => setDisplaySummary(true)}
                     color='secondary'
                     variant='contained'
                     sx={{
@@ -76,7 +85,7 @@ const Content = ({
                     }}
                   >
                     <Typography fontSize='11px' sx={{ fontWeight: 700 }}>
-                      $2,400.00
+                      ${summary.sectionTotal.toFixed(2)}
                     </Typography>
                     <Typography fontSize='11px'>See Breakdown</Typography>
                   </Button>
@@ -84,7 +93,7 @@ const Content = ({
                 <Grid item xs={6} lg={3}>
                   <Typography sx={formCaption}>Actual Total</Typography>
                   <Button
-                    onClick={() => alert('Actual Total placeholder')}
+                    onClick={() => setDisplaySummary(true)}
                     color='secondary'
                     variant='contained'
                     sx={{
@@ -92,8 +101,9 @@ const Content = ({
                       flexDirection: 'column'
                     }}
                   >
+                    {/* TODO: Replace with actual total once the API is available */}
                     <Typography fontSize='11px' sx={{ fontWeight: 700 }}>
-                      $2,400.00
+                      $0.00
                     </Typography>
                     <Typography fontSize='11px'>See Breakdown</Typography>
                   </Button>
@@ -125,7 +135,7 @@ const Content = ({
               lg={3}
               sx={{ marginBottom: { xs: '10px', lg: '0' } }}
             >
-              <Typography sx={formCaption}>{vin}</Typography>
+              <Typography sx={formValue}>VIN {vin}</Typography>
               <Typography
                 sx={formValue}
               >{`${year} ${make}, ${model}`}</Typography>
@@ -137,14 +147,18 @@ const Content = ({
               sx={{ marginBottom: { xs: '10px', lg: '0' } }}
             >
               <Typography sx={formCaption}>Unit</Typography>
-              <Typography sx={formValue}>XX VMZ1234567 XX</Typography>
+              <Typography sx={formValue}>
+                {vendorRepairOrder?.unit?.id ?? EMPTY_VALUE}
+              </Typography>
             </Grid>
             <Grid item xs={6} lg={3}>
               <Typography sx={formCaption}>ODO*</Typography>
-              {estimateCreate ? (
+              {vendorRepairOrder.status !== STATUS_REQUESTED ? (
                 <OdoInput control={control} errors={errors} />
               ) : (
-                <Typography sx={formValue}>XX 999,999.00 XX</Typography>
+                <Typography sx={formValue}>
+                  {vendorRepairOrder.odo ?? EMPTY_VALUE}
+                </Typography>
               )}
             </Grid>
             <Grid item xs={6} lg={3} sx={{ alignSelf: 'end' }}>
@@ -196,7 +210,13 @@ const Content = ({
               sx={{ marginBottom: { xs: '10px', lg: '0' } }}
             >
               <Typography sx={formCaption}>Shop Available</Typography>
-              <Typography fontSize='14px'>XXX</Typography>
+              <Typography fontSize='14px'>
+                <FormattedDateTime
+                  fontSize='14px'
+                  date={shopAvailable}
+                  direction='row'
+                />
+              </Typography>
             </Grid>
             <Grid item xs={6} lg={3}>
               <Typography sx={formCaption}>Estimate Due</Typography>
@@ -235,16 +255,20 @@ const Content = ({
           <Grid item xs={4} lg={12}>
             <Box sx={{ marginBottom: { lg: '10px', xs: '0' } }}>
               <Typography sx={formCaption}>Work Order</Typography>
-              {estimateCreate ? (
+              {vendorRepairOrder.status !== STATUS_REQUESTED ? (
                 <WorkOrderInput control={control} />
               ) : (
-                <Typography sx={formValue}>XX</Typography>
+                <Typography sx={formValue}>
+                  {vendorRepairOrder.vendorWorkOrderNumber ?? EMPTY_VALUE}
+                </Typography>
               )}
             </Box>
           </Grid>
           <Grid item xs={4} lg={12}>
             <Typography sx={formCaption}>Work Invoice</Typography>
-            <Typography sx={formValue}>XX</Typography>
+            <Typography sx={formValue}>
+              {vendorRepairOrder.workInvoiceNumber ?? EMPTY_VALUE}
+            </Typography>
           </Grid>
         </Grid>
       </Grid>

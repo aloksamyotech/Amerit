@@ -21,6 +21,9 @@ const DataGrid = ({
           fontSize: '12px',
           '& .MuiTypography-root': {
             fontSize: '12px'
+          },
+          '& .MuiDataGrid-virtualScroller': {
+            overflow: 'hidden'
           }
         }}
         getRowHeight={() => 'auto'}
