@@ -5,9 +5,10 @@ import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
 import TabPanel from '@mui/lab/TabPanel';
 import { Button, Grid, Tabs } from '@mui/material';
-import useJobSection from '@hooks/job-section';
+import useEstimateFields from '@hooks/estimate-fields';
 import LineItemsSummary from '@components/common/line-items-summary/LineItemsSummary';
 import {
+  EstimateLineItem,
   JobSectionEstimate,
   JobType,
   LineItem,
@@ -18,7 +19,7 @@ import {
   createJobSectionEstimate,
   createJobSectionActual,
   types,
-  sectionTypes,
+  sectionTypes
 } from 'src/services/estimate';
 import Table from '../table';
 import { TableContext } from '../VroLinesProvider';
@@ -28,7 +29,7 @@ export default function TabsControl({
   setTotalEstimate,
   setTotalActual,
   sectionId,
-  vmrs,
+  vmrs
 }: VendorEstimateType) {
   const [value, setValue] = useState('1');
   const [sectionType, setSectionType] = useState<JobType>();
@@ -58,7 +59,7 @@ export default function TabsControl({
     if (sectionType) {
       sectionTypeMutate();
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sectionType]);
 
   // TODO: This whole area needs a refactor. I am not doing it now because Umer is
@@ -66,7 +67,7 @@ export default function TabsControl({
   // will be lumped into here.
   // We need something along the lines of an Estimate (that is used within the first
   // TabPanel) component that obtains its data from the API, makes its own call to
-  // useJobSection, calls mutations to the API etc. This will then allow us to have
+  // useEstimateFields, calls mutations to the API etc. This will then allow us to have
   // an Actuals component that does similar things, but for its own concerns.
 
   const {
@@ -82,13 +83,15 @@ export default function TabsControl({
     setTowing: setTowingEstimate,
     travel: travelEstimate,
     setTravel: setTravelEstimate,
+    taxes: taxesEstimate,
+    setTaxes: setTaxesEstimate,
     fees: feesEstimate,
     setFees: setFeesEstimate,
     parts: partsEstimate,
     setParts: setPartsEstimate,
     shopSupplies: shopSuppliesEstimate,
     setShopSupplies: setShopSuppliesEstimate
-  } = useJobSection(type!, setTotalEstimate!);
+  } = useEstimateFields(type!, setTotalEstimate!);
 
   const {
     availableLineItemTypes: availableLineItemTypesActual,
@@ -103,13 +106,15 @@ export default function TabsControl({
     setTowing: setTowingActual,
     travel: travelActual,
     setTravel: setTravelActual,
+    taxes: taxesActual,
+    setTaxes: setTaxesActual,
     fees: feesActual,
     setFees: setFeesActual,
     parts: partsActual,
     setParts: setPartsActual,
     shopSupplies: shopSuppliesActual,
     setShopSupplies: setShopSuppliesActual
-  } = useJobSection(type!, setTotalActual!);
+  } = useEstimateFields(type!, setTotalActual!);
 
   const [estimatePayLoad, setEstimatePayload] = useState<JobSectionEstimate>();
   const [actualPayLoad, setActualPayload] = useState<JobSectionEstimate>();
@@ -150,6 +155,7 @@ export default function TabsControl({
       freight: freightEstimate,
       towing: towingEstimate,
       travel: travelEstimate,
+      taxes: taxesEstimate,
       fees: feesEstimate,
       parts: partsEstimate,
       shopSupplies: shopSuppliesEstimate
@@ -164,6 +170,7 @@ export default function TabsControl({
       freight: freightActual,
       towing: towingActual,
       travel: travelActual,
+      taxes: taxesActual,
       fees: feesActual,
       parts: partsActual,
       shopSupplies: shopSuppliesActual
@@ -179,6 +186,7 @@ export default function TabsControl({
     freight: freightEstimate,
     towing: towingEstimate,
     travel: travelEstimate,
+    taxes: taxesEstimate,
     sectionTotal: sectionTotalEstimate
   };
 
@@ -191,28 +199,29 @@ export default function TabsControl({
     freight: freightActual,
     towing: towingActual,
     travel: travelActual,
+    taxes: taxesActual,
     sectionTotal: sectionTotalActual
   };
 
-  const tableRows = data?.map((row: any) => { // TODO - Need to check with BE about the type
+  const tableRows = data?.map((row: EstimateLineItem) => { // TODO - Need to check with BE about the type
     const {
-      id,
+      jobType,
+      partDescription,
+      partNumber,
+      quantity,
+      charge,
       vroSectionId,
-      lineDesc1PartNbr,
-      lineDesc2MfgPartDesc,
-      vendEstQty,
-      vendEstUnitAmt,
-      vroLineTypeCode
+      id
     } = row;
 
     return (
       {
-        type: vroLineTypeCode,
-        partDescription: lineDesc1PartNbr,
-        mfgPartNumber: lineDesc2MfgPartDesc,
-        qty: vendEstQty,
-        charge: vendEstUnitAmt,
-        total: vendEstQty * vendEstUnitAmt,
+        jobType,
+        partDescription,
+        partNumber,
+        quantity,
+        charge,
+        total: quantity * charge,
         vroSectionId,
         id
       }
@@ -252,6 +261,9 @@ export default function TabsControl({
               <LineItemsSummary
                 vendorEstimateItem={vendorEstimateItem}
                 availableLineItemTypes={availableLineItemTypesEstimate}
+                enableTaxes
+                taxes={taxesEstimate}
+                setTaxes={setTaxesEstimate}
               />
               <Box>
                 <Table
@@ -266,6 +278,7 @@ export default function TabsControl({
                   setFreight={setFreightEstimate}
                   setTowing={setTowingEstimate}
                   setTravel={setTravelEstimate}
+                  setTaxes={setTaxesEstimate}
                   sectionId={sectionId}
                   vmrs={vmrs}
                 />
@@ -288,6 +301,9 @@ export default function TabsControl({
               <LineItemsSummary
                 vendorEstimateItem={vendorActualItem}
                 availableLineItemTypes={availableLineItemTypesActual}
+                enableTaxes
+                taxes={taxesActual}
+                setTaxes={setTaxesActual}
               />
               <Box>
                 <Table
@@ -302,6 +318,7 @@ export default function TabsControl({
                   setFreight={setFreightActual}
                   setTowing={setTowingActual}
                   setTravel={setTravelActual}
+                  setTaxes={setTaxesActual}
                   availableLineItemTypes={availableLineItemTypesActual}
                 />
               </Box>

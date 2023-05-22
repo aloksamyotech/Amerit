@@ -12,12 +12,10 @@ const EstimateReviewButtons = ({
       href={`${ESTIMATE_ACCEPT_PAGE}/${vendorRepairOrder.repairOrderNumber}`}
       text='Accept'
     />
-    {vendorRepairOrder.status === 'Requested' && (
-      <LinkButton
-        href={`${ESTIMATE_DECLINE_PAGE}/${vendorRepairOrder.repairOrderNumber}`}
-        text='Decline'
-      />
-    )}
+    <LinkButton
+      href={`${ESTIMATE_DECLINE_PAGE}/${vendorRepairOrder.repairOrderNumber}`}
+      text='Decline'
+    />
   </>
 );
 

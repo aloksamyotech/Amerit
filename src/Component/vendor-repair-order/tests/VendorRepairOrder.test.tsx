@@ -17,11 +17,10 @@ jest.mock('src/services/search', () => ({
 }));
 
 describe('VendorRepairOrder', () => {
-  test('renders VendorRepairOrder and RepairJobs', async () => {
+  test('renders VendorRepairOrder', async () => {
     await act(async () => {
       render(<VendorRepairOrder />);
     });
     expect(screen.getByRole('region')).toBeInTheDocument();
-    expect(screen.getByTestId('repair-jobs')).toBeInTheDocument();
   });
 });

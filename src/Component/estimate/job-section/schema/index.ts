@@ -9,7 +9,7 @@ export const editJobSectionschema = yup.object().shape({
 
 export const addJobSectionSchema = yup.object().shape({
   vrms: yup.string().required(),
-  type: yup.string().optional(),
+  jobType: yup.string().required(),
   complaint: yup.string().required(),
   cause: yup.string().required(),
   correction: yup.string().required(),

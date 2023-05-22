@@ -1,34 +1,59 @@
-import { Grid, Typography } from '@mui/material';
+import { Box, Grid, Typography } from '@mui/material';
 import { VendorRepairOrder } from '@components/common/vendor-repair-order/types';
+import Toolbar from '@components/messaging/Toolbar';
+import { EMPTY_VALUE } from 'src/constants';
 
 const Header = ({
   vendorRepairOrder
 }: {
   vendorRepairOrder: VendorRepairOrder;
-}) => (
-  <Grid
-    item
-    container
-    sx={{ alignItems: 'center', marginTop: '15px', marginBottom: '10px' }}
-  >
-    <Grid item xs={6}>
-      <Typography
-        variant='h1'
-        sx={{ color: 'charcoal.main', fontSize: '1.1em', fontWeight: 600 }}
+}) => {
+  return (
+    <Grid
+      item
+      container
+      sx={{ alignItems: 'center', marginTop: '15px', marginBottom: '10px' }}
+    >
+      <Grid item xs={6}>
+        <Typography
+          variant='h1'
+          sx={{ color: 'common.black', fontSize: '1.1em', fontWeight: 600 }}
+        >
+          <Box component='span'>
+            Repair Order {vendorRepairOrder.repairOrderNumber}
+          </Box>{' '}
+          |{' '}
+          <Box
+            sx={{
+              opacity:
+                vendorRepairOrder?.purchaseOrderNumber?.length > 0 ? 1 : 0.3
+            }}
+            component='span'
+          >
+            Purchase Order{' '}
+            {vendorRepairOrder.purchaseOrderNumber ?? EMPTY_VALUE}
+          </Box>
+        </Typography>
+      </Grid>
+      <Grid item xs={5} sx={{ textAlign: 'right' }}>
+        <Typography
+          variant='h2'
+          color='common.black'
+          sx={{ fontSize: '1.1em', fontWeight: 600 }}
+        >
+          Additional Repair Must Be Authorized
+        </Typography>
+      </Grid>
+      <Grid
+        item
+        xs={1}
+        color='common.black'
+        sx={{ textAlign: 'right', fontSize: '1.1em', fontWeight: 600 }}
       >
-        Repair Order {vendorRepairOrder.repairOrderNumber} | Purchase Order XXXX
-      </Typography>
+        <Toolbar />
+      </Grid>
     </Grid>
-    <Grid item xs={6} sx={{ textAlign: 'right' }}>
-      <Typography
-        variant='h2'
-        color='charcoal.main'
-        sx={{ fontSize: '1.1em', fontWeight: 600 }}
-      >
-        Additional Repair Must Be Authorized
-      </Typography>
-    </Grid>
-  </Grid>
-);
+  );
+};
 
 export default Header;

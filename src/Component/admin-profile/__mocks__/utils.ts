@@ -44,13 +44,13 @@ const PAYMENT_TERMS_ADMIN: SelectOptionsProps[] = [
   },
   {
     id: 1,
-    label: 'Payment Terms1',
+    label: 'Net 60 terms with 3% short pay',
     value: 1,
     disabled: false
   },
   {
     id: 2,
-    label: 'Payment Terms2',
+    label: 'Net 30 terms with 6% short pay',
     value: 2,
     disabled: false
   }

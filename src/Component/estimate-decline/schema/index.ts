@@ -2,8 +2,8 @@ import * as yup from 'yup';
 
 const schema = yup
   .object({
-    reasonId: yup.string(),
-    vendorFleetManagerMessage: yup.string()
+    code: yup.string(),
+    message: yup.string()
   })
   .required();
 

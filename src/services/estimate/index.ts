@@ -6,6 +6,7 @@ import {
   JobSectionEstimate,
   JobSectionLine
 } from '@components/estimate/job-section/types';
+import { VendorRepairOrder } from '@components/common/vendor-repair-order/types';
 
 const API_ENDPOINT = 'https://vendorportalbeaps-dev.azurewebsites.net/api'; // TODO: put this in a config
 
@@ -118,4 +119,11 @@ export const createJobSectionEstimateRow = async (
     .then((response) => {
       console.log(response);
     });
+};
+
+// TODO: Endpoint requested in AVP-184
+// TODO: I'm not sure at this stage what is being submitted, is it the
+// repair order or an estimate?
+export const submitEstimate = (vendorRepairOrder: VendorRepairOrder) => {
+  return Promise.resolve(vendorRepairOrder);
 };

@@ -1,7 +1,7 @@
 import { Box } from '@mui/material';
 import DataGrid from '@components/datagrid';
 import { VendorRepairOrder } from '@components/common/vendor-repair-order/types';
-import { columns } from 'src/mocks/vendor-repair-order';
+import { Columns } from './Columns';
 
 const VendorRepairOrderList = ({
   searchResults
@@ -10,7 +10,7 @@ const VendorRepairOrderList = ({
 }) => {
   return (
     <Box sx={{ paddingBottom: '6px' }}>
-      <DataGrid rows={searchResults} columns={columns} />
+      <DataGrid rows={searchResults} columns={Columns} />
     </Box>
   );
 };

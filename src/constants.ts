@@ -5,14 +5,22 @@ export const CONTENT_MAX_WIDTH = '1380px';
 export const NAV_WIDTH = 240;
 export const CONTAINER_BORDER_RADIUS = 8;
 
+export const MESSAGE_BOX_HEIGHT = 535;
+export const MESSAGE_BOX_WIDTH = 459;
+
 export const TABLE_DEFAULT_PER_PAGE = 10;
 export const TABLE_PAGE_SIZE_OPTIONS = [10];
 
 export const HIGH_PRIORITY_VALUE = 'ultricies';
+export const EMPTY_VALUE = '--';
 
 export const VENDOR_REPAIR_ORDER_PAGE = '/vendor-repair-order';
 export const ESTIMATE_ACCEPT_PAGE = '/estimate-accept';
 export const ESTIMATE_DECLINE_PAGE = '/estimate-decline';
+
+export const VENDOR_ADMIN = 'vendor_admin';
+export const VENDOR_ADMIN_APPROVED = 'vendor_admin_approved';
+export const VENDOR_OWNER = 'vendor_owner';
 
 export const MAP_LINE_ITEM_TYPES_TO_PROP: { [key: string]: string } = {
   Labor: 'labor',
@@ -22,8 +30,22 @@ export const MAP_LINE_ITEM_TYPES_TO_PROP: { [key: string]: string } = {
   Sublet: 'sublet',
   Freight: 'freight',
   Towing: 'towing',
-  Travel: 'travel'
+  Travel: 'travel',
+  Taxes: 'taxes'
 };
+
+export const STATUS_REQUESTED = 'Requested';
+export const STATUS_AWAITING_ESTIMATE = 'Awaiting Estimate';
+export const STATUS_ESTIMATE_SUBMITTED = 'Estimate Submitted';
+export const STATUS_ESTIMATE_REJECTED = 'Estimate Rejected';
+export const STATUS_PENDING_APPROVAL = 'Pending Approval';
+export const STATUS_ESTIMATE_APPROVED = 'Estimate approved';
+export const STATUS_WORK_COMPLETED = 'Work Completed';
+export const STATUS_PENDING_REVIEW = 'Pending Review';
+export const STATUS_INVOICE_REJECTED = 'Invoice Rejected';
+export const STATUS_INVOICE_APPROVED = 'Invoice Approved';
+export const STATUS_CANCELLED = 'Cancelled';
+export const STATUS_CLOSED = 'Closed';
 
 export const StateList: SelectOptionsProps[] = [
   { id: 0, label: 'State', value: 'State', disabled: true },

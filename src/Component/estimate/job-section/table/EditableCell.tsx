@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react';
-import { MenuItem, Select, TextField, Typography } from '@mui/material';
+import { Box, MenuItem, Select, TextField, Typography } from '@mui/material';
 import { textFieldStyle } from '@components/common/line-items-summary/styles';
-import { JobType } from '../types';
+import { EditableCells, JobType } from '../types';
 
 export const EditableCell = ({
   rowIndex,
   accessorKey,
   handleSaveRow,
-  types,
-}: any) => {
+  types
+}: EditableCells) => {
   const [accessorName, setAccessorName] = useState(accessorKey);
   const [index, setIndex] = useState(rowIndex);
   const [type, setType] = useState('');
@@ -23,26 +23,36 @@ export const EditableCell = ({
     handleSaveRow(index, accessorName, event.target.value);
   };
 
-  if (accessorKey === 'type') {
+  if (accessorKey === 'jobType') {
     return (
-      <Select
-        labelId='type'
-        onChange={handleChange}
-        displayEmpty
-        sx={{ width: '100%', height: '33px' }}
-        data-testid='type-select'
-        renderValue={
-          type !== '' ? undefined : () => <Typography>Please select</Typography>
-        }
+      <Box
+        sx={{
+          width: '100%',
+          minWidth: '157px'
+        }}
       >
-        {types?.map((type: JobType) => {
-          return (
-            <MenuItem key={type.name} value={type.name}>
-              {type.name}
-            </MenuItem>
-          );
-        })}
-      </Select>
+        <Select
+          labelId='jobType'
+          onChange={handleChange}
+          displayEmpty
+          sx={{
+            width: '100%',
+            height: '33px'
+          }}
+          data-testid='type-select'
+          renderValue={
+            type !== '' ? undefined : () => <Typography>Select</Typography>
+          }
+        >
+          {types?.map((type: JobType) => {
+            return (
+              <MenuItem key={type.name} value={type.name}>
+                {type.name}
+              </MenuItem>
+            );
+          })}
+        </Select>
+      </Box>
     );
   }
 

@@ -28,6 +28,7 @@ export const MOCK_VENDOR_REPAIR_ORDERS: VendorRepairOrder[] = [
       }
     },
     unit: {
+      id: '1',
       vin: 'SALFP2BN7AH309602',
       year: 2007,
       make: 'Lincoln',
@@ -46,7 +47,12 @@ export const MOCK_VENDOR_REPAIR_ORDERS: VendorRepairOrder[] = [
     estimateDue: '02/02/2023',
     responseDue: '04/22/2022',
     vendorWorkOrderNumber: '1234',
-    status: 'nam'
+    status: 'nam',
+    shopAvailable: '',
+    purchaseOrderNumber: '',
+    workInvoiceNumber: '',
+    contact: '',
+    odo: ''
   },
   {
     id: '2',
@@ -63,6 +69,7 @@ export const MOCK_VENDOR_REPAIR_ORDERS: VendorRepairOrder[] = [
       }
     },
     unit: {
+      id: '2',
       vin: 'WP0AA2A83FK371507',
       year: 2007,
       make: 'Pontiac',
@@ -81,7 +88,12 @@ export const MOCK_VENDOR_REPAIR_ORDERS: VendorRepairOrder[] = [
     estimateDue: '05/23/2022',
     responseDue: '09/05/2022',
     vendorWorkOrderNumber: '1234',
-    status: 'ac'
+    status: 'ac',
+    shopAvailable: '',
+    purchaseOrderNumber: '',
+    workInvoiceNumber: '',
+    contact: '',
+    odo: ''
   },
   {
     id: '3',
@@ -98,6 +110,7 @@ export const MOCK_VENDOR_REPAIR_ORDERS: VendorRepairOrder[] = [
       }
     },
     unit: {
+      id: '3',
       vin: '1GYS3JEF5DR408685',
       year: 2005,
       make: 'BMW',
@@ -116,7 +129,12 @@ export const MOCK_VENDOR_REPAIR_ORDERS: VendorRepairOrder[] = [
     estimateDue: '06/07/2022',
     responseDue: '12/23/2022',
     vendorWorkOrderNumber: '1234',
-    status: 'interdum'
+    status: 'interdum',
+    shopAvailable: '',
+    purchaseOrderNumber: '',
+    workInvoiceNumber: '',
+    contact: '',
+    odo: ''
   },
   {
     id: '4',
@@ -133,6 +151,7 @@ export const MOCK_VENDOR_REPAIR_ORDERS: VendorRepairOrder[] = [
       }
     },
     unit: {
+      id: '4',
       vin: '1G4GE5G39FF704048',
       year: 1984,
       make: 'Lotus',
@@ -151,7 +170,12 @@ export const MOCK_VENDOR_REPAIR_ORDERS: VendorRepairOrder[] = [
     estimateDue: '01/26/2023',
     responseDue: '01/09/2023',
     vendorWorkOrderNumber: '1234',
-    status: 'amet'
+    status: 'amet',
+    shopAvailable: '',
+    purchaseOrderNumber: '',
+    workInvoiceNumber: '',
+    contact: '',
+    odo: ''
   },
   {
     id: '5',
@@ -168,6 +192,7 @@ export const MOCK_VENDOR_REPAIR_ORDERS: VendorRepairOrder[] = [
       }
     },
     unit: {
+      id: '5',
       vin: 'WAUPL68E75A620092',
       year: 2003,
       make: 'Ford',
@@ -186,6 +211,11 @@ export const MOCK_VENDOR_REPAIR_ORDERS: VendorRepairOrder[] = [
     estimateDue: '09/19/2022',
     responseDue: '08/06/2022',
     vendorWorkOrderNumber: '1234',
-    status: 'nullam'
+    status: 'nullam',
+    shopAvailable: '',
+    purchaseOrderNumber: '',
+    workInvoiceNumber: '',
+    contact: '',
+    odo: ''
   }
 ];

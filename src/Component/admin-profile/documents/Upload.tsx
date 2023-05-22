@@ -21,12 +21,19 @@ const Upload: React.FC = () => {
             setSelectedFiles((prevSelectedFiles) => [...prevSelectedFiles, ...files]);
         }
     };
+    useEffect(() =>{
+        const timeOut = window.setTimeout(handleClick,1000);
+        return () => {
+            window.clearTimeout(timeOut);
+        } 
+    },[])
 
     return (
         <>
             {selectedFiles.length === 0 && (
                 <Typography sx={{
                     cursor: 'pointer',
+                    width: '100%',
                     color: (theme: Theme) => theme.palette.linkBlue.main,
                     border: '2px dotted',
                     borderColor: (theme: Theme) => theme.palette.secondary.main

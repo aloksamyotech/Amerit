@@ -1,11 +1,11 @@
 import { Controller, Control } from 'react-hook-form';
 import { Box, TextField } from '@mui/material';
-import { VendorRepairOrder } from './types';
+import { EstimateMetadata } from './types';
 
 const WorkOrderInput = ({
   control
 }: {
-  control: Control<VendorRepairOrder>;
+  control: Control<EstimateMetadata>;
 }) => (
   <Controller
     name='workOrder'

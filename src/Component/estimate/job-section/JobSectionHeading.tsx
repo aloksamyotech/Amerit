@@ -10,17 +10,26 @@ import { deleteJobSection } from 'src/services/estimate';
 const JobSectionHeading = ({ sectionNumber }: { sectionNumber: number }) => {
   const router = useRouter();
   const { vendorRepairOrderId } = router.query;
-  
+
   const { refetch } = useContext(JobSectionsContext);
 
   const [sectionIdToDelete, setSectionIdToDelete] = useState(0);
-  const { mutate: deleteJobSectionMutate, isSuccess } = useMutation<any, Error>(async () => {
-    return vendorRepairOrderId && sectionIdToDelete && (await deleteJobSection(Number(vendorRepairOrderId || 0), sectionIdToDelete));
-  });
+  const { mutate: deleteJobSectionMutate, isSuccess } = useMutation<any, Error>(
+    async () => {
+      return (
+        vendorRepairOrderId &&
+        sectionIdToDelete &&
+        (await deleteJobSection(
+          Number(vendorRepairOrderId || 0),
+          sectionIdToDelete
+        ))
+      );
+    }
+  );
 
   useEffect(() => {
     if (isSuccess) {
-     refetch();
+      refetch();
     }
   }, [isSuccess]);
 
@@ -30,19 +39,28 @@ const JobSectionHeading = ({ sectionNumber }: { sectionNumber: number }) => {
     }
   }, [sectionIdToDelete]);
 
+  const handleDeleteClick = (
+    event: React.MouseEvent<HTMLElement>,
+    sectionNumber: number
+  ) => {
+    setSectionIdToDelete(sectionNumber);
+    event.stopPropagation();
+  };
+
   return (
-    <Box display="flex" sx={{ marginTop: '-3px' }}>
-      <IconButton onClick={() => setSectionIdToDelete(sectionNumber)}
+    <Box display='flex' sx={{ marginTop: '-3px' }}>
+      <IconButton
+        onClick={(event) => handleDeleteClick(event, sectionNumber)}
         data-testid={`job-section-${sectionNumber}-remove`}
-        aria-label="trash"
-        size="small"
+        aria-label='trash'
+        size='small'
       >
         <FontAwesomeIcon icon={faTrash} />
       </IconButton>
       <Typography
         fontSize={14}
         fontWeight={700}
-        variant="h6"
+        variant='h6'
         sx={{ marginTop: '3px' }}
       >
         Job Section: {sectionNumber}

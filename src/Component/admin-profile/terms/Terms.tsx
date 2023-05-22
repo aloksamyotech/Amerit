@@ -22,12 +22,12 @@ const Terms = () => {
     setIsAgree(event.target.checked);
   };
   const handleSubmit = () => {
+    handleProgress('terms');
+    updateTab(4);
     saveAdminTermsDetails({
       id: Number(values?.userid),
       agreed: isAgree
     });
-    handleProgress('terms');
-    updateTab(4);
   };
 
   return (
@@ -80,7 +80,7 @@ const Terms = () => {
           </Typography>
           <Grid xs={6} pt={2}>
             <FormControlLabel
-              control={<Checkbox onChange={handlechange} />}
+              control={<Checkbox />}
               label='I agree to the above terms'
             />
             <Grid xs={3}>

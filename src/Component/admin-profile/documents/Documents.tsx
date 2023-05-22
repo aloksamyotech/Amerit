@@ -8,23 +8,27 @@ import {
   Button,
   IconButton,
   Theme,
+  Link
 } from '@mui/material';
-import { Close } from '@mui/icons-material';
+import { Close, FileUploadOutlined } from '@mui/icons-material';
 import Image from 'next/image';
-import { useProfile } from '../context/ProfileContext';
-import Uploading from './uploading';
-import Upload from './Upload';
-import { getAdminDocumentsdetails } from 'src/services/admin';
-import { useQuery } from 'react-query';
 import LinearProgressWithLabel from './LinearProgressWithLabel';
+import { useProfile } from '../context/ProfileContext';
+import Upload from './Upload';
+import Uploading from './uploading';
+import { useQuery } from 'react-query';
+import { getAdminDocumentsDetails } from 'src/services/admin';
 
 const Documents = () => {
   const { updateTab, handleProgress } = useProfile();
+  const fileRef = React.useRef();
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+  const hiddenFileInput = React.useRef<HTMLInputElement>(null);
+  const [progress, setProgress] = React.useState(10);
   const [documentTypes,setDocumentTypes] = useState();
-  const [savedocumentTypes,saveSetDocumentTypes] = useState();
 
   useQuery(['documentTypes'], () =>
-    getAdminDocumentsdetails().then((data) => setDocumentTypes(data)),
+    getAdminDocumentsDetails().then((data) => setDocumentTypes(data)),
   );
   
 
@@ -32,6 +36,23 @@ const Documents = () => {
     handleProgress('document');
     updateTab(2);
   };
+  const handleClick = () => {
+    hiddenFileInput?.current?.click();
+  };
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(event)
+    const Nmfiles = event.target.files;
+    console.log(Nmfiles[0]?.name, 'harshit')
+    if (Nmfiles && Nmfiles.length > 0) {
+      const files: File[] = Array.from(Nmfiles);
+      setSelectedFiles((prevSelectedFiles:  any) => [...prevSelectedFiles, ...files]);
+    }
+    console.log(Nmfiles)
+    const selectedFiles = Nmfiles as FileList;
+    console.log(selectedFiles);
+  };
+
+
   return (
     <Box width={'100%'}>
       <Paper sx={{ padding: '1.5rem' }}>
@@ -127,7 +148,7 @@ const Documents = () => {
                   </Box>
                 </Box>
                 <Box sx={{ width: '100%' }}>
-                  <LinearProgressWithLabel value={20}/>
+                  <LinearProgressWithLabel value={progress} />
                 </Box>
               </Box>
             </Grid>
@@ -139,7 +160,23 @@ const Documents = () => {
             <Grid item xs={12}>
               <Box
                 width={'100%'}
-                display='block'
+                display='flex'
+                alignItems='center'
+                justifyContent='center'
+                textAlign='center'
+              >
+                <Upload/>
+              </Box>
+            </Grid>
+          </Grid>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <Typography variant='h6'>Worker's Compensation</Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <Box
+                width={'100%'}
+                display='flex'
                 alignItems='center'
                 justifyContent='center'
                 textAlign='center'
@@ -153,31 +190,12 @@ const Documents = () => {
           </Grid>
           <Grid container spacing={2}>
             <Grid item xs={12}>
-              <Typography variant='h6'>Worker's Compensation</Typography>
-            </Grid>
-            <Grid item xs={12}>
-              <Box
-                width={'100%'}
-                display='block'
-                alignItems='center'
-                justifyContent='center'
-                textAlign='center'
-                sx={{
-                  height: '130px'
-                }}
-              >
-              <Upload/>
-              </Box>
-            </Grid>
-          </Grid>
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
               <Typography variant='h6'>Inspector Qualification 396.19</Typography>
             </Grid>
             <Grid item xs={12}>
               <Box
                 width={'100%'}
-                display='block'
+                display='flex'
                 alignItems='center'
                 justifyContent='center'
                 textAlign='center'

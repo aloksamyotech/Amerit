@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
@@ -11,38 +11,44 @@ import {
 } from '@mui/material';
 import { VendorRepairOrder } from '@components/common/vendor-repair-order/types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { VendorRepairOrder as VendorRepairOrderForm } from './types';
+import Messaging from '@components/messaging';
+import { MessagingContext } from '@components/messaging/provider';
+import { EstimateMetadata } from './types';
 import Content from './Content';
 import EstimateReviewButtons from './EstimateReviewButtons';
 import EstimateAcceptButtons from './EstimateAcceptButtons';
-import { CONTAINER_BORDER_RADIUS } from 'src/constants';
+import {
+  CONTAINER_BORDER_RADIUS,
+  STATUS_ESTIMATE_APPROVED,
+  STATUS_REQUESTED
+} from 'src/constants';
 import { schema } from './schema';
 import Summaries from './Summaries';
 
 const Details = ({
-  vendorRepairOrder,
-  estimateCreate
+  vendorRepairOrder
 }: {
   vendorRepairOrder: VendorRepairOrder;
-  estimateCreate: boolean;
 }) => {
-  const [formData, setFormData] = useState<VendorRepairOrderForm>();
+  const [formData, setFormData] = useState<EstimateMetadata>();
   const [isSaved, setIsSaved] = useState<boolean>(false);
-  const [displaySummary, setDisplaySummary] = useState<boolean>(true);
+  const [displaySummary, setDisplaySummary] = useState<boolean>(false);
+
+  const { messagingOpen } = useContext(MessagingContext);
 
   const theme = useTheme();
 
   // TODO: These default values should come from the API
-  const defaultValues: VendorRepairOrderForm = {
-    odo: '123456',
-    workOrder: 'AK415732'
+  const defaultValues: EstimateMetadata = {
+    odo: vendorRepairOrder.odo,
+    workOrder: vendorRepairOrder.vendorWorkOrderNumber
   };
 
   const {
     control,
     handleSubmit,
     formState: { errors, isDirty }
-  } = useForm<VendorRepairOrderForm>({
+  } = useForm<EstimateMetadata>({
     defaultValues,
     resolver: yupResolver(schema as any)
   });
@@ -50,7 +56,7 @@ const Details = ({
   // TODO: Once we know what consitutes a "submit" (button click
   // or debounced onChange) we can do the submit, validation and
   // API call
-  const onSubmit = (data: VendorRepairOrderForm) => {
+  const onSubmit = (data: EstimateMetadata) => {
     setFormData({
       ...data
     });
@@ -81,22 +87,27 @@ const Details = ({
           borderRadius: `${CONTAINER_BORDER_RADIUS}px`
         })}
       >
+        {messagingOpen && <Messaging />}
         <form onSubmit={handleSubmit(onSubmit)}>
           <CardContent sx={{ padding: 0 }}>
             <Content
               vendorRepairOrder={vendorRepairOrder}
-              estimateCreate={estimateCreate}
               control={control}
               errors={errors}
+              setDisplaySummary={setDisplaySummary}
             />
           </CardContent>
           <CardActions sx={{ padding: '15px', display: 'flex', gap: '10px' }}>
-            {estimateCreate ? (
-              <EstimateAcceptButtons isDirty={isDirty} isSaved={isSaved} />
-            ) : (
+            {vendorRepairOrder.status === STATUS_REQUESTED ? (
               <EstimateReviewButtons vendorRepairOrder={vendorRepairOrder} />
+            ) : (
+              <EstimateAcceptButtons
+                isDirty={isDirty}
+                isSaved={isSaved}
+                vendorRepairOrder={vendorRepairOrder}
+              />
             )}
-            {vendorRepairOrder.status === 'Pending Approval' && (
+            {vendorRepairOrder.status === STATUS_ESTIMATE_APPROVED && (
               <Button
                 onClick={() => alert('Reopen estimate placeholder')}
                 color='secondary'
@@ -106,13 +117,15 @@ const Details = ({
                 Reopen Estimate
               </Button>
             )}
-            <Button
-              onClick={() => alert('Cancel placeholder')}
-              variant='text'
-              size='small'
-            >
-              Cancel
-            </Button>
+            {vendorRepairOrder.status !== STATUS_REQUESTED && (
+              <Button
+                onClick={() => alert('Cancel placeholder')}
+                variant='text'
+                size='small'
+              >
+                Cancel
+              </Button>
+            )}
           </CardActions>
           {displaySummary && (
             <CardContent

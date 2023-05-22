@@ -45,10 +45,10 @@ export interface JobSection {
 }
 
 export interface LineItem {
-  type: string | ReactElement<any, any>;
+  jobType: string | ReactElement<any, any>;
   partDescription: string | ReactElement<any, any>;
-  mfgPartNumber: string | ReactElement<any, any>;
-  qty: number | ReactElement<any, any>;
+  partNumber: string | ReactElement<any, any>;
+  quantity: number | ReactElement<any, any>;
   charge: number | ReactElement<any, any>;
   total: number | ReactElement<any, any>;
   id?: number;
@@ -86,6 +86,7 @@ export interface JobSectionEstimate {
   freight: number;
   towing: number;
   travel: number;
+  taxes: number;
   fees: number;
   parts: number;
   shopSupplies: number;
@@ -103,6 +104,7 @@ export interface EstimateTable {
   setFreight: (value: number) => void;
   setTowing: (value: number) => void;
   setTravel: (value: number) => void;
+  setTaxes: (value: number) => void;
   availableLineItemTypes?: string[];
   sectionId?: number;
   vmrs?: string;
@@ -117,6 +119,7 @@ export interface VendorEstimateFields {
   freight: number;
   towing: number;
   travel: number;
+  taxes: number;
   sectionTotal: number;
 }
 
@@ -126,15 +129,16 @@ export interface VendorEstimateItem extends VendorEstimateFields {
   setFreight: (value: number) => void;
   setTowing: (value: number) => void;
   setTravel: (value: number) => void;
+  setTaxes: (value: number) => void;
   setTotalEstimate?: (value: number) => void;
   availableLineItemTypes: string[];
 }
 
 export interface EstimateList {
-  type: string | ReactElement<any, any>;
+  jobType: string | ReactElement<any, any>;
   partDescription: string | ReactElement<any, any>;
-  mfgPartNumber: string | ReactElement<any, any>;
-  qty: number | ReactElement<any, any>;
+  partNumber: string | ReactElement<any, any>;
+  quantity: number | ReactElement<any, any>;
   charge: number | ReactElement<any, any>;
   total: number | ReactElement<any, any>;
 }
@@ -142,6 +146,7 @@ export interface EstimateList {
 export interface SummaryField {
   label: string;
   prop: keyof VendorEstimateFields;
+  enabled?: boolean;
 }
 
 export interface JobSectionsContextProvider {
@@ -159,11 +164,28 @@ export interface JobSectionLine {
   vrmsCode?: string;
 
   // TODO : need to check with BE
-  // partDescription: string;
+  partDescription: string;
 }
 export interface JobAccordionSection {
   heading: ReactElement<any, any>;
   detail: ReactElement<any, any>;
   panelCountText?: string;
   defaultExpanded?: boolean;
+}
+
+export interface EstimateLineItem {
+  jobType: string;
+  partDescription: string;
+  partNumber: string;
+  quantity: number;
+  charge: number;
+  vroSectionId: number;
+  id: number;
+}
+
+export interface EditableCells {
+  rowIndex: number;
+  accessorKey: string;
+  types?: JobType[] | undefined;
+  handleSaveRow: (index: number, accessorName: string, value: string) => void;
 }

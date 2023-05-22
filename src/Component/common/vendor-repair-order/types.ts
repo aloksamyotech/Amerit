@@ -1,4 +1,3 @@
-import { SyntheticEvent } from 'react';
 import { TypographyProps } from '@mui/material';
 
 export type Address = {
@@ -15,6 +14,7 @@ export type Vendor = {
 };
 
 export type Unit = {
+  id: string;
   vin: string;
   year: number;
   make: string;
@@ -36,29 +36,16 @@ export type VendorRepairOrder = {
   shop: Shop;
   estimateDue: string;
   responseDue: string;
+  shopAvailable: string;
   status: string;
   vendorWorkOrderNumber: string;
+  purchaseOrderNumber: string;
+  workInvoiceNumber: string;
+  contact: string;
+  odo: string;
 };
 
 export type VendorRepairOrderList = VendorRepairOrder[];
-
-export type RepairJob = {
-  id: number;
-  vmrs: string;
-  complaint: string;
-  repairReason: string;
-  description: string;
-};
-
-export type RepairJobProps = {
-  repairJob: RepairJob;
-  count: number;
-  expanded: Set<number>;
-  handleExpandedChange: (
-    event: SyntheticEvent<Element, Event>,
-    expanded: boolean
-  ) => void;
-};
 
 export interface TypographyStatusProps extends TypographyProps {
   row: VendorRepairOrder;
@@ -76,6 +63,7 @@ export interface TypographyFormattedDateTime extends TypographyProps {
   date?: string;
   direction: 'row' | 'column';
   color?: string;
+  justify?: 'left' | 'right';
 }
 
 export interface TypographyVendorShopSummary extends TypographyProps {

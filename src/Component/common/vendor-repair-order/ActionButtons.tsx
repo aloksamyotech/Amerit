@@ -1,7 +1,11 @@
 import { Box } from '@mui/material';
 import { LinkButton } from '@components/common/vendor-repair-order';
 import { VendorRepairOrder } from './types';
-import { ESTIMATE_DECLINE_PAGE, VENDOR_REPAIR_ORDER_PAGE } from 'src/constants';
+import {
+  ESTIMATE_DECLINE_PAGE,
+  VENDOR_REPAIR_ORDER_PAGE,
+  STATUS_REQUESTED
+} from 'src/constants';
 
 const ActionButtons = ({
   row: vendorRepairOrder
@@ -15,7 +19,7 @@ const ActionButtons = ({
         text='Review'
         sx={{ fontSize: '10px' }}
       />
-      {vendorRepairOrder.status === 'Requested' && (
+      {vendorRepairOrder.status === STATUS_REQUESTED && (
         <LinkButton
           href={`${ESTIMATE_DECLINE_PAGE}/${vendorRepairOrder.repairOrderNumber}`}
           text='Decline'

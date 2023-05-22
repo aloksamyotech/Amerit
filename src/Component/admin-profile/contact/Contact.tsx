@@ -45,8 +45,8 @@ const defaultValues = {
   ]
 };
 
-const AdminContact = () => {
-  const { updateTab, handleProgress, values } = useProfile();
+const Contact = () => {
+const { updateTab, handleProgress, values } = useProfile();
 
   const [contactTypes, setContactTypes] =
     useState<Array<{ value: number; name: string }>>();
@@ -63,10 +63,10 @@ const AdminContact = () => {
   useQuery(['contactTypes'], () =>
     getAdminContactTypes().then((data) => setContactTypes(data))
   );
-  const mutation = useMutation((data) =>
+
+  const mutation = useMutation((data: typeof defaultValues) =>
     saveAdminContactDetails(data, Number(values?.userid))
   );
-
   const onSubmit = (data: typeof defaultValues) => {
     updateTab(1);
     handleProgress('contact');
@@ -95,7 +95,6 @@ const AdminContact = () => {
                             sx={style}
                             value={value}
                             onChange={onChange}
-                            data-testid='principalPerson'
                             placeholder='Name'
                             error={Boolean(errors.principalPerson)}
                           />
@@ -103,9 +102,7 @@ const AdminContact = () => {
                       )}
                     />
                     {errors.principalPerson && (
-                      <FormHelperText
-                        sx={{ color: 'error.main', marginLeft: '0px' }}
-                      >
+                      <FormHelperText error sx={{ ml: 0 }}>
                         {errors.principalPerson.message}
                       </FormHelperText>
                     )}
@@ -123,7 +120,6 @@ const AdminContact = () => {
                             sx={style}
                             value={value}
                             onChange={onChange}
-                            data-testid='principalPersonTitle'
                             placeholder='Title'
                             error={Boolean(errors.principalPersonTitle)}
                           />
@@ -131,9 +127,7 @@ const AdminContact = () => {
                       )}
                     />
                     {errors.principalPersonTitle && (
-                      <FormHelperText
-                        sx={{ color: 'error.main', marginLeft: '0px' }}
-                      >
+                      <FormHelperText error sx={{ ml: 0 }}>
                         {errors.principalPersonTitle.message}
                       </FormHelperText>
                     )}
@@ -160,7 +154,6 @@ const AdminContact = () => {
                                   sx={style}
                                   value={value}
                                   onChange={onChange}
-                                  data-testid={`otherContacts[${index}].name`}
                                   placeholder='Name'
                                   error={Boolean(
                                     errors.otherContacts?.[index]?.name
@@ -265,4 +258,4 @@ const AdminContact = () => {
   );
 };
 
-export default AdminContact;
+export default Contact;
