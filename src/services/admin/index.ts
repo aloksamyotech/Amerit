@@ -104,13 +104,15 @@ export const saveAdminTermsDetails = async (payload: any) => {
   }
 };
 export const saveDocumentType = async (payload: any, id: number) => {
-  try{
-    const data = { detail: { ...payload } };
+  try {
+    console.log(payload);
     const response = await axiosClient.post(
-      `/VendorProfile/AddDocuments/${id}`,data
+      `/VendorProfile/AddDocuments/${id}`,
+      payload
     );
+
     return response.data;
-  }catch(error){
+  } catch (error) {
     console.log(error);
   }
-}
+};
