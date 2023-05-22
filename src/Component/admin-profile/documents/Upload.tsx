@@ -11,9 +11,14 @@ const Upload: React.FC = () => {
 
     const handleClick = () => {
         hiddenFileInput?.current?.click();
-        setShowComponent(true)
+        // setShowComponent(true)
+        // Timeout();
+         let Timeout =
+            setTimeout(() => {
+                setShowComponent(true)
+            }, 1000);
+            console.log("timeout runas");
     }
-
     const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
         const fileList = event.target.files;
         if (fileList && fileList.length > 0) {
@@ -21,12 +26,6 @@ const Upload: React.FC = () => {
             setSelectedFiles((prevSelectedFiles) => [...prevSelectedFiles, ...files]);
         }
     };
-    useEffect(() =>{
-        const timeOut = window.setTimeout(handleClick,1000);
-        return () => {
-            window.clearTimeout(timeOut);
-        } 
-    },[])
 
     return (
         <>
@@ -60,7 +59,7 @@ const Upload: React.FC = () => {
             )}
             {selectedFiles.length > 0 && (
                 <>
-                    { showComponent ? <Uploading />  : null}
+                    { showComponent ? <Uploading /> : null}
                     <ul>
                         {selectedFiles.map((file, index) => (
                             <li key={index}>{file.name}</li>
