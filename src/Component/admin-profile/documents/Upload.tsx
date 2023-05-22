@@ -6,8 +6,6 @@ import Uploading from './uploading';
 
 const Upload: React.FC = () => {
     const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
-    const [uploading, setUploading] = useState(false);
-    const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
     const hiddenFileInput = React.useRef<HTMLInputElement>(null);
     const [showComponent, setShowComponent] = useState(false);
 
@@ -15,12 +13,6 @@ const Upload: React.FC = () => {
         hiddenFileInput?.current?.click();
         setShowComponent(true)
     }
-    useEffect(()=>{
-    const handleClick = setTimeout(() => setShowComponent(true),3000)
-    return ()=>{
-        clearTimeout(handleClick)
-    }
-    },[])
 
     const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
         const fileList = event.target.files;
@@ -28,16 +20,6 @@ const Upload: React.FC = () => {
             const files: File[] = Array.from(fileList);
             setSelectedFiles((prevSelectedFiles) => [...prevSelectedFiles, ...files]);
         }
-    };
-
-    const handleUpload = () => {
-        setUploading(true);
-        setTimeout(() => {
-            // Simulating upload completed
-            //   setUploading(false);
-            setUploadedFiles(selectedFiles);
-            setSelectedFiles([]);
-        }, 2000);
     };
 
     return (
@@ -77,9 +59,6 @@ const Upload: React.FC = () => {
                             <li key={index}>{file.name}</li>
                         ))}
                     </ul>
-                    {/* {!uploading && (
-                        <button onClick={handleUpload}>Upload</button>
-                    )} */}
                 </>
             )}
            

@@ -75,3 +75,13 @@ export const saveAdminTermsDetails = async (payload: any) => {
     console.log(error);
   }
 };
+export const saveDocumentType = async (payload: any) => {
+  try{
+    const response = await axiosClient.post(
+      `/VendorProfile/AddDocuments/${payload.id}?type=${payload.int}`
+    );
+    return response.data;
+  }catch(error){
+    console.log(error);
+  }
+}

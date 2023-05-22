@@ -8,9 +8,8 @@ import {
   Button,
   IconButton,
   Theme,
-  Link
 } from '@mui/material';
-import { FileUploadOutlined, Close } from '@mui/icons-material';
+import { Close } from '@mui/icons-material';
 import Image from 'next/image';
 import { useProfile } from '../context/ProfileContext';
 import Uploading from './uploading';
@@ -21,13 +20,13 @@ import LinearProgressWithLabel from './LinearProgressWithLabel';
 
 const Documents = () => {
   const { updateTab, handleProgress } = useProfile();
-  const fileRef = React.useRef();
-  const [progress, setProgress] = React.useState(10);
   const [documentTypes,setDocumentTypes] = useState();
+  const [savedocumentTypes,saveSetDocumentTypes] = useState();
 
   useQuery(['documentTypes'], () =>
-    getAdminDocumentsdetails().then((data) => setDocumentTypes(data))
+    getAdminDocumentsdetails().then((data) => setDocumentTypes(data)),
   );
+  
 
   const handleSubmit = () => {
     handleProgress('document');
@@ -128,7 +127,7 @@ const Documents = () => {
                   </Box>
                 </Box>
                 <Box sx={{ width: '100%' }}>
-                  <LinearProgressWithLabel value={progress} />
+                  <LinearProgressWithLabel value={20}/>
                 </Box>
               </Box>
             </Grid>

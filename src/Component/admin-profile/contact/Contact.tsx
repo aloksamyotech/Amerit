@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { useQuery } from 'react-query';
+import { useMutation, useQuery } from 'react-query';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
   Box,
@@ -57,18 +57,20 @@ const AdminContact = () => {
     formState: { errors }
   } = useForm({
     defaultValues,
-
     resolver: yupResolver(ContactFormSchema as any)
   });
 
   useQuery(['contactTypes'], () =>
     getAdminContactTypes().then((data) => setContactTypes(data))
   );
+  const mutation = useMutation((data) =>
+    saveAdminContactDetails(data, Number(values?.userid))
+  );
 
   const onSubmit = (data: typeof defaultValues) => {
     updateTab(1);
     handleProgress('contact');
-    saveAdminContactDetails(data, Number(values?.userid));
+    mutation.mutate(data);
   };
 
   return (
