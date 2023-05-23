@@ -1,11 +1,15 @@
+import { useContext } from 'react';
 import { Box, Grid, Typography, useTheme } from '@mui/material';
 import LineItemsSummary from '@components/common/line-items-summary/LineItemsSummary';
 import useSummaries from '@hooks/summaries';
+import { TaxesContext } from './taxes-provider';
 
 const Summaries = () => {
   const theme = useTheme();
-
   const { summary, summaryInit } = useSummaries();
+
+  const { estimateTaxes, setEstimateTaxes, actualTaxes, setActualTaxes } =
+    useContext(TaxesContext);
 
   return (
     <Box>
@@ -26,7 +30,8 @@ const Summaries = () => {
         <LineItemsSummary
           availableLineItemTypes={[]}
           vendorEstimateItem={summary}
-          taxes={summary.taxes}
+          taxes={estimateTaxes}
+          setTaxes={setEstimateTaxes}
         />
       </Grid>
       <Grid item xs={12} sx={{ padding: '20px 0 0 0' }}>
@@ -39,7 +44,8 @@ const Summaries = () => {
         <LineItemsSummary
           availableLineItemTypes={[]}
           vendorEstimateItem={summaryInit}
-          taxes={summaryInit.taxes}
+          taxes={actualTaxes}
+          setTaxes={setActualTaxes}
         />
       </Grid>
     </Box>

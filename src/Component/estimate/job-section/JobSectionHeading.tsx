@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Box, IconButton, Typography } from '@mui/material';
-import { JobSectionsContext } from '@components/vendor-repair-order/providers';
+import { JobSectionsContext } from '@components/vendor-repair-order/job-sections-provider';
 import { deleteJobSection } from 'src/services/estimate';
 
 const JobSectionHeading = ({ sectionNumber }: { sectionNumber: number }) => {

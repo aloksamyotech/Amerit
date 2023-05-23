@@ -176,6 +176,7 @@ const Profile = () => {
                     <TextField
                       type='text'
                       id='companyName'
+                      size='small'
                       sx={style}
                       value={value}
                       onChange={onChange}
@@ -203,6 +204,7 @@ const Profile = () => {
                     <TextField
                       type='text'
                       id='address1'
+                      size='small'
                       sx={style}
                       value={value}
                       onChange={onChange}
@@ -231,6 +233,7 @@ const Profile = () => {
                     <TextField
                       type='text'
                       id='address2'
+                      size='small'
                       sx={style}
                       value={value}
                       onChange={onChange}
@@ -259,6 +262,7 @@ const Profile = () => {
                     <TextField
                       type='text'
                       id='city'
+                      size='small'
                       sx={style}
                       value={value}
                       onChange={onChange}
@@ -288,6 +292,7 @@ const Profile = () => {
                       <Select
                         labelId='state'
                         id='state'
+                        size='small'
                         variant='outlined'
                         value={value === '' ? 'State' : value}
                         onChange={onChange}
@@ -328,6 +333,7 @@ const Profile = () => {
                     <TextField
                       type='text'
                       id='zip'
+                      size='small'
                       sx={style}
                       value={value}
                       onChange={onChange}
@@ -356,7 +362,8 @@ const Profile = () => {
                     <TextField
                       type='text'
                       sx={style}
-                      id=''
+                      id='yearEstablished'
+                      size='small'
                       value={value}
                       onChange={onChange}
                       data-testid='yearEstablished'
@@ -383,6 +390,7 @@ const Profile = () => {
                     <TextField
                       type='text'
                       id='federalTaxIdNumber'
+                      size='small'
                       sx={style}
                       value={value}
                       onChange={onChange}
@@ -410,6 +418,7 @@ const Profile = () => {
                     <TextField
                       type='text'
                       id='dunsNumber'
+                      size='small'
                       sx={style}
                       value={value}
                       onChange={onChange}
@@ -442,6 +451,7 @@ const Profile = () => {
                         value={value === '' ? 'Ownership Terms' : value}
                         onChange={onChange}
                         id='minorityOwned'
+                        size='small'
                         displayEmpty
                         sx={{ width: '100%' }}
                         SelectDisplayProps={{
@@ -483,6 +493,7 @@ const Profile = () => {
                         labelId='Payment Terms'
                         variant='outlined'
                         id='paymentTermsId'
+                        size='small'
                         value={value === '' ? 'Payment Terms' : value}
                         onChange={onChange}
                         displayEmpty

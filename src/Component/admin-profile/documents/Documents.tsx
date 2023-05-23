@@ -22,11 +22,14 @@ import { getAdminDocumentsDetails, saveDocumentType } from 'src/services/admin';
 import { CBox, Input } from '../style';
 
 const Documents = () => {
-  const { updateTab, handleProgress } = useProfile();
+  const { updateTab, handleProgress, values } = useProfile();
   const fileRef = React.useRef();
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const hiddenFileInput = React.useRef<HTMLInputElement>(null);
   const [progress, setProgress] = React.useState(10);
+
+  const [show, setShow] = useState(false);
+
   const [documentTypes, setDocumentTypes] = useState();
   const defaultValues = {
     name: ''
@@ -35,7 +38,7 @@ const Documents = () => {
     getAdminDocumentsDetails().then((data) => setDocumentTypes(data))
   );
   const mutation = useMutation((data: typeof defaultValues) =>
-    saveDocumentType(data, '12')
+    saveDocumentType(data, 14)
   );
 
   const handleSubmit = () => {
@@ -53,6 +56,7 @@ const Documents = () => {
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { files } = event.target;
     const selectedFiles = files as FileList;
+
     if (files && files.length > 0) {
       const newFiles: File[] = Array.from(files);
       setSelectedFiles((prevSelectedFiles) => [
@@ -60,7 +64,10 @@ const Documents = () => {
         ...newFiles
       ]);
     }
-    console.log(selectedFiles[0]);
+    setTimeout(() => {
+      setShow(false);
+    }, 2000);
+    setShow(true);
   };
 
   return (
@@ -225,7 +232,7 @@ const Documents = () => {
                 )}
                 {selectedFiles.length > 0 && (
                   <>
-                    {showComponent ? <Uploading /> : null}
+                    {show ? <Uploading /> : null}
                     <ul>
                       {selectedFiles.map((file, index) => (
                         <li key={index}>{file.name}</li>

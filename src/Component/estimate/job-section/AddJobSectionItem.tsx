@@ -19,7 +19,7 @@ import { textFieldStyle } from '@components/common/line-items-summary/styles';
 import { createJobSection, types } from 'src/services/estimate';
 import { addJobSectionSchema } from './schema';
 import { CreateJobSection, JobSection, JobType } from './types';
-import { JobSectionsContext } from '@components/vendor-repair-order/providers';
+import { JobSectionsContext } from '@components/vendor-repair-order/job-sections-provider';
 
 const AddJobSectionItem = ({ sectionNumber, removeElement }: JobSection) => {
   const [typeValue, setSetTypeValue] = useState(''); // TODO - what is default value?
@@ -170,15 +170,15 @@ const AddJobSectionItem = ({ sectionNumber, removeElement }: JobSection) => {
                         })}
                       </Select>
                       {errors.jobType && (
-                      <FormHelperText
-                        sx={{
-                          color: 'error.main',
-                          marginLeft: '0px'
-                        }}
-                      >
-                        {errors?.jobType?.message}
-                      </FormHelperText>
-                    )}
+                        <FormHelperText
+                          sx={{
+                            color: 'error.main',
+                            marginLeft: '0px'
+                          }}
+                        >
+                          {errors?.jobType?.message}
+                        </FormHelperText>
+                      )}
                     </Box>
                   );
                 }}
