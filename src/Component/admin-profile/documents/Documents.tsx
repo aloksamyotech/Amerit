@@ -129,7 +129,7 @@ const Documents = () => {
             <Grid item xs={12}>
               <Typography variant='h6'>ACH Form</Typography>
             </Grid>
-            <Uploading />
+            {/* <Uploading /> */}
           </Grid>
           <Grid container spacing={2}>
             <Grid item xs={12}>
@@ -216,7 +216,7 @@ const Documents = () => {
                 )}
                 {selectedFiles && selectedFiles.length > 0 && (
                   <>
-                    {<Uploading />}
+                    {show ? <Uploading /> : null}
                   </>
                 )}
               </Box>
