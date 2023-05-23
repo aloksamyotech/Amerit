@@ -32,6 +32,10 @@ const Documents = () => {
     name: ''
 
   }
+  interface FileData {
+    id: string;
+    file: File;
+  }
 
   useQuery(['documentTypes'], () =>
     getAdminDocumentsDetails().then((data) => setDocumentTypes(data)),
@@ -52,17 +56,26 @@ const Documents = () => {
     hiddenFileInput?.current?.click();
     setShowComponent(true);
   }
-  const handleClose = () => {
-    setSelectedFiles(null);
-    if (hiddenFileInput.current) {
-      hiddenFileInput.current.value = '';
-    }
-  }
+  // const handleClose = () => {
+  //   setSelectedFiles(null);
+  //   if (hiddenFileInput.current) {
+  //     hiddenFileInput.current.value = '';
+  //   }
+  // }
+  const handleFileClose = (id: string) => {
+    setSelectedFiles((prevSelectedFiles) =>
+      prevSelectedFiles.filter((file) => file.id !== id)
+    );
+  };
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const { files } = event.target;
-    const selectedFiles = files as FileList;
-    if (files && files.length > 0) {
-      const newFiles: File[] = Array.from(files);
+    const fileList = event.target.files;
+    // const selectedFiles = files as FileList;
+    if (fileList && fileList.length > 0) {
+      const files: File[] = Array.from(fileList);
+      const newFiles: FileData[] = files.map((file) =>({
+        id: file.name,
+        file: file,
+      }));
       setSelectedFiles((prevSelectedFiles) => [...prevSelectedFiles, ...newFiles]);
     }
     console.log(selectedFiles[0]);
@@ -71,308 +84,108 @@ const Documents = () => {
     }, 2000);
     setShow(true);
   }
+  console.log(documentTypes, 'datan')
 
   return (
     <Box width={'100%'}>
       <Paper sx={{ padding: '1.5rem' }}>
         <FormControl fullWidth>
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <Typography variant='h6'>
-                <b>W9 Form</b>
-              </Typography>
-            </Grid>
-            <Grid item xs={12}>
-              <Box
-                width={'100%'}
-                display='flex'
-                alignItems='center'
-                sx={{
-                  height: '50px',
-                  border: '1px solid',
-                  borderColor: (theme: Theme) => theme.palette.primary.main
-                }}
-              >
-                <Box
-                  display='flex'
-                  alignItems='center'
-                  width='100%'
-                  sx={{ p: 1 }}
-                >
-                  <Image
-                    src='/images/pdf.svg'
-                    height={38}
-                    width={34}
-                    alt='Follow us on Twitter'
-                  />
-                  <Box
-                    display='flex'
-                    alignItems='center'
-                    justifyContent='space-between'
-                    width='100%'
-                  >
-                    <Box sx={{ ml: 2 }}>
-                      <Typography variant='subtitle2'>
-                        W9 Form Document.pdf
-                      </Typography>
-                      <Typography variant='caption'>443 kb</Typography>
-                    </Box>
-                    <IconButton>
-                      <Close />
-                    </IconButton>
-                  </Box>
-                </Box>
-              </Box>
-            </Grid>
-          </Grid>
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <Typography variant='h6'>ACH Form</Typography>
-            </Grid>
-          </Grid>
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <Box
-                width={'100%'}
-                alignItems='center'
-                sx={{
-                  p: 1,
-                  border: '1px solid ',
-                  borderColor: (theme: Theme) => theme.palette.primary.main,
-                  marginTop: '20px'
-                }}
-              >
-                <Box display='flex' width='100%' sx={{ p: 1 }}>
-                  <Image
-                    src='/images/pdf.svg'
-                    height={38}
-                    width={34}
-                    alt='Follow us on Twitter'
-                  />
-                  <Box
-                    display='flex'
-                    justifyContent='space-between'
-                    width='100%'
-                  >
-                    <Box sx={{ ml: 2 }}>
-                      <Typography variant='subtitle2'>
-                        ACH Form Document.pdf
-                      </Typography>
-                      <Typography variant='caption'>443 kb</Typography>
-                    </Box>
-                    <IconButton>
-                      <Close />
-                    </IconButton>
-                  </Box>
-                </Box>
-              </Box>
-            </Grid>
-          </Grid>
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <Typography variant='h6'>Certificate of Insurance</Typography>
-            </Grid>
-            <Grid item xs={12}>
-              <Box
-                width={'100%'}
-                display='flex'
-                alignItems='center'
-                justifyContent='center'
-                textAlign='center'
-              >
-
-
-                {selectedFiles.length == 0 && (
-                  <Grid sx={{
-                    cursor: 'pointer',
-                    width: '100%',
-                    color: (theme: Theme) => theme.palette.linkBlue.main,
-                    border: '2px dotted',
-                    borderColor: (theme: Theme) => theme.palette.secondary.main
-                  }}
-                    style={CBox}
-                    onClick={() => handleClick()}
-                  >
-                    <Grid container lg={12}>
-                      <Grid xs={12}>
-                        <FileUploadOutlined />
-                      </Grid>
-                      <Grid xs={12}>
-                        <input
-                          type='file'
-                          ref={hiddenFileInput}
-                          style={Input}
-                          onChange={handleFileChange}
-                        />
-                        <Grid sx={{ color: '#000', mr: '5px', display: 'inline-block' }}>Drag & Drop or</Grid>
-                        Choose File<Grid sx={{ color: '#000', ml: '5px', display: 'inline-block' }}> to Upload</Grid>
-                      </Grid>
-                    </Grid>
+          {documentTypes && documentTypes.map((item: any, index: any) => {
+            return (
+              <>
+                <Grid container spacing={2} key={item.value}>
+                  <Grid item xs={12}>
+                    <Typography variant='h6'>{item.name}</Typography>
                   </Grid>
-                )}
-                { selectedFiles.length > 0 && (
-                  <>
-                    {show ? <Uploading /> : null}
-                  </>
-                )}
-              </Box>
-              {selectedFiles.map((file, index) => (
-                <Grid item xs={12} key={index}>
-                  <Box
-                    width={'100%'}
-                    alignItems='center'
-                    sx={{
-                      p: 1,
-                      border: '1px solid ',
-                      borderColor: (theme: Theme) => theme.palette.primary.main,
-                      marginTop: '20px'
-                    }}
-                  >
-                    <Box display='flex' width='100%' sx={{ p: 1 }}>
-                      <Image
-                        src='/images/pdf.svg'
-                        height={38}
-                        width={34}
-                        alt='Follow us on Twitter'
-                      />
-                      <Box
-                        display='flex'
-                        justifyContent='space-between'
-                        width='100%'
-                      >
-                        <Box sx={{ ml: 2 }}>
-                          <Typography variant='subtitle2'>
-                            {file.name}
-                          </Typography>
-                          <Typography variant='caption'>443 kb</Typography>
+                  <Grid item xs={12}>
+                    <Box
+                      width={'100%'}
+                      display='flex'
+                      alignItems='center'
+                      justifyContent='center'
+                      textAlign='center'
+                    >
+
+
+                      {selectedFiles.length == 0 && (
+                        <Grid sx={{
+                          cursor: 'pointer',
+                          width: '100%',
+                          color: (theme: Theme) => theme.palette.linkBlue.main,
+                          border: '2px dotted',
+                          borderColor: (theme: Theme) => theme.palette.secondary.main
+                        }}
+                          style={CBox}
+                          onClick={() => handleClick()}
+                        >
+                          <Grid container lg={12}>
+                            <Grid xs={12}>
+                              <FileUploadOutlined />
+                            </Grid>
+                            <Grid xs={12}>
+                              <input
+                                type='file'
+                                ref={hiddenFileInput}
+                                style={Input}
+                                onChange={handleFileChange}
+                              />
+                              <Grid sx={{ color: '#000', mr: '5px', display: 'inline-block' }}>Drag & Drop or</Grid>
+                              Choose File<Grid sx={{ color: '#000', ml: '5px', display: 'inline-block' }}> to Upload</Grid>
+                            </Grid>
+                          </Grid>
+                        </Grid>
+                      )}
+                      {selectedFiles.length > 0 && (
+                        <>
+                          {show ? <Uploading /> : null}
+                        </>
+                      )}
+                    </Box>
+                    {selectedFiles.map((fileData) => (
+                      <Grid item xs={12} key={fileData.id}>
+                        <Box
+                          width={'100%'}
+                          alignItems='center'
+                          sx={{
+                            p: 1,
+                            border: '1px solid ',
+                            borderColor: (theme: Theme) => theme.palette.primary.main,
+                            marginTop: '20px'
+                          }}
+                        >
+                          <Box display='flex' width='100%' sx={{ p: 1 }}>
+                            <Image
+                              src='/images/pdf.svg'
+                              height={38}
+                              width={34}
+                              alt='Follow us on Twitter'
+                            />
+                            <Box
+                              display='flex'
+                              justifyContent='space-between'
+                              width='100%'
+                            >
+                              <Box sx={{ ml: 2 }}>
+                                <Typography variant='subtitle2'>
+                                  {fileData.file.name}
+                                </Typography>
+                                <Typography variant='caption'>443 kb</Typography>
+                              </Box>
+                              <IconButton onClick={() => handleFileClose(fileData.id)}>
+                                <Close />
+                              </IconButton>
+                            </Box>
+                          </Box>
                         </Box>
-                        <IconButton onClick={handleClose}>
-                          <Close />
-                        </IconButton>
-                      </Box>
-                    </Box>
-                    <Box sx={{ width: '100%' }}>
-                      <LinearProgressWithLabel value={progress} />
-                    </Box>
-                  </Box>
-                </Grid>
-              ))}
+                      </Grid>
+                    ))}
 
-            </Grid>
-          </Grid>
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <Typography variant='h6'>Worker's Compensation</Typography>
-            </Grid>
-            <Grid item xs={12}>
-              <Box
-                width={'100%'}
-                display='flex'
-                alignItems='center'
-                justifyContent='center'
-                textAlign='center'
-                sx={{
-                  height: '130px'
-                }}
-              >
-                {selectedFiles && selectedFiles.length == 0 && (
-                  <Grid sx={{
-                    cursor: 'pointer',
-                    width: '100%',
-                    color: (theme: Theme) => theme.palette.linkBlue.main,
-                    border: '2px dotted',
-                    borderColor: (theme: Theme) => theme.palette.secondary.main
-                  }}
-                    style={CBox}
-                    onClick={() => handleClick()}
-                  >
-                    <Grid container lg={12}>
-                      <Grid xs={12}>
-                        <FileUploadOutlined />
-                      </Grid>
-                      <Grid xs={12}>
-                        <input
-                          type='file'
-                          ref={hiddenFileInput}
-                          style={Input}
-                          onChange={handleFileChange}
-                        />
-                        <Grid sx={{ color: '#000', mr: '5px', display: 'inline-block' }}>Drag & Drop or</Grid>
-                        Choose File<Grid sx={{ color: '#000', ml: '5px', display: 'inline-block' }}> to Upload</Grid>
-                      </Grid>
-                    </Grid>
                   </Grid>
-                )}
-                {selectedFiles && selectedFiles.length > 0 && (
-                  <>
-                    {showComponent ? <Uploading /> : null}
-                    <ul>
-                      {selectedFiles.map((file, index) => (
-                        <li key={index}>{file.name}</li>
-                      ))}
-                    </ul>
-                  </>
-                )}
-              </Box>
-            </Grid>
-          </Grid>
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <Typography variant='h6'>Inspector Qualification 396.19</Typography>
-            </Grid>
-            <Grid item xs={12}>
-              <Box
-                width={'100%'}
-                display='flex'
-                alignItems='center'
-                justifyContent='center'
-                textAlign='center'
-                sx={{
-                  height: '130px'
-                }}
-              >
-                {selectedFiles && selectedFiles.length === 0 && (
-                  <Grid sx={{
-                    cursor: 'pointer',
-                    width: '100%',
-                    color: (theme: Theme) => theme.palette.linkBlue.main,
-                    border: '2px dotted',
-                    borderColor: (theme: Theme) => theme.palette.secondary.main
-                  }}
-                    style={CBox}
-                    onClick={() => handleClick()}
-                  >
-                    <Grid container lg={12}>
-                      <Grid xs={12}>
-                        <FileUploadOutlined />
-                      </Grid>
-                      <Grid xs={12}>
-                        <input
-                          type='file'
-                          ref={hiddenFileInput}
-                          style={Input}
-                          onChange={handleFileChange}
-                        />
-                        <Grid sx={{ color: '#000', mr: '5px', display: 'inline-block' }}>Drag & Drop or</Grid>
-                        Choose File<Grid sx={{ color: '#000', ml: '5px', display: 'inline-block' }}> to Upload</Grid>
-                      </Grid>
-                    </Grid>
-                  </Grid>
-                )}
-                {selectedFiles && selectedFiles.length > 0 && (
-                  <>
-                    {showComponent ? <Uploading /> : null}
-                    <ul>
-                      {selectedFiles.map((file, index) => (
-                        <li key={index}>{file.name}</li>
-                      ))}
-                    </ul>
-                  </>
-                )}
-                {/* <Upload/> */}
-              </Box>
-            </Grid>
-          </Grid>
+                </Grid>
+
+              </>
+            )
+          })}
           <Grid container item spacing={2}>
             <Grid item xs={6}>
               <Box width={'100%'} pt={2}>
