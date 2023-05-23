@@ -46,7 +46,7 @@ const defaultValues = {
 };
 
 const Contact = () => {
-const { updateTab, handleProgress, values } = useProfile();
+  const { updateTab, handleProgress, values } = useProfile();
 
   const [contactTypes, setContactTypes] =
     useState<Array<{ value: number; name: string }>>();

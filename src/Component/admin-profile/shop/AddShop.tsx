@@ -57,7 +57,6 @@ const AddShop = () => {
           />
           <Typography
             variant='h4'
-           
           >
             Add a New Shop
           </Typography>
@@ -120,8 +119,6 @@ const AddShop = () => {
                   <Box className='back-blck'>
                     <Typography
                       variant='h4'
-                    
-                     
                     >
                       Hours of Operation
                     </Typography>

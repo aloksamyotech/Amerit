@@ -65,33 +65,6 @@ export const getAdminDocumentsDetails = async () => {
   }
 };
 
-// export const saveAdminTermsDetails = async (payload: any) => {
-//   try {
-//     const response = await axiosClient.post(
-//       `/VendorProfile/TermsAgreed/${payload.id}?agreed=${payload.agreed}`
-//     );
-
-//     return response.data;
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
-
-// export const saveAdminDocumentDetails = async (
-//   payload: ILinearProgressWithLabel
-// ) => {
-//   try {
-//     const data = { detail: { ...payload } };
-//     const response = await axiosClient.post<ILinearProgressWithLabel>(
-//       `/VendorProfile/AddDocuments/`,
-//       data
-//     );
-
-//     return response.data;
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
 export const saveAdminTermsDetails = async (payload: any) => {
   try {
     const response = await axiosClient.post(
@@ -103,13 +76,3 @@ export const saveAdminTermsDetails = async (payload: any) => {
     console.log(error);
   }
 };
-export const saveDocumentType = async (payload: any) => {
-  try{
-    const response = await axiosClient.post(
-      `/VendorProfile/AddDocuments/${payload.id}?type=${payload.int}`
-    );
-    return response.data;
-  }catch(error){
-    console.log(error);
-  }
-}

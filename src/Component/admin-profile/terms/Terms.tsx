@@ -81,6 +81,7 @@ const Terms = () => {
           <Grid xs={6} pt={2}>
             <FormControlLabel
               control={<Checkbox />}
+              onClick={handlechange}
               label='I agree to the above terms'
             />
             <Grid xs={3}>

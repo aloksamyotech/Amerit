@@ -30,8 +30,7 @@ export const MAP_LINE_ITEM_TYPES_TO_PROP: { [key: string]: string } = {
   Sublet: 'sublet',
   Freight: 'freight',
   Towing: 'towing',
-  Travel: 'travel',
-  Taxes: 'taxes'
+  Travel: 'travel'
 };
 
 export const STATUS_REQUESTED = 'Requested';

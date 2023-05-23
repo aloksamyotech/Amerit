@@ -11,7 +11,6 @@ const useEstimateFields = (
   const [freight, setFreight] = useState(0);
   const [towing, setTowing] = useState(0);
   const [travel, setTravel] = useState(0);
-  const [taxes, setTaxes] = useState(0);
   const [fees, setFees] = useState(0);
   const [parts, setParts] = useState(0);
   const [shopSupplies, setShopSupplies] = useState(0);
@@ -23,23 +22,12 @@ const useEstimateFields = (
         Number(freight) +
         Number(towing) +
         Number(travel) +
-        Number(taxes) +
         Number(fees) +
         Number(parts) +
         Number(shopSupplies)
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [
-    labor,
-    sublet,
-    freight,
-    towing,
-    travel,
-    taxes,
-    fees,
-    parts,
-    shopSupplies
-  ]);
+  }, [labor, sublet, freight, towing, travel, fees, parts, shopSupplies]);
 
   if (totalUpdate != null) {
     totalUpdate(sectionTotal);
@@ -73,8 +61,6 @@ const useEstimateFields = (
     setTowing,
     travel,
     setTravel,
-    taxes,
-    setTaxes,
     fees,
     setFees,
     parts,

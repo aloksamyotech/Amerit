@@ -28,7 +28,6 @@ const Table = ({
   setFreight,
   setTowing,
   setTravel,
-  setTaxes,
   types,
   sectionId,
   vmrs
@@ -192,7 +191,6 @@ const Table = ({
     const freight = data.filter((x) => x.jobType === 'Freight');
     const towing = data.filter((x) => x.jobType === 'Towing');
     const travel = data.filter((x) => x.jobType === 'Travel');
-    const taxes = data.filter((x) => x.jobType === 'Taxes');
 
     let partsTotal = 0;
     let shopSuppliesTotal = 0;
@@ -202,7 +200,6 @@ const Table = ({
     let freightTotal = 0;
     let towingTotal = 0;
     let travelTotal = 0;
-    let taxesTotal = 0;
 
     parts.forEach((x) => {
       partsTotal += Number(x.quantity) * Number(x.charge);
@@ -228,9 +225,6 @@ const Table = ({
     travel.forEach((x) => {
       travelTotal += Number(x.quantity) * Number(x.charge);
     });
-    taxes.forEach((x) => {
-      taxesTotal += Number(x.quantity) * Number(x.charge);
-    });
 
     setParts(partsTotal);
     setShopSupplies(shopSuppliesTotal);
@@ -240,7 +234,6 @@ const Table = ({
     setFreight(freightTotal);
     setTowing(towingTotal);
     setTravel(travelTotal);
-    setTaxes(taxesTotal);
   }, [data]);
 
   const isEditableElementExists = () => {

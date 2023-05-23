@@ -6,8 +6,9 @@ import JobSections from '@components/estimate/job-section/JobSections';
 import useJobSections from '@hooks/job-sections';
 import { vendorRepairOrder as vendorRepairOrderFetch } from 'src/services/search';
 import { HIGH_PRIORITY_VALUE, CONTENT_MAX_WIDTH } from 'src/constants';
-import JobSectionsProvider from './providers';
+import JobSectionsProvider from './job-sections-provider';
 import MessagingProvider from '@components/messaging/provider';
+import TaxesProvider from './taxes-provider';
 import Details from './Details';
 import Header from './Header';
 
@@ -31,33 +32,35 @@ const VendorRepairOrder = () => {
   return (
     <JobSectionsProvider>
       <MessagingProvider>
-        <Box>
-          {priority === HIGH_PRIORITY_VALUE && <HighPriorityBanner />}
-          <Box sx={{ maxWidth: CONTENT_MAX_WIDTH, margin: '0 auto' }}>
-            <Header vendorRepairOrder={vendorRepairOrder} />
-            <Details vendorRepairOrder={vendorRepairOrder} />
-            <Box
-              sx={{
-                marginTop: '30px',
-                marginBottom: '30px',
-                display: 'flex',
-                justifyContent: 'right',
-                gap: '30px'
-              }}
-            >
-              <Button
-                color='secondary'
-                variant='contained'
-                onClick={handleAddSection}
-                data-testid='add-section-button'
+        <TaxesProvider>
+          <Box>
+            {priority === HIGH_PRIORITY_VALUE && <HighPriorityBanner />}
+            <Box sx={{ maxWidth: CONTENT_MAX_WIDTH, margin: '0 auto' }}>
+              <Header vendorRepairOrder={vendorRepairOrder} />
+              <Details vendorRepairOrder={vendorRepairOrder} />
+              <Box
+                sx={{
+                  marginTop: '30px',
+                  marginBottom: '30px',
+                  display: 'flex',
+                  justifyContent: 'right',
+                  gap: '30px'
+                }}
               >
-                Add Section
-              </Button>
+                <Button
+                  color='secondary'
+                  variant='contained'
+                  onClick={handleAddSection}
+                  data-testid='add-section-button'
+                >
+                  Add Section
+                </Button>
+              </Box>
+              {jobSections}
+              <JobSections />
             </Box>
-            {jobSections}
-            <JobSections />
           </Box>
-        </Box>
+        </TaxesProvider>
       </MessagingProvider>
     </JobSectionsProvider>
   );

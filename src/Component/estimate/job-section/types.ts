@@ -86,7 +86,6 @@ export interface JobSectionEstimate {
   freight: number;
   towing: number;
   travel: number;
-  taxes: number;
   fees: number;
   parts: number;
   shopSupplies: number;
@@ -104,7 +103,6 @@ export interface EstimateTable {
   setFreight: (value: number) => void;
   setTowing: (value: number) => void;
   setTravel: (value: number) => void;
-  setTaxes: (value: number) => void;
   availableLineItemTypes?: string[];
   sectionId?: number;
   vmrs?: string;
@@ -119,7 +117,6 @@ export interface VendorEstimateFields {
   freight: number;
   towing: number;
   travel: number;
-  taxes: number;
   sectionTotal: number;
 }
 
@@ -129,7 +126,6 @@ export interface VendorEstimateItem extends VendorEstimateFields {
   setFreight: (value: number) => void;
   setTowing: (value: number) => void;
   setTravel: (value: number) => void;
-  setTaxes: (value: number) => void;
   setTotalEstimate?: (value: number) => void;
   availableLineItemTypes: string[];
 }

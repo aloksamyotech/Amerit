@@ -83,8 +83,6 @@ export default function TabsControl({
     setTowing: setTowingEstimate,
     travel: travelEstimate,
     setTravel: setTravelEstimate,
-    taxes: taxesEstimate,
-    setTaxes: setTaxesEstimate,
     fees: feesEstimate,
     setFees: setFeesEstimate,
     parts: partsEstimate,
@@ -106,8 +104,6 @@ export default function TabsControl({
     setTowing: setTowingActual,
     travel: travelActual,
     setTravel: setTravelActual,
-    taxes: taxesActual,
-    setTaxes: setTaxesActual,
     fees: feesActual,
     setFees: setFeesActual,
     parts: partsActual,
@@ -155,7 +151,6 @@ export default function TabsControl({
       freight: freightEstimate,
       towing: towingEstimate,
       travel: travelEstimate,
-      taxes: taxesEstimate,
       fees: feesEstimate,
       parts: partsEstimate,
       shopSupplies: shopSuppliesEstimate
@@ -170,7 +165,6 @@ export default function TabsControl({
       freight: freightActual,
       towing: towingActual,
       travel: travelActual,
-      taxes: taxesActual,
       fees: feesActual,
       parts: partsActual,
       shopSupplies: shopSuppliesActual
@@ -186,7 +180,6 @@ export default function TabsControl({
     freight: freightEstimate,
     towing: towingEstimate,
     travel: travelEstimate,
-    taxes: taxesEstimate,
     sectionTotal: sectionTotalEstimate
   };
 
@@ -199,11 +192,11 @@ export default function TabsControl({
     freight: freightActual,
     towing: towingActual,
     travel: travelActual,
-    taxes: taxesActual,
     sectionTotal: sectionTotalActual
   };
 
-  const tableRows = data?.map((row: EstimateLineItem) => { // TODO - Need to check with BE about the type
+  const tableRows = data?.map((row: EstimateLineItem) => {
+    // TODO - Need to check with BE about the type
     const {
       jobType,
       partDescription,
@@ -214,18 +207,16 @@ export default function TabsControl({
       id
     } = row;
 
-    return (
-      {
-        jobType,
-        partDescription,
-        partNumber,
-        quantity,
-        charge,
-        total: quantity * charge,
-        vroSectionId,
-        id
-      }
-    )
+    return {
+      jobType,
+      partDescription,
+      partNumber,
+      quantity,
+      charge,
+      total: quantity * charge,
+      vroSectionId,
+      id
+    };
   });
 
   return (
@@ -261,9 +252,6 @@ export default function TabsControl({
               <LineItemsSummary
                 vendorEstimateItem={vendorEstimateItem}
                 availableLineItemTypes={availableLineItemTypesEstimate}
-                enableTaxes
-                taxes={taxesEstimate}
-                setTaxes={setTaxesEstimate}
               />
               <Box>
                 <Table
@@ -278,7 +266,6 @@ export default function TabsControl({
                   setFreight={setFreightEstimate}
                   setTowing={setTowingEstimate}
                   setTravel={setTravelEstimate}
-                  setTaxes={setTaxesEstimate}
                   sectionId={sectionId}
                   vmrs={vmrs}
                 />
@@ -301,9 +288,6 @@ export default function TabsControl({
               <LineItemsSummary
                 vendorEstimateItem={vendorActualItem}
                 availableLineItemTypes={availableLineItemTypesActual}
-                enableTaxes
-                taxes={taxesActual}
-                setTaxes={setTaxesActual}
               />
               <Box>
                 <Table
@@ -318,7 +302,6 @@ export default function TabsControl({
                   setFreight={setFreightActual}
                   setTowing={setTowingActual}
                   setTravel={setTravelActual}
-                  setTaxes={setTaxesActual}
                   availableLineItemTypes={availableLineItemTypesActual}
                 />
               </Box>

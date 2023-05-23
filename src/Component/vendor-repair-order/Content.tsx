@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction, useContext } from 'react';
 import { Control, FieldErrors } from 'react-hook-form';
 import { Grid, Typography, Button, Box } from '@mui/material';
 import {
@@ -8,6 +8,7 @@ import {
 import { VendorRepairOrder } from '@components/common/vendor-repair-order/types';
 import useSummaries from '@hooks/summaries';
 import { STATUS_REQUESTED } from 'src/constants';
+import { TaxesContext } from './taxes-provider';
 import OdoInput from './OdoInput';
 import WorkOrderInput from './WorkOrderInput';
 import { EMPTY_VALUE } from 'src/constants';
@@ -28,6 +29,7 @@ const Content = ({
   const { status, unit, estimateDue, responseDue, shopAvailable } =
     vendorRepairOrder;
   const { vin, year, make, model, due } = unit;
+  const { estimateTaxes } = useContext(TaxesContext);
 
   const { summary } = useSummaries();
 
@@ -85,7 +87,7 @@ const Content = ({
                     }}
                   >
                     <Typography fontSize='11px' sx={{ fontWeight: 700 }}>
-                      ${summary.sectionTotal.toFixed(2)}
+                      ${(summary.sectionTotal + estimateTaxes).toFixed(2)}
                     </Typography>
                     <Typography fontSize='11px'>See Breakdown</Typography>
                   </Button>

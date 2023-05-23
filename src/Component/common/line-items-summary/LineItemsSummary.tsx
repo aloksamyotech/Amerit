@@ -20,13 +20,11 @@ const summaryFields: SummaryField[] = [
 const LineItemsSummary = ({
   vendorEstimateItem,
   availableLineItemTypes,
-  enableTaxes,
   taxes,
   setTaxes
 }: {
   vendorEstimateItem: VendorEstimateFields;
   availableLineItemTypes: string[];
-  enableTaxes?: boolean;
   taxes?: number;
   setTaxes?: Dispatch<SetStateAction<number>>;
 }) => {
@@ -35,6 +33,12 @@ const LineItemsSummary = ({
     if (setTaxes) {
       setTaxes(Number(value));
     }
+  };
+
+  const calculateTotal = () => {
+    const total = vendorEstimateItem.sectionTotal + (taxes ?? 0);
+
+    return Number(total.toFixed(2));
   };
 
   return (
@@ -67,31 +71,34 @@ const LineItemsSummary = ({
           />
         </Box>
       ))}
-      <Box p={2}>
-        <InputLabel shrink={true} sx={{ fontWeight: 1000 }} htmlFor='Taxes'>
-          Taxes
-        </InputLabel>
-        <TextField
-          name='Taxes'
-          sx={textFieldStyle}
-          type='number'
-          value={enableTaxes ? taxes : Number(taxes).toFixed(2)}
-          onChange={updateTaxes}
-          size='small'
-          disabled={!enableTaxes}
-          InputProps={{
-            sx: {
-              '.MuiInputBase-input': {
-                textAlign: 'right',
-                '&::placeholder': {
-                  textAlign: 'right'
+      {taxes != null && setTaxes != null && (
+        <Box p={2}>
+          <InputLabel shrink={true} sx={{ fontWeight: 1000 }} htmlFor='Taxes'>
+            Taxes
+          </InputLabel>
+          <TextField
+            name='Taxes'
+            sx={textFieldStyle}
+            type='number'
+            value={taxes}
+            onChange={updateTaxes}
+            size='small'
+            InputProps={{
+              sx: {
+                '.MuiInputBase-input': {
+                  textAlign: 'right',
+                  '&::placeholder': {
+                    textAlign: 'right'
+                  }
                 }
-              }
-            },
-            startAdornment: <InputAdornment position='start'>$</InputAdornment>
-          }}
-        />
-      </Box>
+              },
+              startAdornment: (
+                <InputAdornment position='start'>$</InputAdornment>
+              )
+            }}
+          />
+        </Box>
+      )}
       <Box p={2} pr={0}>
         <InputLabel
           shrink={true}
@@ -105,7 +112,7 @@ const LineItemsSummary = ({
           sx={textFieldStyle}
           type='number'
           disabled
-          value={Number(vendorEstimateItem.sectionTotal).toFixed(2)}
+          value={calculateTotal()}
           size='small'
           InputProps={{
             sx: {

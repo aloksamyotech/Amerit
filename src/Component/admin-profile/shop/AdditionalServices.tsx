@@ -12,20 +12,10 @@ const AdditionalServices = () => {
   return (
     <Grid container sx={{ mt: 2 }}>
       <Grid item xs={12}>
-        <Typography
-          variant='h4'
-          
-        >
-          Additional Services
-        </Typography>
+        <Typography variant='h4'>Additional Services</Typography>
       </Grid>
       <Grid item xs={12}>
-        <Typography
-          variant='h5'
-         
-        >
-          General
-        </Typography>
+        <Typography variant='h5'>General</Typography>
       </Grid>
       <Grid item xs={12}>
         <FormGroup sx={{ display: 'inline-block' }}>
@@ -34,19 +24,13 @@ const AdditionalServices = () => {
               key={generalItem}
               control={<Checkbox />}
               label={generalItem}
-             
             />
           ))}
         </FormGroup>
       </Grid>
 
       <Grid item xs={12}>
-        <Typography
-          variant='h5'
-         
-        >
-          Tire
-        </Typography>
+        <Typography variant='h5'>Tire</Typography>
       </Grid>
       <Grid item xs={12}>
         <FormGroup sx={{ display: 'inline-block' }}>
@@ -66,12 +50,7 @@ const AdditionalServices = () => {
         </FormGroup>
       </Grid>
       <Grid item xs={12}>
-        <Typography
-          variant='h5'
-         
-        >
-          Towing
-        </Typography>
+        <Typography variant='h5'>Towing</Typography>
       </Grid>
       <Grid item xs={12}>
         <FormGroup sx={{ display: 'inline-block' }}>
@@ -91,12 +70,7 @@ const AdditionalServices = () => {
         </FormGroup>
       </Grid>
       <Grid item xs={12}>
-        <Typography
-          variant='h5'
-         
-        >
-          Parts
-        </Typography>
+        <Typography variant='h5'>Parts</Typography>
       </Grid>
       <Grid item xs={12}>
         <FormGroup sx={{ display: 'inline-block' }}>

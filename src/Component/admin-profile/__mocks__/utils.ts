@@ -71,7 +71,7 @@ const OWNER_SHIP_TERMS_ADMIN: SelectOptionsProps[] = [
   },
   {
     id: 2,
-    label: 'Partner ship',
+    label: 'Partnership',
     value: 2,
     disabled: false
   }

@@ -14,7 +14,7 @@ const JobSectionHeader = ({
       <Grid item xs={10}>
         <Box display="flex">
           <JobSectionHeading sectionNumber={id || 0} />
-          <Box display="flex" sx={{ marginTop: '3px' }}>
+          <Box display="flex" sx={{ marginTop: '4px' }}>
             <Typography fontSize={11} fontWeight={700} ml={3} mr={1}>
               Type:
             </Typography>
@@ -22,7 +22,7 @@ const JobSectionHeader = ({
               {type}
             </Typography>
           </Box>
-          <Box display="flex"  sx={{marginTop:'3px'}}>
+          <Box display="flex"  sx={{marginTop:'5px'}}>
             <Typography fontSize={11} fontWeight={700} ml={3} mr={1}>
               VMRS:
             </Typography>
