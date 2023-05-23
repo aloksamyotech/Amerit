@@ -11,6 +11,7 @@ import {
   Typography
 } from '@mui/material';
 import React, { useState } from 'react';
+import { useMutation } from 'react-query';
 import { TERMS_MOCK } from 'src/mocks/admin-profile';
 import { useProfile } from '../context/ProfileContext';
 import { saveAdminTermsDetails } from 'src/services/admin';
@@ -21,13 +22,16 @@ const Terms = () => {
   const handlechange = (event: any) => {
     setIsAgree(event.target.checked);
   };
+
+  const mutation = useMutation((data: any) => saveAdminTermsDetails(data));
   const handleSubmit = () => {
     handleProgress('terms');
     updateTab(4);
-    saveAdminTermsDetails({
+    const data = {
       id: Number(values?.userid),
       agreed: isAgree
-    });
+    };
+    mutation.mutate(data);
   };
 
   return (
