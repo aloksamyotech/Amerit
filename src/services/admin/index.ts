@@ -1,6 +1,7 @@
 import { Profile } from '@components/admin-profile/profile/types/ProfileForm';
 import { ILinearProgressWithLabel } from '@components/admin-profile/documents/types';
 import { axiosClient } from '..';
+import axios from 'axios';
 
 export const saveAdminProfileDetails = async (payload: Profile) => {
   try {
@@ -103,11 +104,20 @@ export const saveAdminTermsDetails = async (payload: any) => {
     console.log(error);
   }
 };
+const API_ENDPOINT = 'https://vendorportalbeaps-dev.azurewebsites.net/api';
+
+export const axiosUplod = axios.create({
+  baseURL: API_ENDPOINT,
+  headers: {
+    "accept": "*/*",
+    "Content-Type": "multipart/form-data"
+  }
+});
 export const saveDocumentType = async (payload: any, id: number) => {
   try {
     console.log("flaskdfakjsfldjkf")
     console.log(payload);
-    const response = await axiosClient.post(
+    const response = await axiosUplod.post(
       `/VendorProfile/AddDocuments/${id}`,
       payload
     );

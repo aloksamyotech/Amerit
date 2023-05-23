@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import {
   Box,
   Typography,
@@ -14,7 +14,6 @@ import { Close, FileUploadOutlined } from '@mui/icons-material';
 import Image from 'next/image';
 import LinearProgressWithLabel from './LinearProgressWithLabel';
 import { useProfile } from '../context/ProfileContext';
-// import Upload from './Upload';
 import { useMutation, useQuery } from 'react-query';
 import Uploading from './uploading';
 
@@ -28,44 +27,50 @@ const Documents = () => {
   const hiddenFileInput = React.useRef<HTMLInputElement>(null);
   const [progress, setProgress] = React.useState(10);
   const [documentTypes, setDocumentTypes] = useState();
-   const defaultValues = {
+  const [show, setShow] = useState(false);
+  const defaultValues = {
     name: ''
 
-   }
-   
+  }
+
   useQuery(['documentTypes'], () =>
     getAdminDocumentsDetails().then((data) => setDocumentTypes(data)),
   );
   const mutation = useMutation((data: any) =>
-  saveDocumentType(data , 12 )
-);
+    saveDocumentType(data, Number(values?.userid))
+  );
 
 
   const handleSubmit = (data: any) => {
     handleProgress('document');
     updateTab(2);
-    mutation.mutate(selectedFiles[0]);
+    mutation.mutate(selectedFiles);
   };
-    const [showComponent, setShowComponent] = useState(false);
+  const [showComponent, setShowComponent] = useState(false);
 
-    const handleClick = () => {
-        hiddenFileInput?.current?.click();
-        setShowComponent(true);
+  const handleClick = () => {
+    hiddenFileInput?.current?.click();
+    setShowComponent(true);
+  }
+  const handleClose = () => {
+    setSelectedFiles(null);
+    if (hiddenFileInput.current) {
+      hiddenFileInput.current.value = '';
     }
-    const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
-      const { files } = event.target;
+  }
+  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const { files } = event.target;
     const selectedFiles = files as FileList;
-    if(files && files.length > 0) {
-const newFiles: File[] = Array.from (files);
-setSelectedFiles((prevSelectedFiles) => [...prevSelectedFiles,...newFiles]);
+    if (files && files.length > 0) {
+      const newFiles: File[] = Array.from(files);
+      setSelectedFiles((prevSelectedFiles) => [...prevSelectedFiles, ...newFiles]);
     }
-    console.log(selectedFiles);
-        // const fileList = event.target.files;
-        // if (fileList && fileList.length > 0) {
-        //     const files: File[] = Array.from(fileList);
-        //     setSelectedFiles((prevSelectedFiles) => [...prevSelectedFiles, ...files]);
-        // }
-    };
+    console.log(selectedFiles[0]);
+    setTimeout(() => {
+      setShow(false);
+    }, 2000);
+    setShow(true);
+  }
 
   return (
     <Box width={'100%'}>
@@ -181,7 +186,7 @@ setSelectedFiles((prevSelectedFiles) => [...prevSelectedFiles,...newFiles]);
               >
 
 
-                {selectedFiles.length === 0 && (
+                {selectedFiles && selectedFiles.length == 0 && (
                   <Grid sx={{
                     cursor: 'pointer',
                     width: '100%',
@@ -209,18 +214,54 @@ setSelectedFiles((prevSelectedFiles) => [...prevSelectedFiles,...newFiles]);
                     </Grid>
                   </Grid>
                 )}
-                {selectedFiles.length > 0 && (
+                {selectedFiles && selectedFiles.length > 0 && (
                   <>
-                    {showComponent ? <Uploading /> : null}
-                    <ul>
-                      {selectedFiles.map((file, index) => (
-                        <li key={index}>{file.name}</li>
-                      ))}
-                    </ul>
+                    {<Uploading />}
                   </>
                 )}
-                {/* <Upload/> */}
               </Box>
+              {selectedFiles.map((file, index) => (
+                <Grid item xs={12} key={index}>
+                  <Box
+                    width={'100%'}
+                    alignItems='center'
+                    sx={{
+                      p: 1,
+                      border: '1px solid ',
+                      borderColor: (theme: Theme) => theme.palette.primary.main,
+                      marginTop: '20px'
+                    }}
+                  >
+                    <Box display='flex' width='100%' sx={{ p: 1 }}>
+                      <Image
+                        src='/images/pdf.svg'
+                        height={38}
+                        width={34}
+                        alt='Follow us on Twitter'
+                      />
+                      <Box
+                        display='flex'
+                        justifyContent='space-between'
+                        width='100%'
+                      >
+                        <Box sx={{ ml: 2 }}>
+                          <Typography variant='subtitle2'>
+                            {file.name}
+                          </Typography>
+                          <Typography variant='caption'>443 kb</Typography>
+                        </Box>
+                        <IconButton onClick={handleClose}>
+                          <Close />
+                        </IconButton>
+                      </Box>
+                    </Box>
+                    <Box sx={{ width: '100%' }}>
+                      <LinearProgressWithLabel value={progress} />
+                    </Box>
+                  </Box>
+                </Grid>
+              ))}
+
             </Grid>
           </Grid>
           <Grid container spacing={2}>
@@ -238,7 +279,7 @@ setSelectedFiles((prevSelectedFiles) => [...prevSelectedFiles,...newFiles]);
                   height: '130px'
                 }}
               >
-                {selectedFiles.length === 0 && (
+                {selectedFiles && selectedFiles.length == 0 && (
                   <Grid sx={{
                     cursor: 'pointer',
                     width: '100%',
@@ -266,7 +307,7 @@ setSelectedFiles((prevSelectedFiles) => [...prevSelectedFiles,...newFiles]);
                     </Grid>
                   </Grid>
                 )}
-                {selectedFiles.length > 0 && (
+                {selectedFiles && selectedFiles.length > 0 && (
                   <>
                     {showComponent ? <Uploading /> : null}
                     <ul>
@@ -276,7 +317,6 @@ setSelectedFiles((prevSelectedFiles) => [...prevSelectedFiles,...newFiles]);
                     </ul>
                   </>
                 )}
-                {/* <Upload/> */}
               </Box>
             </Grid>
           </Grid>
@@ -295,7 +335,7 @@ setSelectedFiles((prevSelectedFiles) => [...prevSelectedFiles,...newFiles]);
                   height: '130px'
                 }}
               >
-                {selectedFiles.length === 0 && (
+                {selectedFiles && selectedFiles.length === 0 && (
                   <Grid sx={{
                     cursor: 'pointer',
                     width: '100%',
@@ -323,7 +363,7 @@ setSelectedFiles((prevSelectedFiles) => [...prevSelectedFiles,...newFiles]);
                     </Grid>
                   </Grid>
                 )}
-                {selectedFiles.length > 0 && (
+                {selectedFiles && selectedFiles.length > 0 && (
                   <>
                     {showComponent ? <Uploading /> : null}
                     <ul>
