@@ -1,6 +1,7 @@
 import { Profile } from '@components/admin-profile/profile/types/ProfileForm';
 import { ILinearProgressWithLabel } from '@components/admin-profile/documents/types';
 import { axiosClient } from '..';
+import axios from 'axios';
 
 export const saveAdminProfileDetails = async (payload: Profile) => {
   try {

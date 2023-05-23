@@ -2,7 +2,7 @@ import { Grid, Link, Theme, Typography } from '@mui/material';
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import { Box, Input } from '../style';
 import { FileUploadOutlined } from '@mui/icons-material';
-import Uploading from './uploading';
+import Uploading from ''
 
 const Upload: React.FC = () => {
     const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
