@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
-import { JobSectionsContext } from '@components/vendor-repair-order/providers';
+import { JobSectionsContext } from '@components/vendor-repair-order/job-sections-provider';
 import { JobSectionsContextProvider } from '@components/estimate/job-section/types';
 import { MAP_LINE_ITEM_TYPES_TO_PROP } from 'src/constants';
 import { Summary } from './types';
@@ -14,7 +14,6 @@ const useSummaries = () => {
     freight: 0,
     towing: 0,
     travel: 0,
-    taxes: 0,
     sectionTotal: 0
   };
 

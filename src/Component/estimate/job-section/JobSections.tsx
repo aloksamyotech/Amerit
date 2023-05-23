@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import { useRouter } from 'next/router';
 import { Box } from '@mui/material';
-import { JobSectionsContext } from '@components/vendor-repair-order/providers';
+import { JobSectionsContext } from '@components/vendor-repair-order/job-sections-provider';
 import JobSection from './JobSection';
 import { Estimate } from './types';
 import { VroLinesProvider } from './VroLinesProvider';
@@ -26,7 +26,7 @@ const JobSections = () => {
           estimateAmount,
           actualAmount,
           notes,
-          jobType,
+          jobType
         } = job;
 
         return (

@@ -66,60 +66,10 @@ export const getAdminDocumentsDetails = async () => {
   }
 };
 
-// export const saveAdminTermsDetails = async (payload: any) => {
-//   try {
-//     const response = await axiosClient.post(
-//       `/VendorProfile/TermsAgreed/${payload.id}?agreed=${payload.agreed}`
-//     );
-
-//     return response.data;
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
-
-// export const saveAdminDocumentDetails = async (
-//   payload: ILinearProgressWithLabel
-// ) => {
-//   try {
-//     const data = { detail: { ...payload } };
-//     const response = await axiosClient.post<ILinearProgressWithLabel>(
-//       `/VendorProfile/AddDocuments/`,
-//       data
-//     );
-
-//     return response.data;
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
 export const saveAdminTermsDetails = async (payload: any) => {
   try {
     const response = await axiosClient.post(
       `/VendorProfile/TermsAgreed/${payload.id}?agreed=${payload.agreed}`
-    );
-
-    return response.data;
-  } catch (error) {
-    console.log(error);
-  }
-};
-const API_ENDPOINT = 'https://vendorportalbeaps-dev.azurewebsites.net/api';
-
-export const axiosUplod = axios.create({
-  baseURL: API_ENDPOINT,
-  headers: {
-    "accept": "*/*",
-    "Content-Type": "multipart/form-data"
-  }
-});
-export const saveDocumentType = async (payload: any, id: number) => {
-  try {
-    console.log("flaskdfakjsfldjkf")
-    console.log(payload);
-    const response = await axiosUplod.post(
-      `/VendorProfile/AddDocuments/${id}`,
-      payload
     );
 
     return response.data;
