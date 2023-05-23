@@ -77,8 +77,6 @@ export const saveAdminTermsDetails = async (payload: any) => {
     console.log(error);
   }
 };
-<<<<<<< HEAD
-=======
 export const saveDocumentType = async (payload: any, id: number) => {
   try {
     console.log(payload);
@@ -92,4 +90,3 @@ export const saveDocumentType = async (payload: any, id: number) => {
     console.log(error);
   }
 };
->>>>>>> 43921f04b678571e4faeb1e9890d58f63eaeb6bc
