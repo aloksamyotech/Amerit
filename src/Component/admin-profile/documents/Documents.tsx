@@ -15,10 +15,10 @@ import Image from 'next/image';
 import LinearProgressWithLabel from './LinearProgressWithLabel';
 import { useProfile } from '../context/ProfileContext';
 import { useMutation, useQuery } from 'react-query';
-// import Uploading from './uploading';
 
 import { getAdminDocumentsDetails, saveDocumentType } from 'src/services/admin';
 import { CBox, Input } from '../style';
+import Uploading from './uploading';
 
 const Documents = () => {
   const { updateTab, handleProgress, values } = useProfile();
@@ -129,7 +129,6 @@ const Documents = () => {
             <Grid item xs={12}>
               <Typography variant='h6'>ACH Form</Typography>
             </Grid>
-            {/* <Uploading /> */}
           </Grid>
           <Grid container spacing={2}>
             <Grid item xs={12}>
@@ -166,9 +165,6 @@ const Documents = () => {
                     </IconButton>
                   </Box>
                 </Box>
-                <Box sx={{ width: '100%' }}>
-                  <LinearProgressWithLabel value={progress} />
-                </Box>
               </Box>
             </Grid>
           </Grid>
@@ -186,7 +182,7 @@ const Documents = () => {
               >
 
 
-                {selectedFiles && selectedFiles.length == 0 && (
+                {selectedFiles.length == 0 && (
                   <Grid sx={{
                     cursor: 'pointer',
                     width: '100%',
@@ -214,7 +210,7 @@ const Documents = () => {
                     </Grid>
                   </Grid>
                 )}
-                {selectedFiles && selectedFiles.length > 0 && (
+                { selectedFiles.length > 0 && (
                   <>
                     {show ? <Uploading /> : null}
                   </>
