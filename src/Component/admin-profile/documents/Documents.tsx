@@ -1,4 +1,5 @@
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import React, { ChangeEvent, useState } from 'react';
+import React from 'react';
 import {
   Box,
   Typography,
@@ -14,6 +15,8 @@ import { Close, FileUploadOutlined } from '@mui/icons-material';
 import Image from 'next/image';
 import LinearProgressWithLabel from './LinearProgressWithLabel';
 import { useProfile } from '../context/ProfileContext';
+// <<<<<<<<< Temporary merge branch 1
+// import Upload from './Upload';
 import { useMutation, useQuery } from 'react-query';
 // import Uploading from './uploading';
 
@@ -26,6 +29,9 @@ const Documents = () => {
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const hiddenFileInput = React.useRef<HTMLInputElement>(null);
   const [progress, setProgress] = React.useState(10);
+
+  const [show, setShow] = useState(false);
+
   const [documentTypes, setDocumentTypes] = useState();
   const [show, setShow] = useState(false);
   const defaultValues = {
@@ -36,12 +42,31 @@ const Documents = () => {
   useQuery(['documentTypes'], () =>
     getAdminDocumentsDetails().then((data) => setDocumentTypes(data)),
   );
-  const mutation = useMutation((data: any) =>
-    saveDocumentType(data, Number(values?.userid))
+  const mutation = useMutation((data: typeof defaultValues) =>
+    saveDocumentType(data, '12')
   );
+=========
 
+const Documents = () => {
+  const { updateTab, handleProgress } = useProfile();
 
-  const handleSubmit = (data: any) => {
+  const [progress, setProgress] = React.useState(10);
+
+  React.useEffect(() => {
+    const timer = setInterval(() => {
+      setProgress((prevProgress) =>
+        prevProgress >= 100 ? 10 : prevProgress + 10
+      );
+    }, 800);
+
+    return () => {
+      clearInterval(timer);
+    };
+  }, []);
+>>>>>>>>> Temporary merge branch 2
+
+  const handleSubmit = () => {
+    console.log(selectedFiles[0]);
     handleProgress('document');
     updateTab(2);
     mutation.mutate(selectedFiles);
@@ -61,16 +86,15 @@ const Documents = () => {
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { files } = event.target;
     const selectedFiles = files as FileList;
+
     if (files && files.length > 0) {
       const newFiles: File[] = Array.from(files);
       setSelectedFiles((prevSelectedFiles) => [...prevSelectedFiles, ...newFiles]);
     }
     console.log(selectedFiles[0]);
-    setTimeout(() => {
-      setShow(false);
-    }, 2000);
-    setShow(true);
-  }
+  };
+=========
+>>>>>>>>> Temporary merge branch 2
 
   return (
     <Box width={'100%'}>
@@ -216,7 +240,12 @@ const Documents = () => {
                 )}
                 {selectedFiles && selectedFiles.length > 0 && (
                   <>
-                    {<Uploading />}
+                    {showComponent ? <Uploading /> : null}
+                    <ul>
+                      {selectedFiles.map((file, index) => (
+                        <li key={index}>{file.name}</li>
+                      ))}
+                    </ul>
                   </>
                 )}
               </Box>

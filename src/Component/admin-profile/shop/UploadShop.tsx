@@ -104,10 +104,7 @@ const UploadShop = () => {
                     sx={{ display: 'flex', justifyContent: 'flex-end' }}
                   >
                     <DescriptionIcon sx={{ display: 'inline-block' }} />{' '}
-                    <Typography
-                    >
-                      Download a sample file here
-                    </Typography>
+                    <Typography>Download a sample file here</Typography>
                   </Link>
                 </Grid>
                 <FileUploadIcon
@@ -115,7 +112,7 @@ const UploadShop = () => {
                   sx={{ height: '65px', width: '65px', marginTop: '35px' }}
                 />
                 <h3>Add a New Shop</h3>
-                <Typography variant='h5' >
+                <Typography variant='h5'>
                   Upload an CSV (Comma Separated Values) file with your shops.
                 </Typography>
                 <Grid item sx={{ mt: 2 }}>
@@ -150,10 +147,7 @@ const UploadShop = () => {
               <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 500 }} aria-label='simple table'>
                   <TableHead>
-                    <Grid
-                      fontSize={15}
-                      sx={{ mt: 2, marginLeft: '10px' }}
-                    >
+                    <Grid fontSize={15} sx={{ mt: 2, marginLeft: '10px' }}>
                       Column Headers in CSV File
                     </Grid>
                   </TableHead>
