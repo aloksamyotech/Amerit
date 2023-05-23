@@ -15,7 +15,7 @@ import Image from 'next/image';
 import LinearProgressWithLabel from './LinearProgressWithLabel';
 import { useProfile } from '../context/ProfileContext';
 import { useMutation, useQuery } from 'react-query';
-import Uploading from './uploading';
+// import Uploading from './uploading';
 
 import { getAdminDocumentsDetails, saveDocumentType } from 'src/services/admin';
 import { CBox, Input } from '../style';
