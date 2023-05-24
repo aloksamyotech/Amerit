@@ -77,22 +77,34 @@ export const saveAdminTermsDetails = async (payload: any) => {
     console.log(error);
   }
 };
-const API_ENDPOINT = 'https://vendorportalbeaps-dev.azurewebsites.net/api';
 
-export const axiosDocument = axios.create({
-  baseURL: API_ENDPOINT,
-  headers: {
-    'Content-type':  'multipart/form-data',
-    'accept': '*/*'
-  }
-});
 export const saveDocumentType = async (payload: any, id: number) => {
   try {
     console.log(payload);
-    const response = await axiosDocument.post(
+    const response = await axiosClient.post(
       `/VendorProfile/AddDocuments/${id}`,
       payload
     );
+
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const uploadAllshop = async (payload: any, id: number) => {
+  try {
+    let formData = new FormData();
+    formData.append('file', payload[0]);
+    id = 16;
+    const response = await axios({
+      url: `/VendorShop/UploadShops${id}`,
+      method: 'POST',
+      headers: {
+        'Content-type': 'multipart/form-data'
+      },
+      data: formData
+    });
 
     return response.data;
   } catch (error) {

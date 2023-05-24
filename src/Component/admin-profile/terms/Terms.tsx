@@ -1,3 +1,4 @@
+import React, { ChangeEvent, useState } from 'react';
 import {
   Box,
   Button,
@@ -10,7 +11,6 @@ import {
   Paper,
   Typography
 } from '@mui/material';
-import React, { ChangeEvent, useState } from 'react';
 import { useMutation } from 'react-query';
 import { TERMS_MOCK } from 'src/mocks/admin-profile';
 import { useProfile } from '../context/ProfileContext';

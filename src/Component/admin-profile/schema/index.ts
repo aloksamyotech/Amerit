@@ -21,7 +21,10 @@ const ProfileFormSchema = yup.object().shape({
   federalTaxIdNumber: yup.string().required('EIN is Required'),
   dunsNumber: yup.string().required('DUNS Number is required'),
   minorityOwned: yup.string().required('Ownership is required'),
-  paymentTermsId: yup.string().required('Payment Terms are required'),
+  paymentTermsId: yup
+    .number()
+    .min(1, 'Payment Terms are required')
+    .required('Payment Terms are required'),
   services: yup.boolean(),
   parts: yup.boolean(),
   toolsAndSupplies: yup.boolean(),

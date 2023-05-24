@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Box from '@mui/material/Box';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { Button, Grid, Paper, Typography } from '@mui/material';
@@ -18,8 +18,13 @@ const columns: GridColDef[] = [
     field: 'Address',
     headerName: 'Address',
     minWidth: 250,
-    flex: 1
+    flex: 1,
+    width: 150,
+    renderCell: (params) => (
+      <Grid sx={{ whiteSpace: 'normal' }}>{params.value}</Grid>
+    )
   },
+  ,
   {
     field: 'Phone',
     headerName: 'Phone',
@@ -36,14 +41,6 @@ const columns: GridColDef[] = [
     renderCell: () => {
       return (
         <Stack direction='row' spacing={2}>
-          <Button
-            sx={{
-              background: (theme) => theme.palette.gold.main
-            }}
-            variant='contained'
-          >
-            View
-          </Button>
           <Button
             sx={{
               background: (theme) => theme.palette.gold.main
@@ -68,6 +65,7 @@ const columns: GridColDef[] = [
 
 const Shop = () => {
   const { addNewShop, uploadShop, updateTab, handleProgress } = useProfile();
+  const [pageSize, setPageSize] = useState<number>(25);
 
   const handleSubmit = () => {
     updateTab(3);
@@ -122,7 +120,17 @@ const Shop = () => {
           </Grid>
           <Grid item xs={12}>
             <Box>
-              <DataGrid rows={rows} columns={columns} autoHeight />
+              <DataGrid
+                rows={rows}
+                columns={columns}
+                autoHeight
+                initialState={{
+                  pagination: {
+                    paginationModel: { pageSize: Number(pageSize) }
+                  }
+                }}
+                pageSizeOptions={[25, 50, 100]}
+              />
             </Box>
             <Button
               color='secondary'

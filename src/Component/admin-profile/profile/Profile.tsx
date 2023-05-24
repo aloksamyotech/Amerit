@@ -126,42 +126,6 @@ const Profile = () => {
                         />
                       )}
                     />
-
-                    <Controller
-                      name='toolsAndSupplies'
-                      control={control}
-                      render={({ field: { value, onChange } }: any) => (
-                        <FormControlLabel
-                          control={
-                            <Checkbox
-                              icon={<CropSquare />}
-                              checkedIcon={<Square />}
-                              value={value}
-                              onChange={onChange}
-                            />
-                          }
-                          label='Tools & Supplies'
-                        />
-                      )}
-                    />
-
-                    <Controller
-                      name='oemDealer'
-                      control={control}
-                      render={({ field: { value, onChange } }: any) => (
-                        <FormControlLabel
-                          control={
-                            <Checkbox
-                              icon={<CropSquare />}
-                              checkedIcon={<Square />}
-                              value={value}
-                              onChange={onChange}
-                            />
-                          }
-                          label='OEM Dealer'
-                        />
-                      )}
-                    />
                   </FormGroup>
                 </Grid>
               </FormControl>
@@ -283,7 +247,7 @@ const Profile = () => {
             </Grid>
 
             <Grid item sm={4} lg={4}>
-              <FormControl fullWidth>
+              <FormControl fullWidth error={Boolean(errors.state)}>
                 <Controller
                   name='state'
                   control={control}
@@ -291,7 +255,6 @@ const Profile = () => {
                     return (
                       <Select
                         labelId='state'
-                        id='state'
                         size='small'
                         variant='outlined'
                         value={value === '' ? 'State' : value}
@@ -439,7 +402,7 @@ const Profile = () => {
             </Grid>
 
             <Grid item xs={12} lg={6}>
-              <FormControl fullWidth>
+              <FormControl fullWidth error={Boolean(errors.minorityOwned)}>
                 <Controller
                   name='minorityOwned'
                   control={control}
@@ -483,7 +446,7 @@ const Profile = () => {
               </FormControl>
             </Grid>
             <Grid item xs={12} lg={6}>
-              <FormControl fullWidth>
+              <FormControl fullWidth error={Boolean(errors.paymentTermsId)}>
                 <Controller
                   name='paymentTermsId'
                   control={control}
@@ -494,7 +457,7 @@ const Profile = () => {
                         variant='outlined'
                         id='paymentTermsId'
                         size='small'
-                        value={value === '' ? 'Payment Terms' : value}
+                        value={value}
                         onChange={onChange}
                         displayEmpty
                         sx={{ width: '100%' }}
@@ -520,9 +483,7 @@ const Profile = () => {
                   }}
                 />
                 {errors.paymentTermsId && (
-                  <FormHelperText
-                    sx={{ color: 'error.main', marginLeft: '0px' }}
-                  >
+                  <FormHelperText error sx={{ marginLeft: '0px' }}>
                     {errors.paymentTermsId.message}
                   </FormHelperText>
                 )}
