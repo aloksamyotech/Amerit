@@ -76,4 +76,15 @@ const OWNER_SHIP_TERMS_ADMIN: SelectOptionsProps[] = [
     disabled: false
   }
 ];
-export { AdminVerticalMenu, PAYMENT_TERMS_ADMIN, OWNER_SHIP_TERMS_ADMIN };
+
+const CONTACT_TYPES_TITLE: { [key: string]: string } = {
+  Primary: 'Primary',
+  AccReceivables: 'Account Receivables',
+  CompanyInsurance: 'Your Company Insurance'
+};
+export {
+  AdminVerticalMenu,
+  PAYMENT_TERMS_ADMIN,
+  OWNER_SHIP_TERMS_ADMIN,
+  CONTACT_TYPES_TITLE
+};

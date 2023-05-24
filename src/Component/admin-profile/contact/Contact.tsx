@@ -19,6 +19,7 @@ import {
   getAdminContactTypes,
   saveAdminContactDetails
 } from 'src/services/admin';
+import { CONTACT_TYPES_TITLE } from '../__mocks__/utils';
 
 const defaultValues = {
   principalPersonTitle: '',
@@ -140,7 +141,9 @@ const Contact = () => {
                   return (
                     <Grid key={item.value} container item spacing={2}>
                       <Grid item xs={12}>
-                        <Typography>{` ${item.name} Contact `}</Typography>
+                        <Typography>{` ${
+                          CONTACT_TYPES_TITLE[item.name]
+                        } Contact `}</Typography>
                       </Grid>
                       <Grid item xs={6}>
                         <Box width={'100%'}>
@@ -163,9 +166,7 @@ const Contact = () => {
                             )}
                           />
                           {errors.otherContacts?.[index]?.name && (
-                            <FormHelperText
-                              sx={{ color: 'error.main', marginLeft: '0px' }}
-                            >
+                            <FormHelperText error sx={{ marginLeft: '0px' }}>
                               {errors.otherContacts?.[index]?.name?.message}
                             </FormHelperText>
                           )}

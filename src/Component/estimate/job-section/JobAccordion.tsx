@@ -21,6 +21,10 @@ export default function JobAccordion({
     setIsSelected(defaultExpanded);
   }, [defaultExpanded]);
 
+  if(defaultExpanded) {
+    window.sessionStorage.clear(); // TODO: move this into a service
+  }
+
   return (
     <Accordion
       defaultExpanded={defaultExpanded}

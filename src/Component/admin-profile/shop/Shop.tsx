@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Box from '@mui/material/Box';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { Button, Grid, Paper, Typography } from '@mui/material';
 import Stack from '@mui/material/Stack';
 import Image from 'next/image';
-import { rows } from 'src/mocks/shoptab-list';
 import { useProfile } from '../context/ProfileContext';
+import { useQuery } from 'react-query';
+import { getVendorShopDetailsByVendorId } from 'src/services/admin/vendorShop';
+import { ShopList } from './types';
 
 const columns: GridColDef[] = [
   {
@@ -15,13 +17,17 @@ const columns: GridColDef[] = [
     flex: 1
   },
   {
-    field: 'Address',
+    field: 'address',
     headerName: 'Address',
     minWidth: 250,
-    flex: 1
+    flex: 1,
+    width: 150,
+    renderCell: (params) => (
+      <Grid sx={{ whiteSpace: 'normal' }}>{params.value}</Grid>
+    )
   },
   {
-    field: 'Phone',
+    field: 'phone',
     headerName: 'Phone',
     minWidth: 150,
     flex: 1
@@ -36,14 +42,6 @@ const columns: GridColDef[] = [
     renderCell: () => {
       return (
         <Stack direction='row' spacing={2}>
-          <Button
-            sx={{
-              background: (theme) => theme.palette.gold.main
-            }}
-            variant='contained'
-          >
-            View
-          </Button>
           <Button
             sx={{
               background: (theme) => theme.palette.gold.main
@@ -67,7 +65,24 @@ const columns: GridColDef[] = [
 ];
 
 const Shop = () => {
-  const { addNewShop, uploadShop, updateTab, handleProgress } = useProfile();
+  const { addNewShop, uploadShop, updateTab, handleProgress, values } =
+    useProfile();
+  const [rowData, setRowData] = useState<ShopList[]>([]);
+  const vendorId = Number(values?.userid);
+  useQuery(
+    ['shops', vendorId],
+    () =>
+      getVendorShopDetailsByVendorId(vendorId).then((data) => {
+        const dataRow: any = data?.map((m) => ({
+          id: m.id,
+          address: m.address1,
+          shopName: m.shopName,
+          phone: m.phone
+        }));
+        setRowData(dataRow);
+      }),
+    { enabled: !!vendorId }
+  );
 
   const handleSubmit = () => {
     updateTab(3);
@@ -122,7 +137,17 @@ const Shop = () => {
           </Grid>
           <Grid item xs={12}>
             <Box>
-              <DataGrid rows={rows} columns={columns} autoHeight />
+              <DataGrid
+                rows={rowData}
+                columns={columns}
+                autoHeight
+                initialState={{
+                  pagination: {
+                    paginationModel: { pageSize: 25 }
+                  }
+                }}
+                pageSizeOptions={[25, 50, 100]}
+              />
             </Box>
             <Button
               color='secondary'

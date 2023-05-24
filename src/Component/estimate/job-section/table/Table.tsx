@@ -11,7 +11,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSortDown, faSortUp } from '@fortawesome/free-solid-svg-icons';
 import { columns } from './Columns';
 import { EditableCell } from './EditableCell';
-import { EstimateTable, JobSectionLine } from '../types';
+import { EstimateTable, JobSectionLine, JobType } from '../types';
 import {
   deleteJobSectionEstimateRow,
   createJobSectionEstimateRow
@@ -244,118 +244,135 @@ const Table = ({
     return isElement;
   };
 
+  const [typeState, setTypeState] = useState<JobType[] | undefined>(types);
+  useEffect(() => {
+    setTypeState(types)
+  }, [types]);
+
+  const getEditableLine = (rowIndex: number) =>{
+    return {
+      jobType: (
+        <Box>
+          <EditableCell
+            rowIndex={rowIndex}
+            accessorKey='jobType'
+            handleSaveRow={handleSaveRow}
+            types={types}
+          />
+          <Box sx={{ height: '12px' }}>
+            <input
+              type={'text'}
+              ref={typeRef}
+              value=''
+              style={{ display: 'none', width: '58px' }}
+              disabled
+            />
+          </Box>
+        </Box>
+      ),
+      partDescription: (
+        <Box>
+          <EditableCell
+            rowIndex={rowIndex}
+            accessorKey='partDescription'
+            handleSaveRow={handleSaveRow}
+          />
+          <Box sx={{ height: '12px' }}>
+            <input
+              type={'text'}
+              ref={partDescriptionTextRef}
+              value=''
+              disabled
+              style={{ display: 'none' }}
+            />
+          </Box>
+        </Box>
+      ),
+      partNumber: (
+        <Box>
+          <EditableCell
+            rowIndex={rowIndex}
+            accessorKey='partNumber'
+            handleSaveRow={handleSaveRow}
+          />
+          <Box sx={{ height: '12px' }}>
+            <input
+              type={'text'}
+              ref={mfgPartNumberTextRef}
+              value=''
+              disabled
+              style={{ display: 'none' }}
+            />
+          </Box>
+        </Box>
+      ),
+      quantity: (
+        <Box>
+          <EditableCell
+            rowIndex={rowIndex}
+            accessorKey='qty'
+            handleSaveRow={handleSaveRow}
+          />
+          <Box sx={{ height: '12px' }}>
+            <input
+              type={'text'}
+              ref={qtyTextRef}
+              value=''
+              style={{ display: 'none', width: '58px' }}
+              disabled
+            />
+          </Box>
+        </Box>
+      ),
+      charge: (
+        <Box>
+          <EditableCell
+            rowIndex={rowIndex}
+            accessorKey='charge'
+            handleSaveRow={handleSaveRow}
+          />
+          <Box sx={{ height: '12px' }}>
+            <input
+              type={'text'}
+              ref={chargeTextRef}
+              value=''
+              style={{ display: 'none', width: '58px' }}
+              disabled
+            />
+          </Box>
+        </Box>
+      ),
+      total: (
+        <input
+          type='number'
+          ref={inputRef}
+          disabled
+          value={totalText}
+          style={{
+            width: '64px',
+            border: 'none',
+            backgroundColor: 'transparent'
+          }}
+        />
+      )
+    }
+  }
+  useEffect(() => {
+    if (data.length === 0 && typeState) {
+      setData([
+        getEditableLine(0),
+      ]);
+      setDisableButton(true);
+    }
+  }, [typeState]);
+  
   const handleAddClick = () => {
     if (!isEditableElementExists()) {
       setDisableButton(true);
       const rowIndex = data && data.length ? data.length : 0;
       setData([
         ...data,
-        {
-          jobType: (
-            <Box>
-              <EditableCell
-                rowIndex={rowIndex}
-                accessorKey='jobType'
-                handleSaveRow={handleSaveRow}
-                types={types}
-              />
-              <Box sx={{ height: '12px' }}>
-                <input
-                  type={'text'}
-                  ref={typeRef}
-                  value=''
-                  style={{ display: 'none', width: '58px' }}
-                  disabled
-                />
-              </Box>
-            </Box>
-          ),
-          partDescription: (
-            <Box>
-              <EditableCell
-                rowIndex={rowIndex}
-                accessorKey='partDescription'
-                handleSaveRow={handleSaveRow}
-              />
-              <Box sx={{ height: '12px' }}>
-                <input
-                  type={'text'}
-                  ref={partDescriptionTextRef}
-                  value=''
-                  disabled
-                  style={{ display: 'none' }}
-                />
-              </Box>
-            </Box>
-          ),
-          partNumber: (
-            <Box>
-              <EditableCell
-                rowIndex={rowIndex}
-                accessorKey='partNumber'
-                handleSaveRow={handleSaveRow}
-              />
-              <Box sx={{ height: '12px' }}>
-                <input
-                  type={'text'}
-                  ref={mfgPartNumberTextRef}
-                  value=''
-                  disabled
-                  style={{ display: 'none' }}
-                />
-              </Box>
-            </Box>
-          ),
-          quantity: (
-            <Box>
-              <EditableCell
-                rowIndex={rowIndex}
-                accessorKey='qty'
-                handleSaveRow={handleSaveRow}
-              />
-              <Box sx={{ height: '12px' }}>
-                <input
-                  type={'text'}
-                  ref={qtyTextRef}
-                  value=''
-                  style={{ display: 'none', width: '58px' }}
-                  disabled
-                />
-              </Box>
-            </Box>
-          ),
-          charge: (
-            <Box>
-              <EditableCell
-                rowIndex={rowIndex}
-                accessorKey='charge'
-                handleSaveRow={handleSaveRow}
-              />
-              <Box sx={{ height: '12px' }}>
-                <input
-                  type={'text'}
-                  ref={chargeTextRef}
-                  value=''
-                  style={{ display: 'none', width: '58px' }}
-                  disabled
-                />
-              </Box>
-            </Box>
-          ),
-          total: (
-            <input
-              type='number'
-              ref={inputRef}
-              disabled
-              value={totalText}
-              style={{
-                width: '64px',
-                border: 'none',
-                backgroundColor: 'transparent'
-              }}
-            />
-          )
-        }
+        getEditableLine(rowIndex),
       ]);
     }
   };
