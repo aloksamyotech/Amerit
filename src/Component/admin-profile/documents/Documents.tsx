@@ -124,7 +124,7 @@ const Documents = () => {
                     >
 
 
-                      {/* {selectedFiles.file1.length == 0 && ( */}
+                      {selectedFiles.file1.length == 0 && (
                         <Grid sx={{
                           cursor: 'pointer',
                           width: '100%',
@@ -156,7 +156,7 @@ const Documents = () => {
                             </Grid>
                           </Grid>
                         </Grid>
-                      {/* )} */}
+                     )}
 
                       {selectedFiles.file1.length > 0 && (
                         <>
