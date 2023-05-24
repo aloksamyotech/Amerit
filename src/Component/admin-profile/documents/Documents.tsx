@@ -43,6 +43,7 @@ const Documents = () => {
   const [progress, setProgress] = React.useState(10);
   const [documentTypes, setDocumentTypes] = useState();
   const [show, setShow] = useState(false);
+  const [nshow,nsetShow] = 
   const defaultValues = {
     name: ''
 
