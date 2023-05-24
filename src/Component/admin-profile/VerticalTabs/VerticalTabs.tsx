@@ -109,7 +109,7 @@ const VerticalTabs = () => {
         <Contacts />
       </TabPanel>
       <TabPanel value={Number(values?.currentTab)} index={2}>
-        <FileUploadPage/>
+        <Documents/>
       </TabPanel>
       <TabPanel value={Number(values?.currentTab)} index={3}>
         <Shop />
