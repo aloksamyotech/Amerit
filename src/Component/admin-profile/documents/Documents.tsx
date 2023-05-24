@@ -43,16 +43,7 @@ const Documents = () => {
   const [progress, setProgress] = React.useState(10);
   const [documentTypes, setDocumentTypes] = useState();
   const [show, setShow] = useState(false);
-  const [nshow,nsetShow] = 
-  const defaultValues = {
-    name: ''
-
-  }
-  interface FileData {
-    id: string;
-    file: File;
-  }
-
+  const [nshow, nsetShow] = useState(false);
   useQuery(['documentTypes'], () =>
     getAdminDocumentsDetails().then((data) => setDocumentTypes(data)),
   );
@@ -98,8 +89,11 @@ const Documents = () => {
     // console.log(selectedFiles[0]);
     setTimeout(() => {
       setShow(false);
+      nsetShow(false);
     }, 2000);
     setShow(true);
+    nsetShow(false);
+
   }
   const handleUpload = (key: string) => {
     const fileToUpload = selectedFiles[key][0];
@@ -267,7 +261,7 @@ const Documents = () => {
 
                       {selectedFiles.file2.length > 0 && (
                         <>
-                          {show ? <Uploading /> : (
+                          {nshow ? <Uploading /> : (
                             <>
                             {selectedFiles.file2 && (
                               <>
