@@ -24,7 +24,7 @@ const columns: GridColDef[] = [
       <Grid sx={{ whiteSpace: 'normal' }}>{params.value}</Grid>
     )
   },
-  ,
+
   {
     field: 'Phone',
     headerName: 'Phone',
@@ -65,7 +65,6 @@ const columns: GridColDef[] = [
 
 const Shop = () => {
   const { addNewShop, uploadShop, updateTab, handleProgress } = useProfile();
-  const [pageSize, setPageSize] = useState<number>(25);
 
   const handleSubmit = () => {
     updateTab(3);
@@ -126,7 +125,7 @@ const Shop = () => {
                 autoHeight
                 initialState={{
                   pagination: {
-                    paginationModel: { pageSize: Number(pageSize) }
+                    paginationModel: { pageSize: 25 }
                   }
                 }}
                 pageSizeOptions={[25, 50, 100]}
