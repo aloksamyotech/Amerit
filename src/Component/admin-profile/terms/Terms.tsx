@@ -10,24 +10,31 @@ import {
   Paper,
   Typography
 } from '@mui/material';
-import React, { useState } from 'react';
+import React, { ChangeEvent, useState } from 'react';
+import { useMutation } from 'react-query';
 import { TERMS_MOCK } from 'src/mocks/admin-profile';
 import { useProfile } from '../context/ProfileContext';
 import { saveAdminTermsDetails } from 'src/services/admin';
+import { TermsMutation } from './types';
 
 const Terms = () => {
   const { updateTab, handleProgress, values } = useProfile();
   const [isAgree, setIsAgree] = useState<boolean>(false);
-  const handlechange = (event: any) => {
-    setIsAgree(event.target.checked);
+  const handlechange = (event: ChangeEvent<HTMLInputElement>) => {
+    setIsAgree(Boolean(event?.target?.checked));
   };
+
+  const mutation = useMutation((data: TermsMutation) =>
+    saveAdminTermsDetails(data)
+  );
   const handleSubmit = () => {
     handleProgress('terms');
     updateTab(4);
-    saveAdminTermsDetails({
+    const data = {
       id: Number(values?.userid),
       agreed: isAgree
-    });
+    };
+    mutation.mutate(data);
   };
 
   return (
@@ -80,7 +87,11 @@ const Terms = () => {
           </Typography>
           <Grid xs={6} pt={2}>
             <FormControlLabel
+<<<<<<< HEAD
               control={<Checkbox />}
+=======
+              control={<Checkbox onChange={handlechange} />}
+>>>>>>> e06cdfb87f3c041f32759aee4c10e51b52440f8f
               label='I agree to the above terms'
             />
             <Grid xs={3}>
