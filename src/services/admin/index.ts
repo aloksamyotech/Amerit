@@ -94,11 +94,12 @@ export const saveDocumentType = async (payload: any, id: number) => {
 
 export const uploadAllshop = async (payload: any, id: number) => {
   try {
-    let formData = new FormData();
+    const formData = new FormData();
     formData.append('file', payload[0]);
+    console.log(formData);
     id = 16;
     const response = await axios({
-      url: `/VendorShop/UploadShops${id}`,
+      url: `https://vendorportalbeaps-dev.azurewebsites.net/api/VendorShop/UploadShops/${id}`,
       method: 'POST',
       headers: {
         'Content-type': 'multipart/form-data'
