@@ -1,7 +1,7 @@
 export const rows = [
   {
     id: 1,
-    Address: '71,Cherry Court SOUTHAMPTON SO53 5PD UkS',
+    Address: '71,Cherry Court SOUTHAMPTON SO53 5PD UkS Cherry O53 5PD UkS',
     shopName: 'Speedy Auto Repairs',
     Phone: '020 7946 0000'
   },

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Box,
   Button,
@@ -19,9 +19,11 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import { useProfile } from '../context/ProfileContext';
+import { uploadAllshop } from 'src/services/admin';
 
 const UploadShop = () => {
-  const { uploadShop } = useProfile();
+  const { uploadShop, values } = useProfile();
+  const [file, setFile] = useState();
   function createData(name: string, description: string) {
     return { name, description };
   }
@@ -32,7 +34,13 @@ const UploadShop = () => {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { files } = event.target;
     const selectedFiles = files as FileList;
+    setFile(selectedFiles);
     console.log(selectedFiles);
+  };
+
+  const handlesubmit = async () => {
+    const x = await uploadAllshop(file, values?.userid);
+    console.log(x);
   };
 
   const rows = [
@@ -112,7 +120,7 @@ const UploadShop = () => {
                   sx={{ height: '65px', width: '65px', marginTop: '35px' }}
                 />
                 <h3>Add a New Shop</h3>
-                <Typography variant='h5'>
+                <Typography variant='subtitle1'>
                   Upload an CSV (Comma Separated Values) file with your shops.
                 </Typography>
                 <Grid item sx={{ mt: 2 }}>
@@ -135,7 +143,12 @@ const UploadShop = () => {
                     onChange={handleChange}
                     style={{ display: 'none' }}
                   />
-                  <Button color='secondary' variant='contained' size='large'>
+                  <Button
+                    color='secondary'
+                    variant='contained'
+                    size='large'
+                    onClick={handlesubmit}
+                  >
                     Submit
                   </Button>
                 </Grid>

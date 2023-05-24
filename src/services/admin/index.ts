@@ -77,6 +77,7 @@ export const saveAdminTermsDetails = async (payload: any) => {
     console.log(error);
   }
 };
+
 export const saveDocumentType = async (payload: any, id: number) => {
   try {
     console.log(payload);
@@ -84,6 +85,26 @@ export const saveDocumentType = async (payload: any, id: number) => {
       `/VendorProfile/AddDocuments/${id}`,
       payload
     );
+
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const uploadAllshop = async (payload: any, id: number) => {
+  try {
+    let formData = new FormData();
+    formData.append('file', payload[0]);
+    id = 16;
+    const response = await axios({
+      url: `/VendorShop/UploadShops${id}`,
+      method: 'POST',
+      headers: {
+        'Content-type': 'multipart/form-data'
+      },
+      data: formData
+    });
 
     return response.data;
   } catch (error) {

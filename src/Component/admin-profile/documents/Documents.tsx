@@ -18,27 +18,21 @@ import { useMutation, useQuery } from 'react-query';
 
 import { getAdminDocumentsDetails, saveDocumentType } from 'src/services/admin';
 import { CBox, Input } from '../style';
-import Uploading from './uploading';
+import Uploading from './Uploading';
 
 const Documents = () => {
   const { updateTab, handleProgress, values } = useProfile();
   const fileRef = React.useRef();
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+
+
   const hiddenFileInput = React.useRef<HTMLInputElement>(null);
   const [progress, setProgress] = React.useState(10);
   const [documentTypes, setDocumentTypes] = useState();
   const [show, setShow] = useState(false);
-  const defaultValues = {
-    name: ''
-
-  }
-  interface FileData {
-    id: string;
-    file: File;
-  }
 
   useQuery(['documentTypes'], () =>
-    getAdminDocumentsDetails().then((data) => setDocumentTypes(data)),
+    getAdminDocumentsDetails().then((data: any) => setDocumentTypes(data)),
   );
   const mutation = useMutation((data: any) =>
     saveDocumentType(data, Number(values?.userid))
@@ -56,12 +50,6 @@ const Documents = () => {
     hiddenFileInput?.current?.click();
     setShowComponent(true);
   }
-  // const handleClose = () => {
-  //   setSelectedFiles(null);
-  //   if (hiddenFileInput.current) {
-  //     hiddenFileInput.current.value = '';
-  //   }
-  // }
   const handleFileClose = (id: string) => {
     setSelectedFiles((prevSelectedFiles) =>
       prevSelectedFiles.filter((file) => file.id !== id)
@@ -69,14 +57,9 @@ const Documents = () => {
   };
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     const fileList = event.target.files;
-    // const selectedFiles = files as FileList;
     if (fileList && fileList.length > 0) {
       const files: File[] = Array.from(fileList);
-      const newFiles: FileData[] = files.map((file) =>({
-        id: file.name,
-        file: file,
-      }));
-      setSelectedFiles((prevSelectedFiles) => [...prevSelectedFiles, ...newFiles]);
+      setSelectedFiles((prevSelectedFiles) => [...prevSelectedFiles, ...files]);
     }
     console.log(selectedFiles[0]);
     setTimeout(() => {
@@ -90,12 +73,9 @@ const Documents = () => {
     <Box width={'100%'}>
       <Paper sx={{ padding: '1.5rem' }}>
         <FormControl fullWidth>
-          {documentTypes && documentTypes.map((item: any, index: any) => {
-            return (
-              <>
-                <Grid container spacing={2} key={item.value}>
+          <Grid container spacing={2}>
                   <Grid item xs={12}>
-                    <Typography variant='h6'>{item.name}</Typography>
+                    <Typography variant='h6'>W9</Typography>
                   </Grid>
                   <Grid item xs={12}>
                     <Box
@@ -167,11 +147,11 @@ const Documents = () => {
                             >
                               <Box sx={{ ml: 2 }}>
                                 <Typography variant='subtitle2'>
-                                  {fileData.file.name}
+                                  {/* {fileData.file.name} */}
                                 </Typography>
                                 <Typography variant='caption'>443 kb</Typography>
                               </Box>
-                              <IconButton onClick={() => handleFileClose(fileData.id)}>
+                              <IconButton onClick={() => handleFileClose(fileData.file.id)}>
                                 <Close />
                               </IconButton>
                             </Box>
@@ -181,11 +161,7 @@ const Documents = () => {
                     ))}
 
                   </Grid>
-                </Grid>
-
-              </>
-            )
-          })}
+                 
           <Grid container item spacing={2}>
             <Grid item xs={6}>
               <Box width={'100%'} pt={2}>
@@ -199,6 +175,7 @@ const Documents = () => {
                 </Button>
               </Box>
             </Grid>
+          </Grid>
           </Grid>
         </FormControl>
       </Paper>
