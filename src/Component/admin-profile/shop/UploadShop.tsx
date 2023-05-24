@@ -40,7 +40,7 @@ const UploadShop = () => {
 
   const handlesubmit = async () => {
     const x = await uploadAllshop(file, values?.userid);
-    console.log(x);
+    console.log(x,'err');
   };
 
   const rows = [
