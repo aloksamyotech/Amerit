@@ -87,11 +87,7 @@ const Terms = () => {
           </Typography>
           <Grid xs={6} pt={2}>
             <FormControlLabel
-<<<<<<< HEAD
-              control={<Checkbox />}
-=======
               control={<Checkbox onChange={handlechange} />}
->>>>>>> e06cdfb87f3c041f32759aee4c10e51b52440f8f
               label='I agree to the above terms'
             />
             <Grid xs={3}>
