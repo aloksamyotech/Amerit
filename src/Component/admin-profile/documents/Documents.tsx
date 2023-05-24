@@ -68,12 +68,7 @@ const Documents = () => {
     hiddenFileInput2?.current?.click();
     setShowComponent(true);
   };
-  // const handleClose = () => {
-  //   setSelectedFiles(null);
-  //   if (hiddenFileInput.current) {
-  //     hiddenFileInput.current.value = '';
-  //   }
-  // }
+
   const handleRemoveFile = (key: string) => {
     const updatedSelectedFiles = { ...selectedFiles, [key]: null };
     setSelectedFiles(updatedSelectedFiles);
