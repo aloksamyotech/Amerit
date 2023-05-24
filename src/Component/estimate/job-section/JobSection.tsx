@@ -16,7 +16,7 @@ const JobSection = ({
   notes,
   sectionNumber,
   id,
-  tmsRepairOrderSectionId,
+  tmsRepairOrderSectionId
 }: Estimate) => {
   const [totalEstimateAmount, setTotalEstmateAmount] = useState(estimateAmount);
   const [totalActualAmount, setTotalActualAmount] = useState(actualAmount);
@@ -25,9 +25,15 @@ const JobSection = ({
     setTotalEstmateAmount(estimateAmount);
   }, [estimateAmount]);
 
+  const sectionAdded = window.sessionStorage.getItem('addedSection');
+
+  const isMatched =
+    Number(sectionAdded) === tmsRepairOrderSectionId ? true : false;
+
   return (
     <Box mt={2} mb={2}>
       <JobAccordion
+        defaultExpanded={isMatched}
         heading={
           <JobSectionHeader
             id={tmsRepairOrderSectionId}

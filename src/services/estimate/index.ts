@@ -50,7 +50,7 @@ export const createJobSection = async (
   return axios
     .post(`${API_ENDPOINT}/RepairOrders/${id}/section`, request)
     .then((response) => {
-      console.log(response);
+      return response.data;
     });
 };
 
