@@ -80,7 +80,7 @@ const OWNER_SHIP_TERMS_ADMIN: SelectOptionsProps[] = [
 const CONTACT_TYPES_TITLE: { [key: string]: string } = {
   Primary: 'Primary',
   AccReceivables: 'Account Receivables',
-  CompanyInsurance: 'Your Company Insurance'
+  CompanyInsurance: 'Company Insurance'
 };
 export {
   AdminVerticalMenu,

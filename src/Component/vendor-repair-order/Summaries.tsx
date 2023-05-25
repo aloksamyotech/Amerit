@@ -1,10 +1,16 @@
 import { useContext } from 'react';
+import { Control } from 'react-hook-form';
 import { Box, Grid, Typography, useTheme } from '@mui/material';
 import LineItemsSummary from '@components/common/line-items-summary/LineItemsSummary';
 import useSummaries from '@hooks/summaries';
+import { EstimateMetadata } from './types';
 import { TaxesContext } from './taxes-provider';
 
-const Summaries = () => {
+const Summaries = ({
+  control
+}: {
+  control?: Control<EstimateMetadata, any>;
+}) => {
   const theme = useTheme();
   const { summary, summaryInit } = useSummaries();
 
@@ -32,6 +38,7 @@ const Summaries = () => {
           vendorEstimateItem={summary}
           taxes={estimateTaxes}
           setTaxes={setEstimateTaxes}
+          control={control}
         />
       </Grid>
       <Grid item xs={12} sx={{ padding: '20px 0 0 0' }}>
@@ -46,6 +53,7 @@ const Summaries = () => {
           vendorEstimateItem={summaryInit}
           taxes={actualTaxes}
           setTaxes={setActualTaxes}
+          control={control}
         />
       </Grid>
     </Box>

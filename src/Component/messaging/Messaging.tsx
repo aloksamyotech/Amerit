@@ -12,10 +12,17 @@ import Tabs from './Tabs';
 import ContentPane from './ContentPane';
 
 const Messaging = () => {
-  const { setMessagingOpen, position, updatePosition } =
-    useContext(MessagingContext);
+  const {
+    setMessagingOpen,
+    position,
+    updatePosition,
+    setActiveTab,
+    setShowUpload
+  } = useContext(MessagingContext);
 
   const closeMessaging = () => {
+    setActiveTab('messages');
+    setShowUpload(false);
     setMessagingOpen(false);
   };
 

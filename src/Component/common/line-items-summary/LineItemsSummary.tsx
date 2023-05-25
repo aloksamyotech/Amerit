@@ -1,9 +1,11 @@
-import { Dispatch, SetStateAction } from 'react';
+import { ChangeEvent, ChangeEventHandler, useState } from 'react';
+import { Control, Controller } from 'react-hook-form';
 import { Box, TextField, InputLabel, InputAdornment } from '@mui/material';
 import {
   VendorEstimateFields,
   SummaryField
 } from '@components/estimate/job-section/types';
+import { EstimateMetadata } from '@components/vendor-repair-order/types';
 import { textFieldStyle } from './styles';
 
 const summaryFields: SummaryField[] = [
@@ -20,25 +22,32 @@ const summaryFields: SummaryField[] = [
 const LineItemsSummary = ({
   vendorEstimateItem,
   availableLineItemTypes,
+  control,
   taxes,
   setTaxes
 }: {
   vendorEstimateItem: VendorEstimateFields;
   availableLineItemTypes: string[];
+  control?: Control<EstimateMetadata, any>;
   taxes?: number;
-  setTaxes?: Dispatch<SetStateAction<number>>;
+  setTaxes?: (taxes: number) => void;
 }) => {
-  const updateTaxes = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.value;
+  const [total, setTotal] = useState<number>(taxes ?? 0);
+
+  const calculateTotal = (taxes: number) => {
+    const total = vendorEstimateItem.sectionTotal + taxes;
+    setTotal(total);
     if (setTaxes) {
-      setTaxes(Number(value));
+      setTaxes(taxes);
     }
   };
 
-  const calculateTotal = () => {
-    const total = vendorEstimateItem.sectionTotal + (taxes ?? 0);
-
-    return Number(total.toFixed(2));
+  const handleChange = (
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    callback: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    calculateTotal(Number(event?.target?.value) ?? 0);
+    callback(event);
   };
 
   return (
@@ -71,31 +80,37 @@ const LineItemsSummary = ({
           />
         </Box>
       ))}
-      {taxes != null && setTaxes != null && (
+      {control && (
         <Box p={2}>
           <InputLabel shrink={true} sx={{ fontWeight: 1000 }} htmlFor='Taxes'>
             Taxes
           </InputLabel>
-          <TextField
-            name='Taxes'
-            sx={textFieldStyle}
-            type='number'
-            value={taxes}
-            onChange={updateTaxes}
-            size='small'
-            InputProps={{
-              sx: {
-                '.MuiInputBase-input': {
-                  textAlign: 'right',
-                  '&::placeholder': {
-                    textAlign: 'right'
-                  }
-                }
-              },
-              startAdornment: (
-                <InputAdornment position='start'>$</InputAdornment>
-              )
-            }}
+          <Controller
+            name='taxes'
+            control={control}
+            render={({ field: { value, onChange } }: any) => (
+              <TextField
+                name='taxes'
+                sx={textFieldStyle}
+                type='number'
+                value={value}
+                onChange={(event) => handleChange(event, onChange)}
+                size='small'
+                InputProps={{
+                  sx: {
+                    '.MuiInputBase-input': {
+                      textAlign: 'right',
+                      '&::placeholder': {
+                        textAlign: 'right'
+                      }
+                    }
+                  },
+                  startAdornment: (
+                    <InputAdornment position='start'>$</InputAdornment>
+                  )
+                }}
+              />
+            )}
           />
         </Box>
       )}
@@ -112,7 +127,7 @@ const LineItemsSummary = ({
           sx={textFieldStyle}
           type='number'
           disabled
-          value={calculateTotal()}
+          value={total.toFixed(2)}
           size='small'
           InputProps={{
             sx: {
