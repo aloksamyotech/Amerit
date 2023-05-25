@@ -33,13 +33,13 @@ const UploadShop = () => {
   };
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { files } = event.target;
-    const selectedFiles = files as FileList;
+    const selectedFiles: any = files as FileList;
     setFile(selectedFiles);
     console.log(selectedFiles);
   };
 
   const handlesubmit = async () => {
-    const x = await uploadAllshop(file, values?.userid);
+    const x = await uploadAllshop(file, Number(values?.userid));
     console.log(x, 'err');
   };
 
