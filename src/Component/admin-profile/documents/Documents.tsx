@@ -22,9 +22,7 @@ import Uploading from './Uploading';
 
 const Documents = () => {
   const { updateTab, handleProgress, values } = useProfile();
-  interface selectedFiles {
-    [key: string]: File | null;
-  }
+  const fileRef = React.useRef();
   const [selectedFiles, setSelectedFiles] = useState<{
     file1: File[];
     file2: File[];
@@ -45,7 +43,6 @@ const Documents = () => {
   const [progress, setProgress] = React.useState(10);
   const [documentTypes, setDocumentTypes] = useState();
   const [show, setShow] = useState(false);
-  const [nshow, nsetShow] = useState(false);
   useQuery(['documentTypes'], () =>
     getAdminDocumentsDetails().then((data) => setDocumentTypes(data))
   );
@@ -75,8 +72,7 @@ const Documents = () => {
   };
   const handleFileChange = (
     event: ChangeEvent<HTMLInputElement>,
-    key: string,
-    check: string
+    key: string
   ) => {
     const fileList = event.target.files;
     if (fileList && fileList.length > 0) {
@@ -84,17 +80,10 @@ const Documents = () => {
       updateSelectedFiles[key] = Array.from(fileList);
       setSelectedFiles(updateSelectedFiles);
     }
-    if (check == 'one') {
-      setTimeout(() => {
-        setShow(false);
-      }, 2000);
-      setShow(true);
-    } else if (check == 'two') {
-      setTimeout(() => {
-        nsetShow(false);
-      }, 2000);
-      nsetShow(true);
-    }
+    setTimeout(() => {
+      setShow(false);
+    }, 2000);
+    setShow(true);
   };
   const handleUpload = (key: string) => {
     const fileToUpload = selectedFiles[key][0];
@@ -145,9 +134,7 @@ const Documents = () => {
                           type='file'
                           ref={hiddenFileInput}
                           style={Input}
-                          onChange={(event) =>
-                            handleFileChange(event, 'file1', 'one')
-                          }
+                          onChange={(event) => handleFileChange(event, 'file1')}
                         />
                         {selectedFiles.file1.length > 0 && (
                           <>{show ? <Uploading /> : null}</>
@@ -271,9 +258,7 @@ const Documents = () => {
                           type='file'
                           ref={hiddenFileInput2}
                           style={Input}
-                          onChange={(event) =>
-                            handleFileChange(event, 'file2', 'two')
-                          }
+                          onChange={(event) => handleFileChange(event, 'file2')}
                         />
                         {selectedFiles.file2.length > 0 && (
                           <>{show ? <Uploading /> : null}</>
@@ -307,7 +292,7 @@ const Documents = () => {
 
                 {selectedFiles.file2.length > 0 && (
                   <>
-                    {nshow ? (
+                    {show ? (
                       <Uploading />
                     ) : (
                       <>
