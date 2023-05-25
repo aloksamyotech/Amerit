@@ -105,6 +105,146 @@ const Documents = () => {
     <Box width={'100%'}>
       <Paper sx={{ padding: '1.5rem' }}>
         <FormControl fullWidth>
+          {documentTypes &&
+            documentTypes.map((item, index) => {
+              return (
+                <>
+                  <Grid container spacing={2} key={index}>
+                    <Grid item xs={12}>
+                      <Typography variant='h6'>{item.name}</Typography>
+                    </Grid>
+                    <Grid item xs={12}>
+                      <Box
+                        width={'100%'}
+                        display='flex'
+                        alignItems='center'
+                        justifyContent='center'
+                        textAlign='center'
+                      >
+                        {selectedFiles.file1.length == 0 && (
+                          <Grid
+                            sx={{
+                              cursor: 'pointer',
+                              width: '100%',
+                              color: (theme: Theme) =>
+                                theme.palette.linkBlue.main,
+                              border: '2px dotted',
+                              borderColor: (theme: Theme) =>
+                                theme.palette.secondary.main
+                            }}
+                            style={CBox}
+                            onClick={() => handleClick1()}
+                          >
+                            <Grid container lg={12}>
+                              <Grid xs={12}>
+                                <FileUploadOutlined />
+                              </Grid>
+                              <Grid xs={12}>
+                                <input
+                                  type='file'
+                                  ref={hiddenFileInput}
+                                  style={Input}
+                                  onChange={(event) =>
+                                    handleFileChange(event, 'file1')
+                                  }
+                                />
+                                {selectedFiles.file1.length > 0 && (
+                                  <>{show ? <Uploading /> : null}</>
+                                )}
+                                <Grid
+                                  sx={{
+                                    color: '#000',
+                                    mr: '5px',
+                                    display: 'inline-block'
+                                  }}
+                                >
+                                  Drag & Drop or
+                                </Grid>
+                                <Button onClick={() => handleUpload('file1')}>
+                                  Choose File
+                                </Button>
+                                <Grid
+                                  sx={{
+                                    color: '#000',
+                                    ml: '5px',
+                                    display: 'inline-block'
+                                  }}
+                                >
+                                  {' '}
+                                  to Upload
+                                </Grid>
+                              </Grid>
+                            </Grid>
+                          </Grid>
+                        )}
+
+                        {selectedFiles.file1.length > 0 && (
+                          <>
+                            {show ? (
+                              <Uploading />
+                            ) : (
+                              <>
+                                {selectedFiles.file1 && (
+                                  <>
+                                    <Grid item xs={12}>
+                                      <Box
+                                        width={'100%'}
+                                        alignItems='center'
+                                        sx={{
+                                          p: 1,
+                                          border: '1px solid ',
+                                          borderColor: (theme: Theme) =>
+                                            theme.palette.primary.main,
+                                          marginTop: '20px'
+                                        }}
+                                      >
+                                        <Box
+                                          display='flex'
+                                          width='100%'
+                                          sx={{ p: 1 }}
+                                        >
+                                          <Image
+                                            src='/images/pdf.svg'
+                                            height={38}
+                                            width={34}
+                                            alt='Follow us on Twitter'
+                                          />
+                                          <Box
+                                            display='flex'
+                                            justifyContent='space-between'
+                                            width='100%'
+                                          >
+                                            <Box sx={{ ml: 2 }}>
+                                              <Typography variant='subtitle2'>
+                                                {selectedFiles.file1[0].name}
+                                              </Typography>
+                                              <Typography variant='caption'>
+                                                443 kb
+                                              </Typography>
+                                            </Box>
+                                            <IconButton
+                                              onClick={() =>
+                                                handleRemoveFile('file1')
+                                              }
+                                            >
+                                              <Close />
+                                            </IconButton>
+                                          </Box>
+                                        </Box>
+                                      </Box>
+                                    </Grid>
+                                  </>
+                                )}
+                              </>
+                            )}
+                          </>
+                        )}
+                      </Box>
+                    </Grid>
+                  </Grid>
+                </>
+              );
+            })}
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <Typography variant='h6'>W9</Typography>
