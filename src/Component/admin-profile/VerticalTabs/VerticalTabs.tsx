@@ -8,14 +8,13 @@ import {
 import Profile from '../profile';
 import TabPanel from '../TabPanel';
 import Contacts from '../contact';
-import Documents from '../documents';
 import Shop from '../shop';
 import Terms from '../terms';
 import AddShop from '../shop/AddShop';
 import UploadShop from '../shop/UploadShop';
 import { useProfile } from '../context/ProfileContext';
 import { VerticalTabsProps } from './types/VerticalTabsProps';
-import FileUploadPage from '../documents/Documents';
+import Documents from '../documents/Documents';
 
 const VerticalTabs = () => {
   const { values, handleTabChange } = useProfile();
@@ -109,7 +108,7 @@ const VerticalTabs = () => {
         <Contacts />
       </TabPanel>
       <TabPanel value={Number(values?.currentTab)} index={2}>
-        <Documents/>
+        <Documents />
       </TabPanel>
       <TabPanel value={Number(values?.currentTab)} index={3}>
         <Shop />

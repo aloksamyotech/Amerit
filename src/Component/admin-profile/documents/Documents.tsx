@@ -19,24 +19,18 @@ import { useMutation, useQuery } from 'react-query';
 import { getAdminDocumentsDetails, saveDocumentType } from 'src/services/admin';
 import { CBox, Input } from '../style';
 import Uploading from './Uploading';
-
+interface SelectedFiles {
+  [key: string]: File | null;
+}
 const Documents = () => {
   const { updateTab, handleProgress, values } = useProfile();
-  const fileRef = React.useRef();
-  const [selectedFiles, setSelectedFiles] = useState<{
-    file1: File[];
-    file2: File[];
-    file3: File[];
-    file4: File[];
-    file5: File[];
-    file6: File[];
-  }>({
-    file1: [],
-    file2: [],
-    file3: [],
-    file4: [],
-    file5: [],
-    file6: []
+  const [selectedFiles, setSelectedFiles] = useState<SelectedFiles>({
+    file1: null,
+    file2: null,
+    file3: null,
+    file4: null,
+    file5: null,
+    file6: null
   });
   const hiddenFileInput = React.useRef<HTMLInputElement>(null);
   const hiddenFileInput2 = React.useRef<HTMLInputElement>(null);
@@ -61,10 +55,6 @@ const Documents = () => {
     hiddenFileInput?.current?.click();
     setShowComponent(true);
   };
-  const handleClick = () => {
-    hiddenFileInput2?.current?.click();
-    setShowComponent(true);
-  };
   // const handleClose = () => {
   //   setSelectedFiles(null);
   //   if (hiddenFileInput.current) {
@@ -81,9 +71,11 @@ const Documents = () => {
   ) => {
     const fileList = event.target.files;
     if (fileList && fileList.length > 0) {
-      const updateSelectedFiles = { ...selectedFiles };
-      updateSelectedFiles[key] = Array.from(fileList);
-      setSelectedFiles(updateSelectedFiles);
+      const updateFile = fileList[0];
+      setSelectedFiles((prevSelectedFiles) => ({
+        ...prevSelectedFiles,
+        [key]: updateFile
+      }));
     }
     setTimeout(() => {
       setShow(false);
@@ -91,7 +83,7 @@ const Documents = () => {
     setShow(true);
   };
   const handleUpload = (key: string) => {
-    const fileToUpload = selectedFiles[key][0];
+    const fileToUpload = selectedFiles[key];
     setTimeout(() => {
       const updatedSelectedFiles = { ...selectedFiles };
       updatedSelectedFiles[key] = [];
@@ -100,12 +92,78 @@ const Documents = () => {
   };
   console.log(selectedFiles, 'file');
   console.log(documentTypes, 'datan');
+  const renderFileInputFields = () => {
+    return Object.keys(selectedFiles).map((key) => (
+      <Grid item xs={12} key={key}>
+        <Box
+          width={'100%'}
+          display='flex'
+          alignItems='center'
+          justifyContent='center'
+          textAlign='center'
+        >
+          <Grid
+            sx={{
+              cursor: 'pointer',
+              width: '100%',
+              color: (theme: Theme) => theme.palette.linkBlue.main,
+              border: '2px dotted',
+              borderColor: (theme: Theme) => theme.palette.secondary.main
+            }}
+            style={CBox}
+            onClick={() => handleClick1()}
+          >
+            <Grid container lg={12}>
+              <Grid xs={12}>
+                <FileUploadOutlined />
+              </Grid>
+              <Grid xs={12}>
+                <input
+                  type='file'
+                  style={Input}
+                  onChange={(event) => handleFileChange(event, key)}
+                />
+                {/* {selectedFiles.file1.length > 0 && (
+                    <>{show ? <Uploading /> : null}</>
+                  )} */}
+                <Grid
+                  sx={{
+                    color: '#000',
+                    mr: '5px',
+                    display: 'inline-block'
+                  }}
+                >
+                  Drag & Drop or
+                </Grid>
+                <Button onClick={() => handleUpload(key)}>Choose File</Button>
+                <Grid
+                  sx={{
+                    color: '#000',
+                    ml: '5px',
+                    display: 'inline-block'
+                  }}
+                >
+                  to Upload
+                </Grid>
+              </Grid>
+            </Grid>
+          </Grid>
+          {selectedFiles[key] && selectedFiles[key]?.name && (
+            <>
+              <div>uploaded File: {selectedFiles[key]?.name}</div>
+            </>
+          )}
+        </Box>
+      </Grid>
+    ));
+  };
 
   return (
     <Box width={'100%'}>
       <Paper sx={{ padding: '1.5rem' }}>
         <FormControl fullWidth>
-          {documentTypes &&
+          {renderFileInputFields()}
+          {/* {documentTypes &&
             documentTypes.map((item, index) => {
               return (
                 <>
@@ -244,8 +302,8 @@ const Documents = () => {
                   </Grid>
                 </>
               );
-            })}
-          <Grid container spacing={2}>
+            })} */}
+          {/* <Grid container spacing={2}>
             <Grid item xs={12}>
               <Typography variant='h6'>W9</Typography>
             </Grid>
@@ -492,7 +550,7 @@ const Documents = () => {
                 )}
               </Box>
             </Grid>
-          </Grid>
+          </Grid> */}
           <Grid container item spacing={2}>
             <Grid item xs={6}>
               <Box width={'100%'} pt={2}>
