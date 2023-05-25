@@ -6,7 +6,10 @@ const MessagingContext = createContext({} as MessagingContextType);
 
 const MessagingProvider = ({ children }: { children: ReactNode }) => {
   const [messagingOpen, setMessagingOpen] = useState<boolean>(false);
-  const [activeTab, setActiveTab] = useState<string>('messages');
+  const [activeTab, setActiveTab] = useState<'messages' | 'attachments'>(
+    'messages'
+  );
+  const [showUpload, setShowUpload] = useState<boolean>(false);
 
   const { position, updatePosition, setPredefinedPosition } =
     useMessagingPosition();
@@ -16,6 +19,8 @@ const MessagingProvider = ({ children }: { children: ReactNode }) => {
     setMessagingOpen,
     activeTab,
     setActiveTab,
+    showUpload,
+    setShowUpload,
     position,
     updatePosition,
     setPredefinedPosition

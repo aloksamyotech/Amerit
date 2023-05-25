@@ -43,8 +43,10 @@ export interface NextPositions {
 export interface MessagingContext {
   messagingOpen: boolean;
   setMessagingOpen: Dispatch<SetStateAction<boolean>>;
-  activeTab: string;
-  setActiveTab: Dispatch<SetStateAction<string>>;
+  activeTab: 'messages' | 'attachments';
+  setActiveTab: Dispatch<SetStateAction<'messages' | 'attachments'>>;
+  showUpload: boolean;
+  setShowUpload: Dispatch<SetStateAction<boolean>>;
   position: Coordinates;
   updatePosition: DraggableEventHandler;
   setPredefinedPosition: (positionName: keyof PredefinedPositions) => void;

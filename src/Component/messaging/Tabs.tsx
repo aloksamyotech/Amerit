@@ -6,10 +6,15 @@ import { FONTS } from '@core/theme/constants';
 const Tabs = () => {
   const theme = useTheme();
 
-  const { activeTab, setActiveTab } = useContext(MessagingContext);
+  const { activeTab, setActiveTab, setShowUpload } =
+    useContext(MessagingContext);
 
-  const updateTab = (_: React.ChangeEvent<{}>, newTab: string) => {
+  const updateTab = (
+    _: React.ChangeEvent<{}>,
+    newTab: 'messages' | 'attachments'
+  ) => {
     setActiveTab(newTab);
+    setShowUpload(false);
   };
 
   return (

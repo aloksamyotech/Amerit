@@ -30,7 +30,6 @@ const Details = ({
 }: {
   vendorRepairOrder: VendorRepairOrder;
 }) => {
-  const [formData, setFormData] = useState<EstimateMetadata>();
   const [isSaved, setIsSaved] = useState<boolean>(false);
   const [displaySummary, setDisplaySummary] = useState<boolean>(false);
 
@@ -41,7 +40,8 @@ const Details = ({
   // TODO: These default values should come from the API
   const defaultValues: EstimateMetadata = {
     odo: vendorRepairOrder.odo,
-    workOrder: vendorRepairOrder.vendorWorkOrderNumber
+    workOrder: vendorRepairOrder.vendorWorkOrderNumber,
+    taxes: 0
   };
 
   const {
@@ -57,10 +57,7 @@ const Details = ({
   // or debounced onChange) we can do the submit, validation and
   // API call
   const onSubmit = (data: EstimateMetadata) => {
-    setFormData({
-      ...data
-    });
-    console.log(formData);
+    console.log(data);
 
     // What we do depends on what our state is
     if (isSaved) {
@@ -158,7 +155,7 @@ const Details = ({
                     padding: '0 15px'
                   }}
                 >
-                  <Summaries />
+                  <Summaries control={control} />
                 </Grid>
               </Grid>
             </CardContent>
