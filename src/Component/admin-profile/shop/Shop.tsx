@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Box from '@mui/material/Box';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { Button, Grid, Paper, Typography } from '@mui/material';
@@ -9,8 +9,8 @@ import { useProfile } from '../context/ProfileContext';
 
 const columns: GridColDef[] = [
   {
-    field: 'shopName',
-    headerName: 'Shop Name',
+    field: 'LocationName',
+    headerName: 'Location Name',
     minWidth: 200,
     flex: 1
   },
@@ -89,11 +89,11 @@ const Shop = () => {
               >
                 <Image
                   src='/images/shop.png'
-                  alt='Add a New Shop'
+                  alt='Add a New Location'
                   height={45}
                   width={50}
                 />
-                <Typography variant='h5'>Add a New Shop</Typography>
+                <Typography variant='h5'>Add a New Location</Typography>
               </Box>
             </Grid>
             <Grid item xs={6} role='button' onClick={() => uploadShop(true)}>
@@ -109,11 +109,11 @@ const Shop = () => {
               >
                 <Image
                   src='/images/upload.png'
-                  alt='Add a New Shop'
+                  alt='Add a New Location'
                   height={45}
                   width={45}
                 />
-                <Typography variant='h5'>Upload Bulk Shops</Typography>
+                <Typography variant='h5'>Upload Bulk Locations</Typography>
               </Box>
             </Grid>
           </Grid>

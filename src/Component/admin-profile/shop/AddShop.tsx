@@ -55,11 +55,7 @@ const AddShop = () => {
             onClick={() => addNewShop(false)}
             role='button'
           />
-          <Typography
-            variant='h4'
-          >
-            Add a New Shop
-          </Typography>
+          <Typography variant='h4'>Add a New Location</Typography>
         </Box>
         <Box>
           <form onSubmit={handleSubmit(onSubmit)}>
@@ -117,11 +113,7 @@ const AddShop = () => {
 
                 <Grid item xs={12}>
                   <Box className='back-blck'>
-                    <Typography
-                      variant='h4'
-                    >
-                      Hours of Operation
-                    </Typography>
+                    <Typography variant='h4'>Hours of Operation</Typography>
                   </Box>
                 </Grid>
                 {HOURS_OF_OPERATION.dayOfWeek.map((item, index) => (
@@ -194,11 +186,7 @@ const AddShop = () => {
                   </Grid>
                 ))}
               </Grid>
-              <Typography
-                variant='h4'
-              >
-                Service and Rates
-              </Typography>
+              <Typography variant='h4'>Service and Rates</Typography>
               <Grid container spacing={2} sx={{ mt: 3 }}>
                 {RATES.services.map((service) => (
                   <>

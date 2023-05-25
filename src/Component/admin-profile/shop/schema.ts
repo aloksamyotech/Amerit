@@ -1,7 +1,7 @@
 import * as yup from 'yup';
 
 export const AddShop = yup.object().shape({
-  shopName: yup.string().required('Shop Name is Required'),
+  shopName: yup.string().required('Location Name is Required'),
   phone: yup.number().required('Phone is Required'),
   address1: yup.string().required('Address 1 is Required'),
   address2: yup.string().required('Address 2 is required'),

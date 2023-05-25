@@ -120,10 +120,10 @@ export const titleList = [
   }
 ];
 
-export const SHOP_INPUT:Array<shopInputType> = [
+export const SHOP_INPUT: Array<shopInputType> = [
   {
     id: 1,
-    label: 'Shop Name',
+    label: 'Location Name',
     name: 'shopName',
     grid: 8
   },
@@ -166,7 +166,7 @@ export const SHOP_INPUT:Array<shopInputType> = [
   }
 ];
 
-export const HOURS_OF_OPERATION:hoursOfOperationType = {
+export const HOURS_OF_OPERATION: hoursOfOperationType = {
   dayOfWeek: [
     'Monday',
     'Tuesday',
@@ -178,7 +178,7 @@ export const HOURS_OF_OPERATION:hoursOfOperationType = {
   ]
 };
 
-export const RATES:ratesType = {
+export const RATES: ratesType = {
   services: [
     'Emergency Road Services',
     'Mobile Services',

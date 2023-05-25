@@ -20,7 +20,7 @@ const AdminVerticalMenu: VerticalTabsProps[] = [
   },
   {
     id: 3,
-    text: 'Shop',
+    text: 'Location',
     status: false
   },
   {

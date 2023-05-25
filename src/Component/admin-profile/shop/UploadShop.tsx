@@ -23,7 +23,7 @@ import { uploadAllshop } from 'src/services/admin';
 
 const UploadShop = () => {
   const { uploadShop, values } = useProfile();
-  const [file, setFile] = useState();
+  const [file, setFile] = useState<File>();
   function createData(name: string, description: string) {
     return { name, description };
   }
@@ -40,7 +40,7 @@ const UploadShop = () => {
 
   const handlesubmit = async () => {
     const x = await uploadAllshop(file, values?.userid);
-    console.log(x,'err');
+    console.log(x, 'err');
   };
 
   const rows = [
@@ -86,7 +86,7 @@ const UploadShop = () => {
               verticalAlign: 'middle'
             }}
           >
-            Uploads Shop
+            Upload Location
           </Grid>
         </Link>
         <Grid container sx={{ mt: 2 }} spacing={2}>
@@ -119,9 +119,10 @@ const UploadShop = () => {
                   className='icon-store'
                   sx={{ height: '65px', width: '65px', marginTop: '35px' }}
                 />
-                <h3>Add a New Shop</h3>
+                <h3>Add a New Location</h3>
                 <Typography variant='subtitle1'>
-                  Upload an CSV (Comma Separated Values) file with your shops.
+                  Upload an CSV (Comma Separated Values) file with your
+                  Locations.
                 </Typography>
                 <Grid item sx={{ mt: 2 }}>
                   <Button
