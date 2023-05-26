@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useQuery } from 'react-query';
 import {
   Box,
   FormControl,
@@ -24,10 +25,31 @@ import { useProfile } from '../context/ProfileContext';
 import { RATES, HOURS_OF_OPERATION, SHOP_INPUT } from 'src/mocks/admin-profile';
 import { style } from '../style';
 import { theme } from '@core/theme/ThemeProvider';
-import { AddShop as AddShopSchema } from './schema';
+import { AddNewShop as AddShopSchema } from './schema';
+
+import {
+  addVendorShopByVendorId,
+  getAllJobTypes
+} from 'src/services/admin/vendor-shop';
+import {
+  ServiceType,
+  AddShop as AddShopProps,
+  ShopHoursOfOperation
+} from './types';
+
+const defaultValues: ShopProps = {
+  shopName: 'ABC',
+  phone: '9898989898',
+  address1: 'Address1',
+  address2: 'Address2',
+  city: 'City',
+  state: 'CA',
+  zip: '12345'
+};
 
 const AddShop = () => {
-  const { addNewShop } = useProfile();
+  const { addNewShop, values } = useProfile();
+  const [allJobTypes, setAllJobTypes] = useState<ServiceType[]>([]);
 
   const {
     control,
@@ -35,11 +57,114 @@ const AddShop = () => {
     handleSubmit,
     formState: { errors }
   } = useForm<ShopProps>({
+    defaultValues,
     resolver: yupResolver(AddShopSchema as any)
   });
+
+  useQuery(['allJobTypes'], () =>
+    getAllJobTypes().then((data) => setAllJobTypes(data))
+  );
+
+  const getAdditionalServicesIds = (data: ShopProps) => {
+    const additionalServicesIds: number[] = [];
+    const dataObj = JSON.parse(JSON.stringify(data));
+    const additionServicesKeys = Object.keys(dataObj.additionalServices);
+    additionServicesKeys.map((m: string) => {
+      if (dataObj.additionalServices[m]) {
+        const serviceId = allJobTypes.find(
+          (jobType) => jobType.serviceName.replace(/\s/g, '') == m
+        )?.id;
+        additionalServicesIds.push(serviceId ?? 0);
+      }
+    });
+
+    return additionalServicesIds;
+  };
+
+  const getFormattedTime = (dateTime: Date) => {
+    return `${(dateTime.getHours() < 10 ? '0' : '') + dateTime.getHours()}:${
+      (dateTime.getMinutes() < 10 ? '0' : '') + dateTime.getMinutes()
+    }:00`;
+  };
+
+  const getHoursOfOperations = (data: ShopProps) => {
+    const dataObj = JSON.parse(JSON.stringify(data));
+    const hoursOfOperations: ShopHoursOfOperation[] =
+      dataObj.hoursOfOperation.map(
+        (item: ShopHoursOfOperation, index: number) => {
+          if (item.startTime != undefined && item.endTime != undefined) {
+            return {
+              dayOfWeek: index,
+              hours24: item.hours24 ? item.hours24 : false,
+              startTime: getFormattedTime(new Date(item.startTime)),
+              endTime: getFormattedTime(new Date(item.endTime))
+            };
+          }
+        }
+      );
+
+    return hoursOfOperations.filter((m: any) => m != undefined);
+  };
+
   const onSubmit = (data: ShopProps) => {
     addNewShop(false);
-    console.log(data);
+    const {
+      shopName,
+      address1,
+      address2,
+      city,
+      state,
+      zip,
+      phone,
+      EmergencyRoadServices,
+      rateEmergencyRoadServices,
+      MobileService,
+      rateMobileService,
+      MechanicalShop,
+      rateMechanicalShop,
+      TrailerShop,
+      rateTrailerShop,
+      BodyShop,
+      rateBodyShop
+    } = data;
+
+    const shopData: AddShopProps = {
+      shopName: shopName,
+      address1: address1,
+      address2: address2,
+      city: city,
+      state: state,
+      zip: zip,
+      phone: phone.toString(),
+      emergencyRoadService:
+        EmergencyRoadServices == undefined
+          ? false
+          : EmergencyRoadServices == 'true',
+      emergencyRoadServiceRate: isNaN(Number(rateEmergencyRoadServices))
+        ? 0
+        : Number(rateEmergencyRoadServices),
+      mobileService:
+        MobileService == undefined ? false : MobileService == 'true',
+      mobileServiceRate: isNaN(Number(rateMobileService))
+        ? 0
+        : Number(rateMobileService),
+      mechanicalShop:
+        MechanicalShop == undefined ? false : MechanicalShop == 'true',
+      mechanicalShopRate: isNaN(Number(rateMechanicalShop))
+        ? 0
+        : Number(rateMechanicalShop),
+      trailerShop: TrailerShop == undefined ? false : TrailerShop == 'true',
+      trailerShopRate: isNaN(Number(rateTrailerShop))
+        ? 0
+        : Number(rateTrailerShop),
+      bodyShop: BodyShop == undefined ? false : BodyShop == 'true',
+      bodyShopRate: isNaN(Number(rateBodyShop)) ? 0 : Number(rateBodyShop),
+      additionalServices: getAdditionalServicesIds(data),
+      hoursOfOperation: getHoursOfOperations(data)
+    };
+
+    const vendorId = Number(values?.userid);
+    addVendorShopByVendorId(vendorId, shopData);
   };
 
   return (
@@ -142,7 +267,7 @@ const AddShop = () => {
                     </Grid>
                     <Grid item xs={2}>
                       <Controller
-                        name={`hoursOfOperation.${index}.twentyFourHours`}
+                        name={`hoursOfOperation.${index}.hours24`}
                         control={control}
                         render={({ field: { value, onChange } }: any) => (
                           <FormControlLabel
@@ -157,7 +282,7 @@ const AddShop = () => {
                     </Grid>
                     <Grid item xs={4}>
                       <Controller
-                        name={`hoursOfOperation.${index}.starttime`}
+                        name={`hoursOfOperation.${index}.startTime`}
                         control={control}
                         render={({ field: { value, onChange } }: any) => (
                           <TimePicker
@@ -201,7 +326,7 @@ const AddShop = () => {
                     >
                       <FormGroup sx={{ display: 'inline' }}>
                         <Controller
-                          name={service}
+                          name={`${service.replace(/\s/g, '')}`}
                           control={control}
                           render={({ field: { value, onChange } }: any) => (
                             <FormControlLabel
@@ -214,7 +339,7 @@ const AddShop = () => {
                         />
                       </FormGroup>
                       <Controller
-                        name='rate'
+                        name={`rate${service.replace(/\s/g, '')}`}
                         control={control}
                         render={({ field: { value, onChange } }: any) => (
                           <TextField
@@ -230,7 +355,7 @@ const AddShop = () => {
                   </>
                 ))}
               </Grid>
-              <AddCheckbox />
+              <AddCheckbox control={control} jobTypes={allJobTypes} />
               <Grid item xs={12} spacing={2} sx={{ mt: 2 }}>
                 <Button
                   color='secondary'

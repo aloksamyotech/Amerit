@@ -13,6 +13,7 @@ import { VendorRepairOrder } from '@components/common/vendor-repair-order/types'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Messaging from '@components/messaging';
 import { MessagingContext } from '@components/messaging/provider';
+import EstimateReopen from '@components/estimate-reopen/EstimateReopen';
 import { EstimateMetadata } from './types';
 import Content from './Content';
 import EstimateReviewButtons from './EstimateReviewButtons';
@@ -32,6 +33,7 @@ const Details = ({
 }) => {
   const [isSaved, setIsSaved] = useState<boolean>(false);
   const [displaySummary, setDisplaySummary] = useState<boolean>(false);
+  const [reOpenEstimate, setReOpenEstimate] = useState(false);
 
   const { messagingOpen } = useContext(MessagingContext);
 
@@ -75,6 +77,14 @@ const Details = ({
     }
   };
 
+  const handleClickReOpenEstimate = () => {
+    setReOpenEstimate(true);
+  };
+
+  const handleCloseReOpenEstimate = () => {
+    setReOpenEstimate(false);
+  };
+
   return (
     <section aria-labelledby='card-header'>
       <Card
@@ -85,82 +95,90 @@ const Details = ({
         })}
       >
         {messagingOpen && <Messaging />}
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <CardContent sx={{ padding: 0 }}>
-            <Content
-              vendorRepairOrder={vendorRepairOrder}
-              control={control}
-              errors={errors}
-              setDisplaySummary={setDisplaySummary}
-            />
-          </CardContent>
-          <CardActions sx={{ padding: '15px', display: 'flex', gap: '10px' }}>
-            {vendorRepairOrder.status === STATUS_REQUESTED ? (
-              <EstimateReviewButtons vendorRepairOrder={vendorRepairOrder} />
-            ) : (
-              <EstimateAcceptButtons
-                isDirty={isDirty}
-                isSaved={isSaved}
+        {reOpenEstimate ? (
+          <EstimateReopen
+            open={reOpenEstimate}
+            handleClose={handleCloseReOpenEstimate}
+          />
+        ) : (
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <CardContent sx={{ padding: 0 }}>
+              <Content
                 vendorRepairOrder={vendorRepairOrder}
+                control={control}
+                errors={errors}
+                setDisplaySummary={setDisplaySummary}
               />
-            )}
-            {vendorRepairOrder.status === STATUS_ESTIMATE_APPROVED && (
-              <Button
-                onClick={() => alert('Reopen estimate placeholder')}
-                color='secondary'
-                variant='contained'
-                size='small'
-              >
-                Reopen Estimate
-              </Button>
-            )}
-            {vendorRepairOrder.status !== STATUS_REQUESTED && (
-              <Button
-                onClick={() => alert('Cancel placeholder')}
-                variant='text'
-                size='small'
-              >
-                Cancel
-              </Button>
-            )}
-          </CardActions>
-          {displaySummary && (
-            <CardContent
-              sx={{
-                padding: 0,
-                borderTop: `1px solid ${theme.palette.charcoal[200]}`
-              }}
-            >
-              <Grid container>
-                <Grid item textAlign='right' xs={12}>
-                  <Button
-                    variant='text'
-                    onClick={() => setDisplaySummary(false)}
-                    sx={{ padding: '5px 10px 0 0', minWidth: '20px' }}
-                  >
-                    <FontAwesomeIcon
-                      title='Close summary'
-                      icon={'xmark'}
-                      color={theme.palette.common.black}
-                      size='2x'
-                    />
-                  </Button>
-                </Grid>
-                <Grid
-                  container
-                  item
-                  justifyContent={'center'}
-                  xs={12}
-                  sx={{
-                    padding: '0 15px'
-                  }}
-                >
-                  <Summaries control={control} />
-                </Grid>
-              </Grid>
             </CardContent>
-          )}
-        </form>
+            <CardActions sx={{ padding: '15px', display: 'flex', gap: '10px' }}>
+              {vendorRepairOrder.status === STATUS_REQUESTED ? (
+                <EstimateReviewButtons vendorRepairOrder={vendorRepairOrder} />
+              ) : (
+                <EstimateAcceptButtons
+                  isDirty={isDirty}
+                  isSaved={isSaved}
+                  vendorRepairOrder={vendorRepairOrder}
+                />
+              )}
+              {vendorRepairOrder.status === STATUS_ESTIMATE_APPROVED && (
+                <Button
+                  onClick={handleClickReOpenEstimate}
+                  color='secondary'
+                  variant='contained'
+                  size='small'
+                  data-testId='reopen-estimate'
+                >
+                  Reopen Estimate
+                </Button>
+              )}
+              {vendorRepairOrder.status !== STATUS_REQUESTED && (
+                <Button
+                  onClick={() => alert('Cancel placeholder')}
+                  variant='text'
+                  size='small'
+                >
+                  Cancel
+                </Button>
+              )}
+            </CardActions>
+            {displaySummary && (
+              <CardContent
+                sx={{
+                  padding: 0,
+                  borderTop: `1px solid ${theme.palette.charcoal[200]}`
+                }}
+              >
+                <Grid container>
+                  <Grid item textAlign='right' xs={12}>
+                    <Button
+                      variant='text'
+                      onClick={() => setDisplaySummary(false)}
+                      sx={{ padding: '5px 10px 0 0', minWidth: '20px' }}
+                    >
+                      <FontAwesomeIcon
+                        title='Close summary'
+                        icon={'xmark'}
+                        color={theme.palette.common.black}
+                        size='2x'
+                      />
+                    </Button>
+                  </Grid>
+                  <Grid
+                    container
+                    item
+                    justifyContent={'center'}
+                    xs={12}
+                    sx={{
+                      padding: '0 15px'
+                    }}
+                  >
+                    <Summaries />
+                  </Grid>
+                </Grid>
+              </CardContent>
+            )}
+          </form>
+        )}
       </Card>
     </section>
   );

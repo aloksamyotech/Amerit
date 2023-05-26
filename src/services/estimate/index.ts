@@ -7,6 +7,8 @@ import {
   JobSectionLine
 } from '@components/estimate/job-section/types';
 import { VendorRepairOrder } from '@components/common/vendor-repair-order/types';
+import { EstimateReOpen } from '@components/estimate-reopen/types';
+import { REOPEN_REASONS } from 'src/constants';
 
 const API_ENDPOINT = 'https://vendorportalbeaps-dev.azurewebsites.net/api'; // TODO: put this in a config
 
@@ -126,4 +128,12 @@ export const createJobSectionEstimateRow = async (
 // repair order or an estimate?
 export const submitEstimate = (vendorRepairOrder: VendorRepairOrder) => {
   return Promise.resolve(vendorRepairOrder);
+};
+
+export const reopenEstimateReasons = () => {
+  return REOPEN_REASONS;
+};
+
+export const postReopenEstimate = (request: EstimateReOpen) => {
+  console.log(request); // TODO: Need api for this
 };

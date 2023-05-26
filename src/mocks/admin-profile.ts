@@ -123,7 +123,7 @@ export const titleList = [
 export const SHOP_INPUT: Array<shopInputType> = [
   {
     id: 1,
-    label: 'Location Name',
+    label: 'Shop Name',
     name: 'shopName',
     grid: 8
   },
@@ -183,8 +183,8 @@ export const RATES: ratesType = {
     'Emergency Road Services',
     'Mobile Services',
     'Mechanical Shop',
-    'Emergency Road Services',
-    'Mobile Services'
+    'Trailer Shop',
+    'Body Shop'
   ]
 };
 

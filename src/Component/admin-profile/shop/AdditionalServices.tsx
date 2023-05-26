@@ -1,4 +1,5 @@
 import {
+  Box,
   Checkbox,
   FormControlLabel,
   FormGroup,
@@ -6,90 +7,64 @@ import {
   Typography
 } from '@mui/material';
 import React from 'react';
-import { checkboxList } from 'src/mocks/admin-profile';
+import { Control, Controller } from 'react-hook-form';
+import { ServiceType } from './types';
+import { Shop as ShopProps } from './shopForm';
 
-const AdditionalServices = () => {
+const AdditionalServices = (props: {
+  control: Control<ShopProps, any>;
+  jobTypes: ServiceType[];
+}) => {
+  const { control, jobTypes } = props;
+  const categories = jobTypes.map((m) => m.category);
+  const distinctCategories = categories.filter(function (item, pos) {
+    return categories.indexOf(item) == pos;
+  });
+
   return (
-    <Grid container sx={{ mt: 2 }}>
+    <>
       <Grid item xs={12}>
-        <Typography variant='h4'>Additional Services</Typography>
-      </Grid>
-      <Grid item xs={12}>
-        <Typography variant='h5'>General</Typography>
-      </Grid>
-      <Grid item xs={12}>
-        <FormGroup sx={{ display: 'inline-block' }}>
-          {checkboxList.general.map((generalItem: string) => (
-            <FormControlLabel
-              key={generalItem}
-              control={<Checkbox />}
-              label={generalItem}
-            />
-          ))}
-        </FormGroup>
+        <Box className='back-blck'>
+          <Typography variant='h4'>Additional Services</Typography>
+        </Box>
       </Grid>
 
-      <Grid item xs={12}>
-        <Typography variant='h5'>Tire</Typography>
-      </Grid>
-      <Grid item xs={12}>
-        <FormGroup sx={{ display: 'inline-block' }}>
-          {checkboxList.tire.map((generalItem: string) => (
-            <FormControlLabel
-              key={generalItem}
-              control={<Checkbox />}
-              label={generalItem}
-              sx={{
-                mr: '20px',
-                mt: '15px',
-                width: '225px',
-                fontSize: '15px'
-              }}
-            />
-          ))}
-        </FormGroup>
-      </Grid>
-      <Grid item xs={12}>
-        <Typography variant='h5'>Towing</Typography>
-      </Grid>
-      <Grid item xs={12}>
-        <FormGroup sx={{ display: 'inline-block' }}>
-          {checkboxList.towing.map((generalItem: string) => (
-            <FormControlLabel
-              key={generalItem}
-              control={<Checkbox />}
-              label={generalItem}
-              sx={{
-                mr: '20px',
-                mt: '15px',
-                width: '225px',
-                fontSize: '15px'
-              }}
-            />
-          ))}
-        </FormGroup>
-      </Grid>
-      <Grid item xs={12}>
-        <Typography variant='h5'>Parts</Typography>
-      </Grid>
-      <Grid item xs={12}>
-        <FormGroup sx={{ display: 'inline-block' }}>
-          {checkboxList.parts.map((generalItem: string) => (
-            <FormControlLabel
-              key={generalItem}
-              control={<Checkbox />}
-              label={generalItem}
-              sx={{
-                mr: '20px',
-                mt: '15px',
-                width: '225px',
-                fontSize: '15px'
-              }}
-            />
-          ))}
-        </FormGroup>
-      </Grid>
-    </Grid>
+      {distinctCategories.map((item, index) => {
+        return (
+          <>
+            <Grid item xs={12} key={index}>
+              <Typography variant='h5'>{item}</Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <FormGroup sx={{ display: 'inline-block' }}>
+                {jobTypes
+                  .filter((m) => m.category == item)
+                  .map((job, jobIndex) => {
+                    return (
+                      <Controller
+                        key={jobIndex}
+                        name={`additionalServices.${job.serviceName.replace(
+                          /\s/g,
+                          ''
+                        )}`}
+                        control={control}
+                        render={({ field: { value, onChange } }: any) => (
+                          <FormControlLabel
+                            control={
+                              <Checkbox onChange={onChange} checked={value} />
+                            }
+                            label={job.serviceName}
+                          />
+                        )}
+                      />
+                    );
+                  })}
+              </FormGroup>
+            </Grid>
+          </>
+        );
+      })}
+    </>
   );
 };
 export default AdditionalServices;

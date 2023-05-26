@@ -1,4 +1,5 @@
 import { SelectOptionsProps } from '@components/admin-profile/profile/types/SelectOptionsProps';
+import { EstimateReopenReason } from '@components/estimate-reopen/types';
 
 export const HEADER_HEIGHT = 69;
 export const CONTENT_MAX_WIDTH = '1380px';
@@ -99,4 +100,13 @@ export const StateList: SelectOptionsProps[] = [
   { id: 49, label: 'WV', value: 'WV', disabled: false },
   { id: 50, label: 'WI', value: 'WI', disabled: false },
   { id: 51, label: 'WY', value: 'WY', disabled: false }
+];
+
+export const REOPEN_REASONS: EstimateReopenReason[] = [
+  { name: 'Additional diagnostics', value: 'Additional diagnostics' },
+  { name: 'Additional repairs', value: 'Additional repairs'},
+  { name: 'Correction to quantity and pricing', value: 'Correction to quantity and pricing'},
+  { name: 'Parts correction ', value: 'Parts correction '},
+  { name: 'Missing fees/shop supplies', value: 'Missing fees/shop supplies'},
+  { name: 'Other', value: 'Other'},
 ];

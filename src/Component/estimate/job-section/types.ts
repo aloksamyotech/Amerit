@@ -185,3 +185,8 @@ export interface EditableCells {
   types?: JobType[] | undefined;
   handleSaveRow: (index: number, accessorName: string, value: string) => void;
 }
+
+export interface EstimateReopenReason {
+  name: string;
+  value: string;
+}

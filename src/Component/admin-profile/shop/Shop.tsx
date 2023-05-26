@@ -1,21 +1,23 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Box from '@mui/material/Box';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { Button, Grid, Paper, Typography } from '@mui/material';
 import Stack from '@mui/material/Stack';
 import Image from 'next/image';
-import { rows } from 'src/mocks/shoptab-list';
 import { useProfile } from '../context/ProfileContext';
+import { useQuery } from 'react-query';
+import { getVendorShopDetailsByVendorId } from 'src/services/admin/vendor-shop';
+import { ShopList } from './types';
 
 const columns: GridColDef[] = [
   {
-    field: 'LocationName',
+    field: 'shopName',
     headerName: 'Location Name',
     minWidth: 200,
     flex: 1
   },
   {
-    field: 'Address',
+    field: 'address',
     headerName: 'Address',
     minWidth: 250,
     flex: 1,
@@ -24,9 +26,8 @@ const columns: GridColDef[] = [
       <Grid sx={{ whiteSpace: 'normal' }}>{params.value}</Grid>
     )
   },
-
   {
-    field: 'Phone',
+    field: 'phone',
     headerName: 'Phone',
     minWidth: 150,
     flex: 1
@@ -64,7 +65,24 @@ const columns: GridColDef[] = [
 ];
 
 const Shop = () => {
-  const { addNewShop, uploadShop, updateTab, handleProgress } = useProfile();
+  const { addNewShop, uploadShop, updateTab, handleProgress, values } =
+    useProfile();
+  const [rowData, setRowData] = useState<ShopList[]>([]);
+  const vendorId = Number(values?.userid);
+  useQuery(
+    ['shops', vendorId],
+    () =>
+      getVendorShopDetailsByVendorId(vendorId).then((data) => {
+        const dataRow: any = data?.map((m) => ({
+          id: m.id,
+          address: m.address1,
+          shopName: m.shopName,
+          phone: m.phone
+        }));
+        setRowData(dataRow);
+      }),
+    { enabled: !!vendorId }
+  );
 
   const handleSubmit = () => {
     updateTab(3);
@@ -120,7 +138,7 @@ const Shop = () => {
           <Grid item xs={12}>
             <Box>
               <DataGrid
-                rows={rows}
+                rows={rowData}
                 columns={columns}
                 autoHeight
                 initialState={{

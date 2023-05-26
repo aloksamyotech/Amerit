@@ -18,3 +18,13 @@ export const AddShop = yup.object().shape({
   toolsAndSupplies: yup.boolean(),
   oemDealer: yup.boolean()
 });
+
+export const AddNewShop = yup.object().shape({
+  shopName: yup.string().required('Location Name is Required'),
+  phone: yup.number().required('Phone is Required'),
+  address1: yup.string().required('Address 1 is Required'),
+  address2: yup.string().required('Address 2 is required'),
+  state: yup.string().required('State is Required'),
+  city: yup.string().required('City Established is Required'),
+  zip: yup.string().required('Zip code is Required')
+});
