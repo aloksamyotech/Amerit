@@ -10,7 +10,8 @@ import {
   Grid,
   Paper,
   TextField,
-  Typography
+  Typography,
+  InputLabel
 } from '@mui/material';
 import { style } from '@components/admin-profile/style';
 import ContactFormSchema from './schema';
@@ -78,14 +79,15 @@ const Contact = () => {
     <Box width={'100%'} sx={{ marginLeft: '1.0rem', marginRight: '1.0rem' }}>
       <Paper elevation={2} sx={{ padding: '1.5rem' }}>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <FormControl fullWidth>
-            <Grid container spacing={2}>
-              <Grid container item spacing={2}>
-                <Grid item xs={12}>
-                  <Typography>Principal Person</Typography>
-                </Grid>
-                <Grid item xs={6}>
-                  <Box width={'100%'}>
+          <Grid container spacing={2}>
+            <Grid container item spacing={2}>
+              <Grid item xs={12}>
+                <Typography>Principal Person</Typography>
+              </Grid>
+              <Grid item xs={6}>
+                <InputLabel>Name</InputLabel>
+                <Box width={'100%'}>
+                  <FormControl fullWidth>
                     <Controller
                       name='principalPerson'
                       control={control}
@@ -102,15 +104,19 @@ const Contact = () => {
                         </Box>
                       )}
                     />
-                    {errors.principalPerson && (
-                      <FormHelperText error sx={{ ml: 0 }}>
-                        {errors.principalPerson.message}
-                      </FormHelperText>
-                    )}
-                  </Box>
-                </Grid>
-                <Grid item xs={6}>
-                  <Box width={'100%'}>
+                  </FormControl>
+                  {errors.principalPerson && (
+                    <FormHelperText error sx={{ ml: 0 }}>
+                      {errors.principalPerson.message}
+                    </FormHelperText>
+                  )}
+                </Box>
+              </Grid>
+              <Grid item xs={6}>
+                <InputLabel>Title</InputLabel>
+
+                <Box width={'100%'}>
+                  <FormControl fullWidth>
                     <Controller
                       name='principalPersonTitle'
                       control={control}
@@ -127,26 +133,30 @@ const Contact = () => {
                         </Box>
                       )}
                     />
-                    {errors.principalPersonTitle && (
-                      <FormHelperText error sx={{ ml: 0 }}>
-                        {errors.principalPersonTitle.message}
-                      </FormHelperText>
-                    )}
-                  </Box>
-                </Grid>
-              </Grid>
+                  </FormControl>
 
-              {contactTypes &&
-                contactTypes.map((item, index: number) => {
-                  return (
-                    <Grid key={item.value} container item spacing={2}>
-                      <Grid item xs={12}>
-                        <Typography>{` ${
-                          CONTACT_TYPES_TITLE[item.name]
-                        } Contact `}</Typography>
-                      </Grid>
-                      <Grid item xs={6}>
-                        <Box width={'100%'}>
+                  {errors.principalPersonTitle && (
+                    <FormHelperText error sx={{ ml: 0 }}>
+                      {errors.principalPersonTitle.message}
+                    </FormHelperText>
+                  )}
+                </Box>
+              </Grid>
+            </Grid>
+
+            {contactTypes &&
+              contactTypes.map((item, index: number) => {
+                return (
+                  <Grid key={item.value} container item spacing={2}>
+                    <Grid item xs={12}>
+                      <Typography>{` ${
+                        CONTACT_TYPES_TITLE[item.name]
+                      } Contact `}</Typography>
+                    </Grid>
+                    <Grid item xs={6}>
+                      <InputLabel>Name</InputLabel>
+                      <Box width={'100%'}>
+                        <FormControl fullWidth>
                           <Controller
                             name={`otherContacts.${index}.name`}
                             control={control}
@@ -165,15 +175,18 @@ const Contact = () => {
                               </Box>
                             )}
                           />
-                          {errors.otherContacts?.[index]?.name && (
-                            <FormHelperText error sx={{ marginLeft: '0px' }}>
-                              {errors.otherContacts?.[index]?.name?.message}
-                            </FormHelperText>
-                          )}
-                        </Box>
-                      </Grid>
-                      <Grid item xs={6}>
-                        <Box width={'100%'}>
+                        </FormControl>
+                        {errors.otherContacts?.[index]?.name && (
+                          <FormHelperText error sx={{ marginLeft: '0px' }}>
+                            {errors.otherContacts?.[index]?.name?.message}
+                          </FormHelperText>
+                        )}
+                      </Box>
+                    </Grid>
+                    <Grid item xs={6}>
+                      <InputLabel>Email</InputLabel>
+                      <Box width={'100%'}>
+                        <FormControl fullWidth>
                           <Controller
                             name={`otherContacts.${index}.email`}
                             control={control}
@@ -193,18 +206,20 @@ const Contact = () => {
                               </Box>
                             )}
                           />
-                          {errors.otherContacts?.[index]?.email && (
-                            <FormHelperText
-                              sx={{ color: 'error.main', marginLeft: '0px' }}
-                            >
-                              {errors.otherContacts?.[index]?.email?.message}
-                            </FormHelperText>
-                          )}
-                        </Box>
-                      </Grid>
-
-                      <Grid item xs={6}>
-                        <Box width={'100%'}>
+                        </FormControl>
+                        {errors.otherContacts?.[index]?.email && (
+                          <FormHelperText
+                            sx={{ color: 'error.main', marginLeft: '0px' }}
+                          >
+                            {errors.otherContacts?.[index]?.email?.message}
+                          </FormHelperText>
+                        )}
+                      </Box>
+                    </Grid>
+                    <Grid item xs={6}>
+                      <InputLabel>Phone</InputLabel>
+                      <Box width={'100%'}>
+                        <FormControl fullWidth>
                           <Controller
                             name={`otherContacts.${index}.phone`}
                             control={control}
@@ -224,35 +239,35 @@ const Contact = () => {
                               </Box>
                             )}
                           />
-                          {errors.otherContacts?.[index]?.phone && (
-                            <FormHelperText
-                              sx={{ color: 'error.main', marginLeft: '0px' }}
-                            >
-                              {errors.otherContacts?.[index]?.phone?.message}
-                            </FormHelperText>
-                          )}
-                        </Box>
-                      </Grid>
+                        </FormControl>
+                        {errors.otherContacts?.[index]?.phone && (
+                          <FormHelperText
+                            sx={{ color: 'error.main', marginLeft: '0px' }}
+                          >
+                            {errors.otherContacts?.[index]?.phone?.message}
+                          </FormHelperText>
+                        )}
+                      </Box>
                     </Grid>
-                  );
-                })}
+                  </Grid>
+                );
+              })}
 
-              <Grid container item spacing={2}>
-                <Grid item xs={6}>
-                  <Box width={'100%'} pt={2}>
-                    <Button
-                      color='secondary'
-                      variant='contained'
-                      size='large'
-                      type='submit'
-                    >
-                      Save Changes
-                    </Button>
-                  </Box>
-                </Grid>
+            <Grid container item spacing={2}>
+              <Grid item xs={6}>
+                <Box width={'100%'} pt={2}>
+                  <Button
+                    color='secondary'
+                    variant='contained'
+                    size='large'
+                    type='submit'
+                  >
+                    Save Changes
+                  </Button>
+                </Box>
               </Grid>
             </Grid>
-          </FormControl>
+          </Grid>
         </form>
       </Paper>
     </Box>

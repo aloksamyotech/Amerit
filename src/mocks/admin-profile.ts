@@ -156,7 +156,7 @@ export const SHOP_INPUT: Array<shopInputType> = [
     type: StateList,
     grid: 4,
     name: 'state',
-    label: 'state'
+    label: 'State'
   },
   {
     id: 7,

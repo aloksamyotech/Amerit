@@ -12,7 +12,8 @@ import {
   FormGroup,
   FormControlLabel,
   Grid,
-  useTheme
+  useTheme,
+  InputLabel
 } from '@mui/material';
 import { Controller, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -132,6 +133,7 @@ const Profile = () => {
             </Grid>
 
             <Grid item sm={12} lg={12}>
+              <InputLabel sx={{ mb: '10px' }}>Company Name</InputLabel>
               <FormControl fullWidth>
                 <Controller
                   name='companyName'
@@ -160,6 +162,7 @@ const Profile = () => {
               </FormControl>
             </Grid>
             <Grid item sm={12} lg={12}>
+              <InputLabel sx={{ mb: '10px' }}>Address 1</InputLabel>
               <FormControl fullWidth>
                 <Controller
                   name='address1'
@@ -189,6 +192,7 @@ const Profile = () => {
             </Grid>
 
             <Grid item sm={12} lg={12}>
+              <InputLabel sx={{ mb: '10px' }}>Address 2</InputLabel>
               <FormControl fullWidth>
                 <Controller
                   name='address2'
@@ -218,6 +222,7 @@ const Profile = () => {
             </Grid>
 
             <Grid item sm={4} lg={4}>
+              <InputLabel sx={{ mb: '10px' }}>City</InputLabel>
               <FormControl fullWidth>
                 <Controller
                   name='city'
@@ -247,6 +252,7 @@ const Profile = () => {
             </Grid>
 
             <Grid item sm={4} lg={4}>
+              <InputLabel sx={{ mb: '10px' }}>State</InputLabel>
               <FormControl fullWidth error={Boolean(errors.state)}>
                 <Controller
                   name='state'
@@ -288,6 +294,7 @@ const Profile = () => {
             </Grid>
 
             <Grid item sm={4} lg={4}>
+              <InputLabel sx={{ mb: '10px' }}>Zip</InputLabel>
               <FormControl fullWidth>
                 <Controller
                   name='zip'
@@ -317,6 +324,7 @@ const Profile = () => {
             </Grid>
 
             <Grid item sm={12} lg={6}>
+              <InputLabel sx={{ mb: '10px' }}>Year Established</InputLabel>
               <FormControl fullWidth>
                 <Controller
                   name='yearEstablished'
@@ -345,6 +353,8 @@ const Profile = () => {
               </FormControl>
             </Grid>
             <Grid item xs={12} lg={6}>
+              <InputLabel sx={{ mb: '10px' }}>Federal Tax ID Number</InputLabel>
+
               <FormControl fullWidth>
                 <Controller
                   name='federalTaxIdNumber'
@@ -373,6 +383,7 @@ const Profile = () => {
               </FormControl>
             </Grid>
             <Grid xs={12} lg={6} item>
+              <InputLabel sx={{ mb: '10px' }}>DUNS Number</InputLabel>
               <FormControl fullWidth>
                 <Controller
                   name='dunsNumber'
@@ -402,6 +413,8 @@ const Profile = () => {
             </Grid>
 
             <Grid item xs={12} lg={6}>
+              <InputLabel sx={{ mb: '10px' }}> Ownership Terms</InputLabel>
+
               <FormControl fullWidth error={Boolean(errors.minorityOwned)}>
                 <Controller
                   name='minorityOwned'
@@ -446,6 +459,8 @@ const Profile = () => {
               </FormControl>
             </Grid>
             <Grid item xs={12} lg={6}>
+              <InputLabel sx={{ mb: '10px' }}> Payment Terms</InputLabel>
+
               <FormControl fullWidth error={Boolean(errors.paymentTermsId)}>
                 <Controller
                   name='paymentTermsId'

@@ -12,7 +12,8 @@ import {
   Typography,
   Button,
   Container,
-  FormHelperText
+  FormHelperText,
+  InputLabel
 } from '@mui/material';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
@@ -59,160 +60,170 @@ const AddShop = () => {
         </Box>
         <Box>
           <form onSubmit={handleSubmit(onSubmit)}>
-            <FormControl fullWidth sx={{ mt: 2 }}>
-              <Grid container spacing={2}>
-                {SHOP_INPUT.map((item) => (
-                  <Grid key={item.id} item xs={item.grid}>
-                    <FormControl fullWidth>
-                      <Controller
-                        name={item.name}
-                        control={control}
-                        render={({ field: { value, onChange } }: any) => {
-                          return item.type ? (
-                            <Select
-                              name='state'
-                              labelId={item.label}
-                              variant='outlined'
-                              value={value ? value : 'State'}
-                              onChange={onChange}
-                              SelectDisplayProps={{
-                                style: {
-                                  border: `1px solid ${theme.palette.grey[100]}`
-                                }
-                              }}
-                            >
-                              {item.type.map((state: any) => (
-                                <MenuItem
-                                  key={state.id}
-                                  value={state.value}
-                                  disabled={state.disabled}
-                                >
-                                  {state.label}
-                                </MenuItem>
-                              ))}
-                            </Select>
-                          ) : (
-                            <TextField
-                              sx={style}
-                              value={value}
-                              onChange={onChange}
-                              label={item.label}
-                              error={Boolean(errors[item.name])}
-                            />
-                          );
-                        }}
-                      />
-                      {errors[item.name] && (
-                        <FormHelperText error sx={{ ml: 0 }}>
-                          {errors[item.name]?.message}
-                        </FormHelperText>
-                      )}
-                    </FormControl>
-                  </Grid>
-                ))}
-
-                <Grid item xs={12}>
-                  <Box className='back-blck'>
-                    <Typography variant='h4'>Hours of Operation</Typography>
-                  </Box>
+            <Grid container spacing={2}>
+              {SHOP_INPUT.map((item) => (
+                <Grid key={item.id} item xs={item.grid}>
+                  <InputLabel>{item.label}</InputLabel>
+                  <FormControl fullWidth>
+                    <Controller
+                      name={item.name}
+                      control={control}
+                      render={({ field: { value, onChange } }: any) => {
+                        return item.type ? (
+                          <Select
+                            name='state'
+                            size='small'
+                            variant='outlined'
+                            value={value ? value : 'State'}
+                            onChange={onChange}
+                            SelectDisplayProps={{
+                              style: {
+                                border: `1px solid ${theme.palette.grey[100]}`
+                              }
+                            }}
+                          >
+                            {item.type.map((state: any) => (
+                              <MenuItem
+                                key={state.id}
+                                value={state.value}
+                                disabled={state.disabled}
+                              >
+                                {state.label}
+                              </MenuItem>
+                            ))}
+                          </Select>
+                        ) : (
+                          <TextField
+                            sx={style}
+                            size='small'
+                            value={value}
+                            onChange={onChange}
+                            placeholder={item.label}
+                            error={Boolean(errors[item.name])}
+                          />
+                        );
+                      }}
+                    />
+                    {errors[item.name] && (
+                      <FormHelperText error sx={{ ml: 0 }}>
+                        {errors[item.name]?.message}
+                      </FormHelperText>
+                    )}
+                  </FormControl>
                 </Grid>
-                {HOURS_OF_OPERATION.dayOfWeek.map((item, index) => (
-                  <Grid
-                    key={index}
-                    item
-                    xs={12}
-                    container
-                    spacing={2}
-                    alignItems='center'
-                  >
-                    <Grid item xs={2}>
-                      <Controller
-                        name={`hoursOfOperation.${index}.${item}`}
-                        control={control}
-                        render={({ field: { value, onChange } }: any) => (
-                          <FormControlLabel
-                            sx={{ pb: '15px' }}
-                            control={
-                              <Checkbox checked={value} onChange={onChange} />
-                            }
-                            label={item}
-                          />
-                        )}
-                      />
-                    </Grid>
-                    <Grid item xs={2}>
-                      <Controller
-                        name={`hoursOfOperation.${index}.twentyFourHours`}
-                        control={control}
-                        render={({ field: { value, onChange } }: any) => (
-                          <FormControlLabel
-                            sx={{ pb: '15px' }}
-                            control={
-                              <Checkbox checked={value} onChange={onChange} />
-                            }
-                            label='24 Hours'
-                          />
-                        )}
-                      />
-                    </Grid>
-                    <Grid item xs={4}>
+              ))}
+
+              <Grid item xs={12}>
+                <Box className='back-blck'>
+                  <Typography variant='h4'>Hours of Operation</Typography>
+                </Box>
+              </Grid>
+              {HOURS_OF_OPERATION.dayOfWeek.map((item, index) => (
+                <Grid
+                  key={index}
+                  item
+                  xs={12}
+                  container
+                  spacing={2}
+                  alignItems='center'
+                >
+                  <Grid item xs={2}>
+                    <Controller
+                      name={`hoursOfOperation.${index}.${item}`}
+                      control={control}
+                      render={({ field: { value, onChange } }: any) => (
+                        <FormControlLabel
+                          sx={{ pb: '15px' }}
+                          control={
+                            <Checkbox checked={value} onChange={onChange} />
+                          }
+                          label={item}
+                        />
+                      )}
+                    />
+                  </Grid>
+                  <Grid item xs={2}>
+                    <Controller
+                      name={`hoursOfOperation.${index}.twentyFourHours`}
+                      control={control}
+                      render={({ field: { value, onChange } }: any) => (
+                        <FormControlLabel
+                          sx={{ pb: '15px' }}
+                          control={
+                            <Checkbox checked={value} onChange={onChange} />
+                          }
+                          label='24 Hours'
+                        />
+                      )}
+                    />
+                  </Grid>
+                  <Grid item xs={4}>
+                    <InputLabel>Start Time</InputLabel>
+                    <FormControl fullWidth>
                       <Controller
                         name={`hoursOfOperation.${index}.starttime`}
                         control={control}
                         render={({ field: { value, onChange } }: any) => (
                           <TimePicker
-                            label='Start Time'
                             disabled={!!watch('24hours')}
                             value={value}
                             onChange={onChange}
+                            slotProps={{ textField: { size: 'small' } }}
                           />
                         )}
                       />
-                    </Grid>
-                    <Grid item xs={4}>
+                    </FormControl>
+                  </Grid>
+                  <Grid item xs={4}>
+                    <InputLabel>End Time</InputLabel>
+                    <FormControl fullWidth>
                       <Controller
                         name={`hoursOfOperation.${index}.endTime`}
                         control={control}
                         render={({ field: { value, onChange } }: any) => (
                           <TimePicker
-                            label='End Time'
                             disabled={!!watch('24hours')}
                             value={value}
                             onChange={onChange}
+                            slotProps={{ textField: { size: 'small' } }}
                           />
                         )}
                       />
-                    </Grid>
+                    </FormControl>
                   </Grid>
-                ))}
-              </Grid>
-              <Typography variant='h4'>Service and Rates</Typography>
-              <Grid container spacing={2} sx={{ mt: 3 }}>
-                {RATES.services.map((service) => (
-                  <>
-                    <Grid
-                      item
-                      xs={4}
-                      className='field-block'
-                      sx={{
-                        display: 'inline-flex',
-                        pb: '20px'
-                      }}
-                    >
-                      <FormGroup sx={{ display: 'inline' }}>
-                        <Controller
-                          name={service}
-                          control={control}
-                          render={({ field: { value, onChange } }: any) => (
-                            <FormControlLabel
-                              control={
-                                <Checkbox onChange={onChange} checked={value} />
-                              }
-                              label={service}
-                            />
-                          )}
-                        />
-                      </FormGroup>
+                </Grid>
+              ))}
+            </Grid>
+            <Typography variant='h4'>Service and Rates</Typography>
+
+            <Grid container spacing={2} sx={{ mt: 3 }}>
+              {RATES.services.map((service, index) => (
+                <>
+                  <Grid
+                    key={index}
+                    item
+                    xs={4}
+                    className='field-block'
+                    sx={{
+                      display: 'inline-flex',
+                      pb: '20px'
+                    }}
+                  >
+                    <FormGroup sx={{ display: 'inline' }}>
+                      <Controller
+                        name={service}
+                        control={control}
+                        render={({ field: { value, onChange } }: any) => (
+                          <FormControlLabel
+                            control={
+                              <Checkbox onChange={onChange} checked={value} />
+                            }
+                            label={service}
+                          />
+                        )}
+                      />
+                    </FormGroup>
+                    <FormGroup>
                       <Controller
                         name='rate'
                         control={control}
@@ -220,32 +231,33 @@ const AddShop = () => {
                           <TextField
                             sx={style}
                             value={value}
+                            size='small'
                             onChange={onChange}
-                            label='Rate Per Hour'
                             error={Boolean(errors.StartTime)}
+                            placeholder='Rates per hour'
                           />
                         )}
                       />
-                    </Grid>
-                  </>
-                ))}
-              </Grid>
-              <AddCheckbox />
-              <Grid item xs={12} spacing={2} sx={{ mt: 2 }}>
-                <Button
-                  color='secondary'
-                  variant='contained'
-                  size='large'
-                  type='submit'
-                  sx={{ mr: '15px' }}
-                >
-                  Save Changes
-                </Button>
-                <Button variant='outlined' size='large'>
-                  Cancel
-                </Button>
-              </Grid>
-            </FormControl>
+                    </FormGroup>
+                  </Grid>
+                </>
+              ))}
+            </Grid>
+            <AddCheckbox />
+            <Grid item xs={12} spacing={2} sx={{ mt: 2 }}>
+              <Button
+                color='secondary'
+                variant='contained'
+                size='large'
+                type='submit'
+                sx={{ mr: '15px' }}
+              >
+                Save Changes
+              </Button>
+              <Button variant='outlined' size='large'>
+                Cancel
+              </Button>
+            </Grid>
           </form>
         </Box>
       </Box>
