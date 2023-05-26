@@ -15,11 +15,9 @@ export const Input = {
   opacity: 0,
   cursor: 'pointer',
   zIndex: -1
-
-}
+};
 export const CBox = {
-  padding:'34px 10px',
+  padding: '34px 10px',
   display: 'flex',
   overflow: 'hidden'
-
-}
+};
