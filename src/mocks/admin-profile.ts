@@ -14,7 +14,10 @@ interface hoursOfOperationType {
 }
 
 interface ratesType {
-  services: Array<string>;
+  services: Array<{
+    id: number;
+    value: string;
+  }>;
 }
 
 interface contactType {
@@ -123,7 +126,7 @@ export const titleList = [
 export const SHOP_INPUT: Array<shopInputType> = [
   {
     id: 1,
-    label: 'Shop Name',
+    label: 'Location Name',
     name: 'shopName',
     grid: 8
   },
@@ -156,7 +159,7 @@ export const SHOP_INPUT: Array<shopInputType> = [
     type: StateList,
     grid: 4,
     name: 'state',
-    label: 'state'
+    label: 'State'
   },
   {
     id: 7,
@@ -180,11 +183,26 @@ export const HOURS_OF_OPERATION: hoursOfOperationType = {
 
 export const RATES: ratesType = {
   services: [
-    'Emergency Road Services',
-    'Mobile Services',
-    'Mechanical Shop',
-    'Trailer Shop',
-    'Body Shop'
+    {
+      id: 1,
+      value: 'Emergency Road Services'
+    },
+    {
+      id: 2,
+      value: 'Mobile Services'
+    },
+    {
+      id: 3,
+      value: 'Mechanical Shop'
+    },
+    {
+      id: 4,
+      value: 'Emergency Road Services'
+    },
+    {
+      id: 5,
+      value: 'Mobile Services'
+    }
   ]
 };
 
