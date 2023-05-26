@@ -11,13 +11,12 @@ import {
 } from '@mui/material';
 import { Close, FileUploadOutlined } from '@mui/icons-material';
 import Image from 'next/image';
-import LinearProgressWithLabel from './LinearProgressWithLabel';
-import { useProfile } from '../context/ProfileContext';
 import { useMutation, useQuery } from 'react-query';
 
 import { getAdminDocumentsDetails, saveDocumentType } from 'src/services/admin';
 import { CBox, Input } from '../style';
 import Uploading from './Uploading';
+import { useProfile } from '../context/ProfileContext';
 
 interface SelectedFilesState {
   file1: File[];

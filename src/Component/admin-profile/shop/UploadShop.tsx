@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   Box,
   Button,
@@ -11,7 +11,7 @@ import {
 } from '@mui/material';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
-import DescriptionIcon from '@mui/icons-material/Description';
+import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -19,11 +19,10 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import { useProfile } from '../context/ProfileContext';
-import { uploadAllshop } from 'src/services/admin';
+import { theme } from '@core/theme/ThemeProvider';
 
 const UploadShop = () => {
-  const { uploadShop, values } = useProfile();
-  const [file, setFile] = useState<File>();
+  const { uploadShop } = useProfile();
   function createData(name: string, description: string) {
     return { name, description };
   }
@@ -33,37 +32,31 @@ const UploadShop = () => {
   };
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { files } = event.target;
-    const selectedFiles: any = files as FileList;
-    setFile(selectedFiles);
+    const selectedFiles = files as FileList;
     console.log(selectedFiles);
   };
-
-  const handlesubmit = async () => {
-    const x = await uploadAllshop(file, Number(values?.userid));
-    console.log(x, 'err');
-  };
+  const StyledTableRow = styled(TableRow)(({ theme }) => ({
+    '&:nth-of-type(even)': {
+      backgroundColor: theme.palette.action.hover
+    },
+    '&:last-child td, &:last-child th': {
+      border: 0
+    }
+  }));
 
   const rows = [
-    createData(
-      'Frozen yoghurt',
-      'Lorem Ipsum is simply dummy text of the printing and typesetting industry.'
-    ),
-    createData(
-      'Ice cream sandwich',
-      'Lorem Ipsum is simply dummy text of the printing and typesetting industry.'
-    ),
-    createData(
-      'Eclair',
-      'Lorem Ipsum is simply dummy text of the printing and typesetting industry.'
-    ),
-    createData(
-      'Cupcake',
-      'Lorem Ipsum is simply dummy text of the printing and typesetting industry.'
-    ),
-    createData(
-      'Gingerbread',
-      'Lorem Ipsum is simply dummy text of the printing and typesetting industry.'
-    )
+    createData('ShopName', 'The name you assign the shop, could be a number.'),
+    createData('Phone', 'The main shop phone number'),
+    createData('Address1', ''),
+    createData('Address2', ''),
+    createData('City', ''),
+    createData('State', ''),
+    createData('Zip', ''),
+    createData('HoursMon', 'Shop open on Monday'),
+    createData('HoursMon24', 'Open 24 Hours'),
+    createData('HoursMonStartTime', '(Format: 09:00 AM)'),
+    createData('HoursMonEndTime', '(Format: 10:00 PM)'),
+    createData('HoursTue', 'Shop open on Tuesday')
   ];
 
   return (
@@ -86,7 +79,7 @@ const UploadShop = () => {
               verticalAlign: 'middle'
             }}
           >
-            Upload Location
+            Uploads Shop
           </Grid>
         </Link>
         <Grid container sx={{ mt: 2 }} spacing={2}>
@@ -102,28 +95,35 @@ const UploadShop = () => {
                 sx={{
                   padding: '1.5rem',
                   border: '3px dotted',
-                  borderColor: (theme) => theme.palette.coolGrey.main,
-                  height: '335px'
+                  borderColor: (theme) => theme.palette.coolGrey.main
                 }}
               >
-                <Grid>
-                  <Link
-                    href='#'
-                    sx={{ display: 'flex', justifyContent: 'flex-end' }}
-                  >
-                    <DescriptionIcon sx={{ display: 'inline-block' }} />{' '}
-                    <Typography>Download a sample file here</Typography>
-                  </Link>
-                </Grid>
+                <Typography variant='h6'>
+                  Upload an CSV (Comma Separated Values) file with your
+                  shops.Download a Sample file <Link href='#'>here</Link>
+                </Typography>
+                <Typography
+                  variant='body1'
+                  sx={{
+                    textAlign: 'left',
+                    marginLeft: '50px',
+                    marginTop: '20px'
+                  }}
+                >
+                  <ul>
+                    <li>Column Header need to be exact</li>
+                    <li>Follow Time format in sample file or description</li>
+                    <li>
+                      Please make sure you have a start time and end time for
+                      Hours of Operation
+                    </li>
+                  </ul>
+                </Typography>
                 <FileUploadIcon
                   className='icon-store'
-                  sx={{ height: '65px', width: '65px', marginTop: '35px' }}
+                  sx={{ height: '65px', width: '65px' }}
                 />
-                <h3>Add a New Location</h3>
-                <Typography variant='subtitle1'>
-                  Upload an CSV (Comma Separated Values) file with your
-                  Locations.
-                </Typography>
+                <h3>Add a New Shop</h3>
                 <Grid item sx={{ mt: 2 }}>
                   <Button
                     variant='outlined'
@@ -144,12 +144,7 @@ const UploadShop = () => {
                     onChange={handleChange}
                     style={{ display: 'none' }}
                   />
-                  <Button
-                    color='secondary'
-                    variant='contained'
-                    size='large'
-                    onClick={handlesubmit}
-                  >
+                  <Button color='secondary' variant='contained' size='large'>
                     Submit
                   </Button>
                 </Grid>
@@ -160,25 +155,36 @@ const UploadShop = () => {
             <Box>
               <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 500 }} aria-label='simple table'>
-                  <TableHead>
-                    <Grid fontSize={15} sx={{ mt: 2, marginLeft: '10px' }}>
+                  <TableHead sx={{ display: 'table-caption' }}>
+                    <Typography
+                      variant='h6'
+                      fontWeight={'bold'}
+                      sx={{
+                        mt: 2,
+                        marginLeft: '10px'
+                      }}
+                    >
                       Column Headers in CSV File
-                    </Grid>
+                    </Typography>
                   </TableHead>
                   <TableBody>
                     {rows.map((row) => (
-                      <TableRow
+                      <StyledTableRow
                         key={row.name}
                         sx={{
-                          '&:last-child td, &:last-child th': { border: 0 },
-                          minWidth: '500px'
+                          '&:nth-of-type(even)': {
+                            backgroundColor: theme.palette.coolGrey
+                          },
+                          '&:last-child td, &:last-child th': {
+                            border: 0
+                          }
                         }}
                       >
                         <TableCell component='th' scope='row'>
                           {row.name}
                         </TableCell>
                         <TableCell align='left'>{row.description}</TableCell>
-                      </TableRow>
+                      </StyledTableRow>
                     ))}
                   </TableBody>
                 </Table>
