@@ -1,7 +1,5 @@
 import { FileUploadOutlined } from '@mui/icons-material';
-import { Box, Grid, Theme, Typography, IconButton } from '@mui/material';
-import { Close, Image } from '@mui/icons-material';
-import LinearProgressWithLabel from './LinearProgressWithLabel';
+import { Box, Grid, Theme, Typography } from '@mui/material';
 import React from 'react';
 
 const Uploading = () => {
