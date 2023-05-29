@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useRouter } from 'next/router';
 import { Box, Card, Tab, Tabs, useTheme } from '@mui/material';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -16,9 +17,17 @@ import UploadShop from '../shop/UploadShop';
 import { useProfile } from '../context/ProfileContext';
 import { VerticalTabsProps } from './types/VerticalTabsProps';
 
-const VerticalTabs = () => {
+const Path = '/shop-admin/admin-profile/';
+
+const VerticalTabs = (props: { path: string }) => {
+  const router = useRouter();
   const { values, handleTabChange } = useProfile();
   const theme = useTheme();
+
+  const handleClick = (tab: string, index: number) => {
+    router.push(`${Path + tab}`);
+    handleTabChange(index);
+  };
 
   return values?.isAddNewShop ? (
     <AddShop />
@@ -34,7 +43,6 @@ const VerticalTabs = () => {
       <Card sx={{ width: '30%', minHeight: 0, height: '50%' }}>
         <Tabs
           value={values?.currentTab}
-          onChange={handleTabChange}
           aria-label='ant example'
           orientation='vertical'
           variant='fullWidth'
@@ -78,6 +86,7 @@ const VerticalTabs = () => {
                     }
                   }}
                   label={item.text}
+                  onClick={() => handleClick(item.url, index)}
                   icon={
                     item.status ? (
                       <FontAwesomeIcon
@@ -101,21 +110,33 @@ const VerticalTabs = () => {
         </Tabs>
       </Card>
 
-      <TabPanel value={Number(values?.currentTab)} index={0}>
-        <Profile />
-      </TabPanel>
-      <TabPanel value={Number(values?.currentTab)} index={1}>
-        <Contacts />
-      </TabPanel>
-      <TabPanel value={Number(values?.currentTab)} index={2}>
-        <Documents />
-      </TabPanel>
-      <TabPanel value={Number(values?.currentTab)} index={3}>
-        <Shop />
-      </TabPanel>
-      <TabPanel value={Number(values?.currentTab)} index={4}>
-        <Terms />
-      </TabPanel>
+      {props.path === 'profile' ? (
+        <TabPanel value={0} index={0}>
+          <Profile />
+        </TabPanel>
+      ) : null}
+
+      {props.path === 'contacts' ? (
+        <TabPanel value={1} index={1}>
+          <Contacts />
+        </TabPanel>
+      ) : null}
+
+      {props.path === 'documents' ? (
+        <TabPanel value={2} index={2}>
+          <Documents />
+        </TabPanel>
+      ) : null}
+      {props.path === 'shops' ? (
+        <TabPanel value={3} index={3}>
+          <Shop />
+        </TabPanel>
+      ) : null}
+      {props.path === 'terms' ? (
+        <TabPanel value={4} index={4}>
+          <Terms />
+        </TabPanel>
+      ) : null}
     </Box>
   );
 };

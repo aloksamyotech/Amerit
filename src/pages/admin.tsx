@@ -6,7 +6,7 @@ export default function Admin() {
   const router = useRouter();
 
   useEffect(() => {
-    router.push('/shop-admin/admin-profile');
+    router.push('/shop-admin/admin-profile/profile');
   }, []);
 
   return (

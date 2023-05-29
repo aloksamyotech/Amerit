@@ -5,32 +5,38 @@ const AdminVerticalMenu: VerticalTabsProps[] = [
   {
     id: 0,
     text: 'Profile',
+    url: 'profile',
     status: false,
     icon: 'house'
   },
   {
     id: 1,
     text: 'Contacts',
+    url: 'contacts',
     status: false
   },
   {
     id: 2,
     text: 'Documents',
+    url: 'documents',
     status: false
   },
   {
     id: 3,
     text: 'Location',
+    url: 'shops',
     status: false
   },
   {
     id: 4,
     text: 'Terms and Conditions',
+    url: 'terms',
     status: false
   },
   {
     id: 5,
     text: 'User',
+    url: 'user',
     status: false
   }
 ];

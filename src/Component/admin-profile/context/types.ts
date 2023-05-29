@@ -7,7 +7,7 @@ export type profileContext = {
   uploadShop: (state: boolean) => void;
   updateTab: (index: number) => void;
   handleProgress: (value: string) => void;
-  handleTabChange: (_: React.SyntheticEvent, newValue: number) => void;
+  handleTabChange: (newValue: number) => void;
 };
 
 export type Values = {

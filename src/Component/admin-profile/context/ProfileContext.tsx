@@ -66,7 +66,7 @@ export function ProfileProvider({ children }: Props) {
     setValues((prev) => ({ ...prev, verticalTabs: newArray }));
   };
 
-  const handleTabChange = (_: React.SyntheticEvent, newValue: number) => {
+  const handleTabChange = (newValue: number) => {
     setValues((prev) => ({ ...prev, currentTab: newValue }));
   };
 

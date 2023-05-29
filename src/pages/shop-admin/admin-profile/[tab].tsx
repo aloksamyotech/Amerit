@@ -4,8 +4,6 @@ import { useRouter } from 'next/router';
 
 export default function AdminProfile() {
   const router = useRouter();
-  const x = router.query.tab;
-  console.log(x);
 
   return (
     <>
@@ -15,7 +13,7 @@ export default function AdminProfile() {
         <meta name='viewport' content='width=device-width, initial-scale=1' />
         <link rel='icon' href='/favicon.ico' />
       </Head>
-      <AdminProfileDashboard />
+      <AdminProfileDashboard path={router.query.tab} />
     </>
   );
 }
