@@ -11,6 +11,7 @@ export interface Shop {
   zip: string;
   phone: string;
   emergencyRoadService: boolean;
+  emergencyRoadServiceRate: number;
   mobileService: boolean;
   mobileServiceRate: number;
   mechanicalShop: boolean;
@@ -22,8 +23,9 @@ export interface Shop {
   userId: number;
   verified: boolean;
   active: boolean;
-  shopHoursOfOperations: ShopHoursOfOperation[];
+  hoursOfOperation: ShopHoursOfOperation[];
   serviceTypes: ServiceType[];
+  additionalServices: number[];
 }
 
 export interface ShopHoursOfOperation {
@@ -44,4 +46,26 @@ export interface ShopList {
   address: string;
   phone: string;
   shopName: string;
+}
+
+export interface AddShop {
+  shopName: string;
+  address1: string;
+  address2: string;
+  city: string;
+  state: string;
+  zip: string;
+  phone: string;
+  emergencyRoadService: boolean;
+  emergencyRoadServiceRate: number;
+  mobileService: boolean;
+  mobileServiceRate: number;
+  mechanicalShop: boolean;
+  mechanicalShopRate: number;
+  trailerShop: boolean;
+  trailerShopRate: number;
+  bodyShop: boolean;
+  bodyShopRate: number;
+  hoursOfOperation: ShopHoursOfOperation[];
+  additionalServices: number[];
 }

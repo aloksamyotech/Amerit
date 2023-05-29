@@ -1,7 +1,6 @@
 import { Profile } from '@components/admin-profile/profile/types/ProfileForm';
 import { ILinearProgressWithLabel } from '@components/admin-profile/documents/types';
 import { axiosClient } from '..';
-import axios from 'axios';
 
 export const saveAdminProfileDetails = async (payload: Profile) => {
   try {
@@ -71,40 +70,6 @@ export const saveAdminTermsDetails = async (payload: any) => {
     const response = await axiosClient.post(
       `/VendorProfile/TermsAgreed/${payload.id}?agreed=${payload.agreed}`
     );
-
-    return response.data;
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-export const saveDocumentType = async (payload: any, id: number) => {
-  try {
-    console.log(payload);
-    const response = await axiosClient.post(
-      `/VendorProfile/AddDocuments/${id}`,
-      payload
-    );
-
-    return response.data;
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-export const uploadAllshop = async (payload: any, id: number) => {
-  try {
-    const formData = new FormData();
-    formData.append('ShopsFile', payload[0]);
-    console.log('formData', formData);
-    const response = await axios({
-      url: `https://vendorportalbeaps-dev.azurewebsites.net/api/VendorShop/UploadShops/${id}`,
-      method: 'POST',
-      headers: {
-        'Content-type': 'multipart/form-data'
-      },
-      data: formData
-    });
 
     return response.data;
   } catch (error) {

@@ -11,7 +11,7 @@ import {
 } from '@mui/material';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
-import { styled } from '@mui/material/styles';
+import DescriptionIcon from '@mui/icons-material/Description';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -19,7 +19,6 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import { useProfile } from '../context/ProfileContext';
-import { theme } from '@core/theme/ThemeProvider';
 
 const UploadShop = () => {
   const { uploadShop } = useProfile();
@@ -32,31 +31,31 @@ const UploadShop = () => {
   };
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { files } = event.target;
-    const selectedFiles = files as FileList;
-    console.log(selectedFiles);
+    const selectedFiles: FileList = files as FileList;
+    console.log(selectedFiles); // keeping console temprorary as it will be implmented in ticket 315 for upload
   };
-  const StyledTableRow = styled(TableRow)(({ theme }) => ({
-    '&:nth-of-type(even)': {
-      backgroundColor: theme.palette.action.hover
-    },
-    '&:last-child td, &:last-child th': {
-      border: 0
-    }
-  }));
 
   const rows = [
-    createData('ShopName', 'The name you assign the shop, could be a number.'),
-    createData('Phone', 'The main shop phone number'),
-    createData('Address1', ''),
-    createData('Address2', ''),
-    createData('City', ''),
-    createData('State', ''),
-    createData('Zip', ''),
-    createData('HoursMon', 'Shop open on Monday'),
-    createData('HoursMon24', 'Open 24 Hours'),
-    createData('HoursMonStartTime', '(Format: 09:00 AM)'),
-    createData('HoursMonEndTime', '(Format: 10:00 PM)'),
-    createData('HoursTue', 'Shop open on Tuesday')
+    createData(
+      'Frozen yoghurt',
+      'Lorem Ipsum is simply dummy text of the printing and typesetting industry.'
+    ),
+    createData(
+      'Ice cream sandwich',
+      'Lorem Ipsum is simply dummy text of the printing and typesetting industry.'
+    ),
+    createData(
+      'Eclair',
+      'Lorem Ipsum is simply dummy text of the printing and typesetting industry.'
+    ),
+    createData(
+      'Cupcake',
+      'Lorem Ipsum is simply dummy text of the printing and typesetting industry.'
+    ),
+    createData(
+      'Gingerbread',
+      'Lorem Ipsum is simply dummy text of the printing and typesetting industry.'
+    )
   ];
 
   return (
@@ -79,7 +78,7 @@ const UploadShop = () => {
               verticalAlign: 'middle'
             }}
           >
-            Uploads Shop
+            Upload Location
           </Grid>
         </Link>
         <Grid container sx={{ mt: 2 }} spacing={2}>
@@ -95,35 +94,28 @@ const UploadShop = () => {
                 sx={{
                   padding: '1.5rem',
                   border: '3px dotted',
-                  borderColor: (theme) => theme.palette.coolGrey.main
+                  borderColor: (theme) => theme.palette.coolGrey.main,
+                  height: '335px'
                 }}
               >
-                <Typography variant='h6'>
-                  Upload an CSV (Comma Separated Values) file with your
-                  shops.Download a Sample file <Link href='#'>here</Link>
-                </Typography>
-                <Typography
-                  variant='body1'
-                  sx={{
-                    textAlign: 'left',
-                    marginLeft: '50px',
-                    marginTop: '20px'
-                  }}
-                >
-                  <ul>
-                    <li>Column Header need to be exact</li>
-                    <li>Follow Time format in sample file or description</li>
-                    <li>
-                      Please make sure you have a start time and end time for
-                      Hours of Operation
-                    </li>
-                  </ul>
-                </Typography>
+                <Grid>
+                  <Link
+                    href='#'
+                    sx={{ display: 'flex', justifyContent: 'flex-end' }}
+                  >
+                    <DescriptionIcon sx={{ display: 'inline-block' }} />{' '}
+                    <Typography>Download a sample file here</Typography>
+                  </Link>
+                </Grid>
                 <FileUploadIcon
                   className='icon-store'
-                  sx={{ height: '65px', width: '65px' }}
+                  sx={{ height: '65px', width: '65px', marginTop: '35px' }}
                 />
-                <h3>Add a New Shop</h3>
+                <h3>Add a New Location</h3>
+                <Typography variant='subtitle1'>
+                  Upload an CSV (Comma Separated Values) file with your
+                  Locations.
+                </Typography>
                 <Grid item sx={{ mt: 2 }}>
                   <Button
                     variant='outlined'
@@ -155,36 +147,25 @@ const UploadShop = () => {
             <Box>
               <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 500 }} aria-label='simple table'>
-                  <TableHead sx={{ display: 'table-caption' }}>
-                    <Typography
-                      variant='h6'
-                      fontWeight={'bold'}
-                      sx={{
-                        mt: 2,
-                        marginLeft: '10px'
-                      }}
-                    >
+                  <TableHead>
+                    <Grid fontSize={15} sx={{ mt: 2, marginLeft: '10px' }}>
                       Column Headers in CSV File
-                    </Typography>
+                    </Grid>
                   </TableHead>
                   <TableBody>
                     {rows.map((row) => (
-                      <StyledTableRow
+                      <TableRow
                         key={row.name}
                         sx={{
-                          '&:nth-of-type(even)': {
-                            backgroundColor: theme.palette.coolGrey
-                          },
-                          '&:last-child td, &:last-child th': {
-                            border: 0
-                          }
+                          '&:last-child td, &:last-child th': { border: 0 },
+                          minWidth: '500px'
                         }}
                       >
                         <TableCell component='th' scope='row'>
                           {row.name}
                         </TableCell>
                         <TableCell align='left'>{row.description}</TableCell>
-                      </StyledTableRow>
+                      </TableRow>
                     ))}
                   </TableBody>
                 </Table>
