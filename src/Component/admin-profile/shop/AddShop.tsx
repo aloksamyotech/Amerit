@@ -197,10 +197,10 @@ const AddShop = () => {
             <Typography variant='h4'>Service and Rates</Typography>
 
             <Grid container spacing={2} sx={{ mt: 3 }}>
-              {RATES.services.map((service, index) => (
+              {RATES.services.map((service) => (
                 <>
                   <Grid
-                    key={index}
+                    key={service.id}
                     item
                     xs={4}
                     className='field-block'
@@ -211,14 +211,14 @@ const AddShop = () => {
                   >
                     <FormGroup sx={{ display: 'inline' }}>
                       <Controller
-                        name={service}
+                        name={service.value}
                         control={control}
                         render={({ field: { value, onChange } }: any) => (
                           <FormControlLabel
                             control={
                               <Checkbox onChange={onChange} checked={value} />
                             }
-                            label={service}
+                            label={service.value}
                           />
                         )}
                       />

@@ -14,7 +14,10 @@ interface hoursOfOperationType {
 }
 
 interface ratesType {
-  services: Array<string>;
+  services: Array<{
+    id: number;
+    value: string;
+  }>;
 }
 
 interface contactType {
@@ -180,11 +183,26 @@ export const HOURS_OF_OPERATION: hoursOfOperationType = {
 
 export const RATES: ratesType = {
   services: [
-    'Emergency Road Services',
-    'Mobile Services',
-    'Mechanical Shop',
-    'Emergency Road Services',
-    'Mobile Services'
+    {
+      id: 1,
+      value: 'Emergency Road Services'
+    },
+    {
+      id: 2,
+      value: 'Mobile Services'
+    },
+    {
+      id: 3,
+      value: 'Mechanical Shop'
+    },
+    {
+      id: 4,
+      value: 'Emergency Road Services'
+    },
+    {
+      id: 5,
+      value: 'Mobile Services'
+    }
   ]
 };
 

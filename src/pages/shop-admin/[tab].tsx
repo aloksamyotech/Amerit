@@ -1,7 +1,12 @@
 import Head from 'next/head';
 import AdminProfileDashboard from '@components/admin-profile';
+import { useRouter } from 'next/router';
 
 export default function AdminProfile() {
+  const router = useRouter();
+  const x = router.query.tab;
+  console.log(x);
+
   return (
     <>
       <Head>
