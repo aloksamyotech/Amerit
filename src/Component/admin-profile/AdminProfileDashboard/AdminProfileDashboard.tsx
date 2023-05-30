@@ -3,7 +3,7 @@ import ProgressHeader from '../ProgressHeader';
 import VerticalTabs from '../VerticalTabs';
 import { ProfileProvider } from '../context/ProfileContext';
 
-const AdminProfileDashboard = (props: { path: string }) => {
+const AdminProfileDashboard = ({ path }: { path: string }) => {
   return (
     <ProfileProvider>
       <Box>
@@ -18,7 +18,7 @@ const AdminProfileDashboard = (props: { path: string }) => {
           <CardContent>
             <Box sx={{ display: 'flex', flexDirection: 'row', gap: '2.0rem' }}>
               <Box width='100%'>
-                <VerticalTabs path={props.path} />
+                <VerticalTabs path={path} />
               </Box>
             </Box>
           </CardContent>

@@ -25,7 +25,7 @@ const VerticalTabs = (props: { path: string }) => {
   const theme = useTheme();
 
   const handleClick = (tab: string, index: number) => {
-    router.push(`${Path + tab}`);
+    router.push(`${Path}${tab}`);
     handleTabChange(index);
   };
 

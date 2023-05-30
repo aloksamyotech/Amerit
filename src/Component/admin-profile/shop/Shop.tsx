@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Box from '@mui/material/Box';
+import { useRouter } from 'next/router';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { Button, Grid, Paper, Typography } from '@mui/material';
 import Stack from '@mui/material/Stack';
@@ -65,6 +66,7 @@ const columns: GridColDef[] = [
 ];
 
 const Shop = () => {
+  const Router = useRouter();
   const { addNewShop, uploadShop, updateTab, handleProgress, values } =
     useProfile();
   const [rowData, setRowData] = useState<ShopList[]>([]);
@@ -83,7 +85,10 @@ const Shop = () => {
       }),
     { enabled: !!vendorId }
   );
-
+  const handleClick = () => {
+    addNewShop(true);
+    Router.push('/shop-admin/admin-profile/shop/add');
+  };
   const handleSubmit = () => {
     updateTab(3);
     handleProgress('shop');
@@ -94,7 +99,7 @@ const Shop = () => {
       <Box sx={{ marginLeft: '1.0rem', marginRight: '1.0rem' }}>
         <Paper elevation={2} sx={{ padding: '1.5rem' }}>
           <Grid container spacing={2} sx={{ textAlign: 'center', pb: 2 }}>
-            <Grid item xs={6} role='button' onClick={() => addNewShop(true)}>
+            <Grid item xs={6} role='button' onClick={handleClick}>
               <Box
                 sx={{
                   cursor: 'pointer',

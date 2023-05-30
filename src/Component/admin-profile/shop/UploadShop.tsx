@@ -3,7 +3,6 @@ import {
   Box,
   Button,
   Grid,
-  Link,
   Paper,
   Typography,
   Container,
@@ -19,6 +18,8 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import { useProfile } from '../context/ProfileContext';
+import { downloadVendorShopSampleFile } from 'src/services/admin/vendor-shop';
+import { useMutation } from 'react-query';
 
 const UploadShop = () => {
   const { uploadShop } = useProfile();
@@ -33,6 +34,11 @@ const UploadShop = () => {
     const { files } = event.target;
     const selectedFiles: FileList = files as FileList;
     console.log(selectedFiles); // keeping console temprorary as it will be implmented in ticket 315 for upload
+  };
+  const mutation = useMutation(() => downloadVendorShopSampleFile());
+
+  const handleDownload = () => {
+    mutation.mutate();
   };
 
   const rows = [
@@ -61,26 +67,24 @@ const UploadShop = () => {
   return (
     <Container>
       <Box className='Box-wrp' sx={{ mt: '20px' }}>
-        <Link href='#'>
-          <ArrowBackIosIcon
-            sx={{
-              display: 'inline-block',
-              verticalAlign: 'middle',
-              cursor: 'pointer'
-            }}
-            onClick={() => uploadShop(false)}
-            role='button'
-          />
-          <Grid
-            sx={{
-              display: 'inline-block',
-              fontSize: '20px',
-              verticalAlign: 'middle'
-            }}
-          >
-            Upload Location
-          </Grid>
-        </Link>
+        <ArrowBackIosIcon
+          sx={{
+            display: 'inline-block',
+            verticalAlign: 'middle',
+            cursor: 'pointer'
+          }}
+          onClick={() => uploadShop(false)}
+          role='button'
+        />
+        <Grid
+          sx={{
+            display: 'inline-block',
+            fontSize: '20px',
+            verticalAlign: 'middle'
+          }}
+        >
+          Upload Location
+        </Grid>
         <Grid container sx={{ mt: 2 }} spacing={2}>
           <Grid item xs={6}>
             <Box
@@ -98,14 +102,16 @@ const UploadShop = () => {
                   height: '335px'
                 }}
               >
-                <Grid>
-                  <Link
-                    href='#'
-                    sx={{ display: 'flex', justifyContent: 'flex-end' }}
-                  >
-                    <DescriptionIcon sx={{ display: 'inline-block' }} />{' '}
-                    <Typography>Download a sample file here</Typography>
-                  </Link>
+                <Grid
+                  sx={{
+                    display: 'flex',
+                    justifyContent: 'flex-end',
+                    cursor: 'pointer'
+                  }}
+                  onClick={handleDownload}
+                >
+                  <DescriptionIcon sx={{ display: 'inline-block' }} />{' '}
+                  <Typography>Download a sample file here</Typography>
                 </Grid>
                 <FileUploadIcon
                   className='icon-store'

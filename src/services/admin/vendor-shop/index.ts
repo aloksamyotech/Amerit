@@ -29,9 +29,13 @@ export const uploadVendorShopByVendorId = async (
 };
 
 export const downloadVendorShopSampleFile = async () => {
-  return await axiosClient
-    .post<any>(`/Vendorshop/downloadsample`)
-    .then((res) => res.data);
+  try {
+    return await axiosClient
+      .post<any>(`/Vendorshop/downloadsample`)
+      .then((res) => res.data);
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 export const getAllJobTypes = async () => {
